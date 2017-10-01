@@ -1071,47 +1071,47 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
 
 
 
-      Float_t AK4_hadTop_jet0_Pt                             ;
-      Float_t AK4_hadTop_jet0_Eta                            ;
-      Float_t AK4_hadTop_jet0_Phi                            ;
-      Float_t AK4_hadTop_jet0_Mass                           ;
-      Float_t AK4_hadTop_jet0_Bdisc                          ;
-      Float_t AK4_hadTop_jet0_dRlep                          ;
-      Float_t AK4_hadTop_jet0_PtSmear                        ;
-      Float_t AK4_hadTop_jet0_PtSmearUp                      ;
-      Float_t AK4_hadTop_jet0_PtSmearDn                      ;
-      Float_t AK4_hadTop_jet0_PtUncorr                       ;
-      Float_t AK4_hadTop_jet0_Corr                           ;
-      Float_t AK4_hadTop_jet0_CorrUp                         ;
-      Float_t AK4_hadTop_jet0_CorrDn                         ;
+      //Float_t AK4_hadTop_jet0_Pt                             ;
+      //Float_t AK4_hadTop_jet0_Eta                            ;
+      //Float_t AK4_hadTop_jet0_Phi                            ;
+      //Float_t AK4_hadTop_jet0_Mass                           ;
+      //Float_t AK4_hadTop_jet0_Bdisc                          ;
+      //Float_t AK4_hadTop_jet0_dRlep                          ;
+      //Float_t AK4_hadTop_jet0_PtSmear                        ;
+      //Float_t AK4_hadTop_jet0_PtSmearUp                      ;
+      //Float_t AK4_hadTop_jet0_PtSmearDn                      ;
+      //Float_t AK4_hadTop_jet0_PtUncorr                       ;
+      //Float_t AK4_hadTop_jet0_Corr                           ;
+      //Float_t AK4_hadTop_jet0_CorrUp                         ;
+      //Float_t AK4_hadTop_jet0_CorrDn                         ;
+//
+      //Float_t AK4_hadTop_jet1_Pt                             ;
+      //Float_t AK4_hadTop_jet1_Eta                            ;
+      //Float_t AK4_hadTop_jet1_Phi                            ;
+      //Float_t AK4_hadTop_jet1_Mass                           ;
+      //Float_t AK4_hadTop_jet1_Bdisc                          ;
+      //Float_t AK4_hadTop_jet1_dRlep                          ;
+      //Float_t AK4_hadTop_jet1_PtSmear                        ;
+      //Float_t AK4_hadTop_jet1_PtSmearUp                      ;
+      //Float_t AK4_hadTop_jet1_PtSmearDn                      ;
+      //Float_t AK4_hadTop_jet1_PtUncorr                       ;
+      //Float_t AK4_hadTop_jet1_Corr                           ;
+      //Float_t AK4_hadTop_jet1_CorrUp                         ;
+      //Float_t AK4_hadTop_jet1_CorrDn                         ;
 
-      Float_t AK4_hadTop_jet1_Pt                             ;
-      Float_t AK4_hadTop_jet1_Eta                            ;
-      Float_t AK4_hadTop_jet1_Phi                            ;
-      Float_t AK4_hadTop_jet1_Mass                           ;
-      Float_t AK4_hadTop_jet1_Bdisc                          ;
-      Float_t AK4_hadTop_jet1_dRlep                          ;
-      Float_t AK4_hadTop_jet1_PtSmear                        ;
-      Float_t AK4_hadTop_jet1_PtSmearUp                      ;
-      Float_t AK4_hadTop_jet1_PtSmearDn                      ;
-      Float_t AK4_hadTop_jet1_PtUncorr                       ;
-      Float_t AK4_hadTop_jet1_Corr                           ;
-      Float_t AK4_hadTop_jet1_CorrUp                         ;
-      Float_t AK4_hadTop_jet1_CorrDn                         ;
-
-      Float_t AK4_hadTop_Pt[10]                             ;
-      Float_t AK4_hadTop_Eta[10]                            ;
-      Float_t AK4_hadTop_Phi[10]                            ;
-      Float_t AK4_hadTop_Mass[10]                           ;
-      Float_t AK4_hadTop_Bdisc[10]                          ;
-      Float_t AK4_hadTop_dRlep[10]                          ;
-      Float_t AK4_hadTop_PtSmear[10]                        ;
-      Float_t AK4_hadTop_PtSmearUp[10]                      ;
-      Float_t AK4_hadTop_PtSmearDn[10]                      ;
-      Float_t AK4_hadTop_PtUncorr[10]                       ;
-      Float_t AK4_hadTop_Corr[10]                           ;
-      Float_t AK4_hadTop_CorrUp[10]                         ;
-      Float_t AK4_hadTop_CorrDn[10]                         ;
+      //Float_t AK4_hadTop_Pt[10]                             ;
+      //Float_t AK4_hadTop_Eta[10]                            ;
+      //Float_t AK4_hadTop_Phi[10]                            ;
+      //Float_t AK4_hadTop_Mass[10]                           ;
+      //Float_t AK4_hadTop_Bdisc[10]                          ;
+      //Float_t AK4_hadTop_dRlep[10]                          ;
+      //Float_t AK4_hadTop_PtSmear[10]                        ;
+      //Float_t AK4_hadTop_PtSmearUp[10]                      ;
+      //Float_t AK4_hadTop_PtSmearDn[10]                      ;
+      //Float_t AK4_hadTop_PtUncorr[10]                       ;
+      //Float_t AK4_hadTop_Corr[10]                           ;
+      //Float_t AK4_hadTop_CorrUp[10]                         ;
+      //Float_t AK4_hadTop_CorrDn[10]                         ;
 
 
 
@@ -2143,48 +2143,48 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
 
 
 
-  TreeSemiLept->Branch("AK4_hadTop_jet0_Pt"                           , & AK4_hadTop_jet0_Pt                        , "AK4_hadTop_jet0_Pt/F"                     );  
-  TreeSemiLept->Branch("AK4_hadTop_jet0_Eta"                          , & AK4_hadTop_jet0_Eta                       , "AK4_hadTop_jet0_Eta/F"                    );  
-  TreeSemiLept->Branch("AK4_hadTop_jet0_Phi"                          , & AK4_hadTop_jet0_Phi                       , "AK4_hadTop_jet0_Phi/F"                    );  
-  TreeSemiLept->Branch("AK4_hadTop_jet0_Mass"                         , & AK4_hadTop_jet0_Mass                      , "AK4_hadTop_jet0_Mass/F"                   );  
-  TreeSemiLept->Branch("AK4_hadTop_jet0_Bdisc"                        , & AK4_hadTop_jet0_Bdisc                     , "AK4_hadTop_jet0_Bdisc/F"                  );  
-  TreeSemiLept->Branch("AK4_hadTop_jet0_dRlep"                        , & AK4_hadTop_jet0_dRlep                     , "AK4_hadTop_jet0_dRlep/F"                  ); 
-  TreeSemiLept->Branch("AK4_hadTop_jet0_PtSmear"                      , & AK4_hadTop_jet0_PtSmear                   , "AK4_hadTop_jet0_PtSmear/F"   );
-  TreeSemiLept->Branch("AK4_hadTop_jet0_PtSmearUp"                    , & AK4_hadTop_jet0_PtSmearUp                 , "AK4_hadTop_jet0_PtSmearUp/F" );
-  TreeSemiLept->Branch("AK4_hadTop_jet0_PtSmearDn"                    , & AK4_hadTop_jet0_PtSmearDn                 , "AK4_hadTop_jet0_PtSmearDn/F" );
-  TreeSemiLept->Branch("AK4_hadTop_jet0_PtUncorr"                     , & AK4_hadTop_jet0_PtUncorr                  , "AK4_hadTop_jet0_PtUncorr/F"  );
-  TreeSemiLept->Branch("AK4_hadTop_jet0_Corr"                         , & AK4_hadTop_jet0_Corr                      , "AK4_hadTop_jet0_Corr/F"    );                
-  TreeSemiLept->Branch("AK4_hadTop_jet0_CorrUp"                       , & AK4_hadTop_jet0_CorrUp                    , "AK4_hadTop_jet0_CorrUp/F"  );                 
-  TreeSemiLept->Branch("AK4_hadTop_jet0_CorrDn"                       , & AK4_hadTop_jet0_CorrDn                    , "AK4_hadTop_jet0_CorrDn/F"  );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_Pt"                           , & AK4_hadTop_jet0_Pt                        , "AK4_hadTop_jet0_Pt/F"                     );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_Eta"                          , & AK4_hadTop_jet0_Eta                       , "AK4_hadTop_jet0_Eta/F"                    );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_Phi"                          , & AK4_hadTop_jet0_Phi                       , "AK4_hadTop_jet0_Phi/F"                    );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_Mass"                         , & AK4_hadTop_jet0_Mass                      , "AK4_hadTop_jet0_Mass/F"                   );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_Bdisc"                        , & AK4_hadTop_jet0_Bdisc                     , "AK4_hadTop_jet0_Bdisc/F"                  );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_dRlep"                        , & AK4_hadTop_jet0_dRlep                     , "AK4_hadTop_jet0_dRlep/F"                  ); 
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_PtSmear"                      , & AK4_hadTop_jet0_PtSmear                   , "AK4_hadTop_jet0_PtSmear/F"   );
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_PtSmearUp"                    , & AK4_hadTop_jet0_PtSmearUp                 , "AK4_hadTop_jet0_PtSmearUp/F" );
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_PtSmearDn"                    , & AK4_hadTop_jet0_PtSmearDn                 , "AK4_hadTop_jet0_PtSmearDn/F" );
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_PtUncorr"                     , & AK4_hadTop_jet0_PtUncorr                  , "AK4_hadTop_jet0_PtUncorr/F"  );
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_Corr"                         , & AK4_hadTop_jet0_Corr                      , "AK4_hadTop_jet0_Corr/F"    );                
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_CorrUp"                       , & AK4_hadTop_jet0_CorrUp                    , "AK4_hadTop_jet0_CorrUp/F"  );                 
+  //TreeSemiLept->Branch("AK4_hadTop_jet0_CorrDn"                       , & AK4_hadTop_jet0_CorrDn                    , "AK4_hadTop_jet0_CorrDn/F"  );  
+//
+//
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_Pt"                           , & AK4_hadTop_jet1_Pt                        , "AK4_hadTop_jet1_Pt/F"                     );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_Eta"                          , & AK4_hadTop_jet1_Eta                       , "AK4_hadTop_jet1_Eta/F"                    );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_Phi"                          , & AK4_hadTop_jet1_Phi                       , "AK4_hadTop_jet1_Phi/F"                    );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_Mass"                         , & AK4_hadTop_jet1_Mass                      , "AK4_hadTop_jet1_Mass/F"                   );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_Bdisc"                        , & AK4_hadTop_jet1_Bdisc                     , "AK4_hadTop_jet1_Bdisc/F"                  );  
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_dRlep"                        , & AK4_hadTop_jet1_dRlep                     , "AK4_hadTop_jet1_dRlep/F"                  ); 
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_PtSmear"                      , & AK4_hadTop_jet1_PtSmear                   , "AK4_hadTop_jet1_PtSmear/F"   );
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_PtSmearUp"                    , & AK4_hadTop_jet1_PtSmearUp                 , "AK4_hadTop_jet1_PtSmearUp/F" );
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_PtSmearDn"                    , & AK4_hadTop_jet1_PtSmearDn                 , "AK4_hadTop_jet1_PtSmearDn/F" );
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_PtUncorr"                     , & AK4_hadTop_jet1_PtUncorr                  , "AK4_hadTop_jet1_PtUncorr/F"  );
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_Corr"                         , & AK4_hadTop_jet1_Corr                      , "AK4_hadTop_jet1_Corr/F"    );                
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_CorrUp"                       , & AK4_hadTop_jet1_CorrUp                    , "AK4_hadTop_jet1_CorrUp/F"  );                 
+  //TreeSemiLept->Branch("AK4_hadTop_jet1_CorrDn"                       , & AK4_hadTop_jet1_CorrDn                    , "AK4_hadTop_jet1_CorrDn/F"  ); 
 
-
-  TreeSemiLept->Branch("AK4_hadTop_jet1_Pt"                           , & AK4_hadTop_jet1_Pt                        , "AK4_hadTop_jet1_Pt/F"                     );  
-  TreeSemiLept->Branch("AK4_hadTop_jet1_Eta"                          , & AK4_hadTop_jet1_Eta                       , "AK4_hadTop_jet1_Eta/F"                    );  
-  TreeSemiLept->Branch("AK4_hadTop_jet1_Phi"                          , & AK4_hadTop_jet1_Phi                       , "AK4_hadTop_jet1_Phi/F"                    );  
-  TreeSemiLept->Branch("AK4_hadTop_jet1_Mass"                         , & AK4_hadTop_jet1_Mass                      , "AK4_hadTop_jet1_Mass/F"                   );  
-  TreeSemiLept->Branch("AK4_hadTop_jet1_Bdisc"                        , & AK4_hadTop_jet1_Bdisc                     , "AK4_hadTop_jet1_Bdisc/F"                  );  
-  TreeSemiLept->Branch("AK4_hadTop_jet1_dRlep"                        , & AK4_hadTop_jet1_dRlep                     , "AK4_hadTop_jet1_dRlep/F"                  ); 
-  TreeSemiLept->Branch("AK4_hadTop_jet1_PtSmear"                      , & AK4_hadTop_jet1_PtSmear                   , "AK4_hadTop_jet1_PtSmear/F"   );
-  TreeSemiLept->Branch("AK4_hadTop_jet1_PtSmearUp"                    , & AK4_hadTop_jet1_PtSmearUp                 , "AK4_hadTop_jet1_PtSmearUp/F" );
-  TreeSemiLept->Branch("AK4_hadTop_jet1_PtSmearDn"                    , & AK4_hadTop_jet1_PtSmearDn                 , "AK4_hadTop_jet1_PtSmearDn/F" );
-  TreeSemiLept->Branch("AK4_hadTop_jet1_PtUncorr"                     , & AK4_hadTop_jet1_PtUncorr                  , "AK4_hadTop_jet1_PtUncorr/F"  );
-  TreeSemiLept->Branch("AK4_hadTop_jet1_Corr"                         , & AK4_hadTop_jet1_Corr                      , "AK4_hadTop_jet1_Corr/F"    );                
-  TreeSemiLept->Branch("AK4_hadTop_jet1_CorrUp"                       , & AK4_hadTop_jet1_CorrUp                    , "AK4_hadTop_jet1_CorrUp/F"  );                 
-  TreeSemiLept->Branch("AK4_hadTop_jet1_CorrDn"                       , & AK4_hadTop_jet1_CorrDn                    , "AK4_hadTop_jet1_CorrDn/F"  ); 
-
-  TreeSemiLept->Branch("AK4_hadTop_Pt"                           , & AK4_hadTop_Pt                        , "AK4_hadTop_Pt[10]/F"                     );  
-  TreeSemiLept->Branch("AK4_hadTop_Eta"                          , & AK4_hadTop_Eta                       , "AK4_hadTop_Eta[10]/F"                    );  
-  TreeSemiLept->Branch("AK4_hadTop_Phi"                          , & AK4_hadTop_Phi                       , "AK4_hadTop_Phi[10]/F"                    );  
-  TreeSemiLept->Branch("AK4_hadTop_Mass"                         , & AK4_hadTop_Mass                      , "AK4_hadTop_Mass[10]/F"                   );  
-  TreeSemiLept->Branch("AK4_hadTop_Bdisc"                        , & AK4_hadTop_Bdisc                     , "AK4_hadTop_Bdisc[10]/F"                  );  
-  TreeSemiLept->Branch("AK4_hadTop_dRlep"                        , & AK4_hadTop_dRlep                     , "AK4_hadTop_dRlep[10]/F"                  ); 
-  TreeSemiLept->Branch("AK4_hadTop_PtSmear"                      , & AK4_hadTop_PtSmear                   , "AK4_hadTop_PtSmear[10]/F"   );
-  TreeSemiLept->Branch("AK4_hadTop_PtSmearUp"                    , & AK4_hadTop_PtSmearUp                 , "AK4_hadTop_PtSmearUp[10]/F" );
-  TreeSemiLept->Branch("AK4_hadTop_PtSmearDn"                    , & AK4_hadTop_PtSmearDn                 , "AK4_hadTop_PtSmearDn[10]/F" );
-  TreeSemiLept->Branch("AK4_hadTop_PtUncorr"                     , & AK4_hadTop_PtUncorr                  , "AK4_hadTop_PtUncorr[10]/F"  );
-  TreeSemiLept->Branch("AK4_hadTop_Corr"                         , & AK4_hadTop_Corr                      , "AK4_hadTop_Corr[10]/F"    );                
-  TreeSemiLept->Branch("AK4_hadTop_CorrUp"                       , & AK4_hadTop_CorrUp                    , "AK4_hadTop_CorrUp[10]/F"  );                 
-  TreeSemiLept->Branch("AK4_hadTop_CorrDn"                       , & AK4_hadTop_CorrDn                    , "AK4_hadTop_CorrDn[10]/F"  );                          
+  //TreeSemiLept->Branch("AK4_hadTop_Pt"                           , & AK4_hadTop_Pt                        , "AK4_hadTop_Pt[10]/F"                     );  
+  //TreeSemiLept->Branch("AK4_hadTop_Eta"                          , & AK4_hadTop_Eta                       , "AK4_hadTop_Eta[10]/F"                    );  
+  //TreeSemiLept->Branch("AK4_hadTop_Phi"                          , & AK4_hadTop_Phi                       , "AK4_hadTop_Phi[10]/F"                    );  
+  //TreeSemiLept->Branch("AK4_hadTop_Mass"                         , & AK4_hadTop_Mass                      , "AK4_hadTop_Mass[10]/F"                   );  
+  //TreeSemiLept->Branch("AK4_hadTop_Bdisc"                        , & AK4_hadTop_Bdisc                     , "AK4_hadTop_Bdisc[10]/F"                  );  
+  //TreeSemiLept->Branch("AK4_hadTop_dRlep"                        , & AK4_hadTop_dRlep                     , "AK4_hadTop_dRlep[10]/F"                  ); 
+  //TreeSemiLept->Branch("AK4_hadTop_PtSmear"                      , & AK4_hadTop_PtSmear                   , "AK4_hadTop_PtSmear[10]/F"   );
+  //TreeSemiLept->Branch("AK4_hadTop_PtSmearUp"                    , & AK4_hadTop_PtSmearUp                 , "AK4_hadTop_PtSmearUp[10]/F" );
+  //TreeSemiLept->Branch("AK4_hadTop_PtSmearDn"                    , & AK4_hadTop_PtSmearDn                 , "AK4_hadTop_PtSmearDn[10]/F" );
+  //TreeSemiLept->Branch("AK4_hadTop_PtUncorr"                     , & AK4_hadTop_PtUncorr                  , "AK4_hadTop_PtUncorr[10]/F"  );
+  //TreeSemiLept->Branch("AK4_hadTop_Corr"                         , & AK4_hadTop_Corr                      , "AK4_hadTop_Corr[10]/F"    );                
+  //TreeSemiLept->Branch("AK4_hadTop_CorrUp"                       , & AK4_hadTop_CorrUp                    , "AK4_hadTop_CorrUp[10]/F"  );                 
+  //TreeSemiLept->Branch("AK4_hadTop_CorrDn"                       , & AK4_hadTop_CorrDn                    , "AK4_hadTop_CorrDn[10]/F"  );                          
 
 
 
@@ -3083,9 +3083,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
   std::vector<reco::CandidatePtr> muFootprint;
 
+  //std::cout << "count "<< muons->size() << std::endl;
+
   for (const pat::Muon &mu : *muons) {
 
       // use only loose muons 
+       if (verbose_) cout<<" Before selction Muon pT "<<mu.pt()<<" eta "<<mu.eta()<<" isMedium "<<mu.isLooseMuon()<< endl;
       if (mu.pt() < 30 || !mu.isLooseMuon() || fabs( mu.eta() ) > 2.1) continue;
       // use the leading muon only
       if (count_mu==0){
@@ -3347,50 +3350,50 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   TLorentzVector AK4_hadTop_p4[5];
   TLorentzVector candidateJet;
 
-  int count_AK4_opposite = 0;
-  int count_AK4_opposite_fill = 0;
+  //int count_AK4_opposite = 0;
+  //int count_AK4_opposite_fill = 0;
   
-  double AK4_hadTop_jet0_deltaR = 99 ;
-  double AK4_hadTop_jet0_bdisc = -99 ;
-  double AK4_hadTop_jet0_ptsmear = 1 ;
-  double AK4_hadTop_jet0_ptsmearUp = 1 ;
-  double AK4_hadTop_jet0_ptsmearDn = 1 ;
-  double AK4_hadTop_jet0_ptuncorr = 0 ;
-  double AK4_hadTop_jet0_corr = 1 ;
-  double AK4_hadTop_jet0_corrUp = 1 ;
-  double AK4_hadTop_jet0_corrDn = 1 ;
+  //double AK4_hadTop_jet0_deltaR = 99 ;
+  //double AK4_hadTop_jet0_bdisc = -99 ;
+  //double AK4_hadTop_jet0_ptsmear = 1 ;
+  //double AK4_hadTop_jet0_ptsmearUp = 1 ;
+  //double AK4_hadTop_jet0_ptsmearDn = 1 ;
+  //double AK4_hadTop_jet0_ptuncorr = 0 ;
+  //double AK4_hadTop_jet0_corr = 1 ;
+  //double AK4_hadTop_jet0_corrUp = 1 ;
+  //double AK4_hadTop_jet0_corrDn = 1 ;
+//
+  //double AK4_hadTop_jet1_deltaR = 99 ;
+  //double AK4_hadTop_jet1_bdisc = -99 ;
+  //double AK4_hadTop_jet1_ptsmear = 1 ;
+  //double AK4_hadTop_jet1_ptsmearUp = 1 ;
+  //double AK4_hadTop_jet1_ptsmearDn = 1 ;
+  //double AK4_hadTop_jet1_ptuncorr = 0 ;
+  //double AK4_hadTop_jet1_corr = 1 ;
+  //double AK4_hadTop_jet1_corrUp = 1 ;
+  //double AK4_hadTop_jet1_corrDn = 1 ;
 
-  double AK4_hadTop_jet1_deltaR = 99 ;
-  double AK4_hadTop_jet1_bdisc = -99 ;
-  double AK4_hadTop_jet1_ptsmear = 1 ;
-  double AK4_hadTop_jet1_ptsmearUp = 1 ;
-  double AK4_hadTop_jet1_ptsmearDn = 1 ;
-  double AK4_hadTop_jet1_ptuncorr = 0 ;
-  double AK4_hadTop_jet1_corr = 1 ;
-  double AK4_hadTop_jet1_corrUp = 1 ;
-  double AK4_hadTop_jet1_corrDn = 1 ;
+  //double AK4_hadTop_deltaR[10];
+  //double AK4_hadTop_bdisc[10];
+  //double AK4_hadTop_ptsmear[10];
+  //double AK4_hadTop_ptsmearUp[10];
+  //double AK4_hadTop_ptsmearDn[10];
+  //double AK4_hadTop_ptuncorr[10]; 
+  //double AK4_hadTop_corr[10];
+  //double AK4_hadTop_corrUp[10];
+  //double AK4_hadTop_corrDn[10];
 
-  double AK4_hadTop_deltaR[10];
-  double AK4_hadTop_bdisc[10];
-  double AK4_hadTop_ptsmear[10];
-  double AK4_hadTop_ptsmearUp[10];
-  double AK4_hadTop_ptsmearDn[10];
-  double AK4_hadTop_ptuncorr[10]; 
-  double AK4_hadTop_corr[10];
-  double AK4_hadTop_corrUp[10];
-  double AK4_hadTop_corrDn[10];
-
-  for(int i= 0 ;i < 10;i++){
-    AK4_hadTop_deltaR[i] = 99 ;
-    AK4_hadTop_bdisc[i] = -99 ;
-    AK4_hadTop_ptsmear[i] = 1 ;
-    AK4_hadTop_ptsmearUp[i] = 1 ;
-    AK4_hadTop_ptsmearDn[i] = 1 ;
-    AK4_hadTop_ptuncorr[i] = 0 ;
-    AK4_hadTop_corr[i] = 1 ;
-    AK4_hadTop_corrUp[i] = 1 ;
-    AK4_hadTop_corrDn[i] = 1 ;
-  }
+  //for(int i= 0 ;i < 10;i++){
+  //  AK4_hadTop_deltaR[i] = 99 ;
+  //  AK4_hadTop_bdisc[i] = -99 ;
+  //  AK4_hadTop_ptsmear[i] = 1 ;
+  //  AK4_hadTop_ptsmearUp[i] = 1 ;
+  //  AK4_hadTop_ptsmearDn[i] = 1 ;
+  //  AK4_hadTop_ptuncorr[i] = 0 ;
+  //  AK4_hadTop_corr[i] = 1 ;
+  //  AK4_hadTop_corrUp[i] = 1 ;
+  //  AK4_hadTop_corrDn[i] = 1 ;
+  //}
 
 
   double AK4_dRMinLep_bdisc = -99;
@@ -3702,64 +3705,64 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
       if (verbose_) cout<<"  -> deltaPhi_lep_jet "<<deltaPhi_lep_jet<<endl;
 
-       if ( deltaPhi_lep_jet >=3.14/2 ){
-
-        if(count_AK4_opposite<10){
-          AK4_hadTop_deltaR[count_AK4_opposite] = deltaRlep;
-          AK4_hadTop_p4[count_AK4_opposite].SetPtEtaPhiM( pt, eta, phi, mass );
-          AK4_hadTop_bdisc[count_AK4_opposite] = bdisc;
-          AK4_hadTop_ptsmear[count_AK4_opposite]   = ptsmear;
-          AK4_hadTop_ptsmearUp[count_AK4_opposite] = ptsmearUp;
-          AK4_hadTop_ptsmearDn[count_AK4_opposite] = ptsmearDn;
-          AK4_hadTop_ptuncorr[count_AK4_opposite]  = uncorrJet.pt();
-          AK4_hadTop_corr[count_AK4_opposite]    = corr ;
-          AK4_hadTop_corrUp[count_AK4_opposite]  = corrUp ;
-          AK4_hadTop_corrDn[count_AK4_opposite]  = corrDn ;
-        }
-        count_AK4_opposite++;
-      }       
+      // if ( deltaPhi_lep_jet >=3.14/2 ){
+//
+      //  if(count_AK4_opposite<10){
+      //    AK4_hadTop_deltaR[count_AK4_opposite] = deltaRlep;
+      //    AK4_hadTop_p4[count_AK4_opposite].SetPtEtaPhiM( pt, eta, phi, mass );
+      //    AK4_hadTop_bdisc[count_AK4_opposite] = bdisc;
+      //    AK4_hadTop_ptsmear[count_AK4_opposite]   = ptsmear;
+      //    AK4_hadTop_ptsmearUp[count_AK4_opposite] = ptsmearUp;
+      //    AK4_hadTop_ptsmearDn[count_AK4_opposite] = ptsmearDn;
+      //    AK4_hadTop_ptuncorr[count_AK4_opposite]  = uncorrJet.pt();
+      //    AK4_hadTop_corr[count_AK4_opposite]    = corr ;
+      //    AK4_hadTop_corrUp[count_AK4_opposite]  = corrUp ;
+      //    AK4_hadTop_corrDn[count_AK4_opposite]  = corrDn ;
+      //  }
+      //  count_AK4_opposite++;
+      //}       
                 
-      if ( (count_AK4_opposite_fill==1&& deltaPhi_lep_jet >=3.14/2) ){
-       
+     //if ( (count_AK4_opposite_fill==1&& deltaPhi_lep_jet >=3.14/2) ){
+     // 
 
-        candidateJet.SetPtEtaPhiM( pt, eta, phi, mass );
-        std::cout << "first check point, count, mass, deltaPhiLep " << count_AK4_opposite << " " << (AK4_hadTop_jet0_p4+candidateJet).M() << " " << deltaPhi_lep_jet  << std::endl;
+     //  candidateJet.SetPtEtaPhiM( pt, eta, phi, mass );
+     //  std::cout << "first check point, count, mass, deltaPhiLep " << count_AK4_opposite << " " << (AK4_hadTop_jet0_p4+candidateJet).M() << " " << deltaPhi_lep_jet  << std::endl;
 
 
     
-        if ( count_AK4_opposite_fill ==1 && deltaPhi_lep_jet > 3.14/2 && (AK4_hadTop_jet0_p4+candidateJet).M() > 140 && (AK4_hadTop_jet0_p4+candidateJet).M() < 250){
-             std::cout << "passed!, mass, deltaR " << (AK4_hadTop_jet0_p4+candidateJet).M() << " " << AK4_hadTop_jet0_p4.DeltaR(candidateJet)   << std::endl;
-                count_AK4_opposite_fill++;
+     //  if ( count_AK4_opposite_fill ==1 && deltaPhi_lep_jet > 3.14/2 && (AK4_hadTop_jet0_p4+candidateJet).M() > 140 && (AK4_hadTop_jet0_p4+candidateJet).M() < 250){
+     //       std::cout << "passed!, mass, deltaR " << (AK4_hadTop_jet0_p4+candidateJet).M() << " " << AK4_hadTop_jet0_p4.DeltaR(candidateJet)   << std::endl;
+     //          count_AK4_opposite_fill++;
 
-                AK4_hadTop_jet1_deltaR = deltaRlep;
-                AK4_hadTop_jet1_p4.SetPtEtaPhiM( pt, eta, phi, mass );
-                AK4_hadTop_jet1_bdisc = bdisc;
-                AK4_hadTop_jet1_ptsmear   = ptsmear;
-                AK4_hadTop_jet1_ptsmearUp = ptsmearUp;
-                AK4_hadTop_jet1_ptsmearDn = ptsmearDn;
-                AK4_hadTop_jet1_ptuncorr  = uncorrJet.pt();
-                AK4_hadTop_jet1_corr    = corr ;
-                AK4_hadTop_jet1_corrUp  = corrUp ;
-                AK4_hadTop_jet1_corrDn  = corrDn ;
+     //          AK4_hadTop_jet1_deltaR = deltaRlep;
+     //          AK4_hadTop_jet1_p4.SetPtEtaPhiM( pt, eta, phi, mass );
+     //          AK4_hadTop_jet1_bdisc = bdisc;
+     //          AK4_hadTop_jet1_ptsmear   = ptsmear;
+     //          AK4_hadTop_jet1_ptsmearUp = ptsmearUp;
+     //          AK4_hadTop_jet1_ptsmearDn = ptsmearDn;
+     //          AK4_hadTop_jet1_ptuncorr  = uncorrJet.pt();
+     //          AK4_hadTop_jet1_corr    = corr ;
+     //          AK4_hadTop_jet1_corrUp  = corrUp ;
+     //          AK4_hadTop_jet1_corrDn  = corrDn ;
 
-              std::cout << "pt jet 1, jet 2 " << pt << " " << AK4_hadTop_jet0_p4.Pt() << std::endl;
-        }
-      }      
+     //        std::cout << "pt jet 1, jet 2 " << pt << " " << AK4_hadTop_jet0_p4.Pt() << std::endl;
+     //  }
+     //}      
 
-      if ( (count_AK4_opposite_fill==0&& deltaPhi_lep_jet >=3.14/2) ){
-        count_AK4_opposite_fill++;
+     //if ( (count_AK4_opposite_fill==0&& deltaPhi_lep_jet >=3.14/2) ){
+     //  count_AK4_opposite_fill++;
 
-        AK4_hadTop_jet0_deltaR = deltaRlep;
-        AK4_hadTop_jet0_p4.SetPtEtaPhiM( pt, eta, phi, mass );
-        AK4_hadTop_jet0_bdisc = bdisc;
-        AK4_hadTop_jet0_ptsmear   = ptsmear;
-        AK4_hadTop_jet0_ptsmearUp = ptsmearUp;
-        AK4_hadTop_jet0_ptsmearDn = ptsmearDn;
-        AK4_hadTop_jet0_ptuncorr  = uncorrJet.pt();
-        AK4_hadTop_jet0_corr    = corr ;
-        AK4_hadTop_jet0_corrUp  = corrUp ;
-        AK4_hadTop_jet0_corrDn  = corrDn ;
-      }
+     //  AK4_hadTop_jet0_deltaR = deltaRlep;
+     //  AK4_hadTop_jet0_p4.SetPtEtaPhiM( pt, eta, phi, mass );
+     //  AK4_hadTop_jet0_bdisc = bdisc;
+     //  AK4_hadTop_jet0_ptsmear   = ptsmear;
+     //  AK4_hadTop_jet0_ptsmearUp = ptsmearUp;
+     //  AK4_hadTop_jet0_ptsmearDn = ptsmearDn;
+     //  AK4_hadTop_jet0_ptuncorr  = uncorrJet.pt();
+     //  AK4_hadTop_jet0_corr    = corr ;
+     //  AK4_hadTop_jet0_corrUp  = corrUp ;
+     //  AK4_hadTop_jet0_corrDn  = corrDn ;
+     //}
 
     }
 
@@ -5790,7 +5793,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         JetEtaRaw                             = uncorrJet.eta()     ;                  
         JetPhiRaw                             = uncorrJet.phi()     ;   
         JetMassRaw                            = uncorrJet.mass()    ;   
-        std::cout << "not yet passed jet 1 " << JetPtRaw << " " << JetEtaRaw << " " << JetPhiRaw << " " << JetMassRaw << std::endl;                                        
+        //std::cout << "not yet passed jet 1 " << JetPtRaw << " " << JetEtaRaw << " " << JetPhiRaw << " " << JetMassRaw << std::endl;                                        
         // JetP                                  = corrJet.P()         ;        
         // JetPt                                 = corrJet.pt()        ;                  
         // JetEta                                = corrJet.eta()       ;                  
@@ -6116,10 +6119,10 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   // WRITE TREE WITH BASELINE PT CUT AND ETA CUT
   //------------------------------------
 
-  if (runAllHadTree_ &&  AK8jet0_P4corr.Perp()>170 && AK8jet1_P4corr.Perp()>170){
+  if (runAllHadTree_ &&  AK8jet0_P4corr.Perp()>170 /*&& AK8jet1_P4corr.Perp()>170*/){
     h_cutflow_allhad   ->Fill(1.5);
    
-    if ( fabs( AK8jet0_P4corr.Rapidity() ) <2.4 && fabs( AK8jet1_P4corr.Rapidity() ) <2.4 ){    
+    if ( fabs( AK8jet0_P4corr.Rapidity() ) <2.4 /*&& fabs( AK8jet1_P4corr.Rapidity() ) <2.4 */){    
       h_cutflow_allhad   ->Fill(2.5);
       if (verbose_) cout<<"Write All-Had Tree"<<endl;
 
@@ -6231,10 +6234,10 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   if (runSemiLeptTree_ && count_lep ==1){
     h_cutflow_semilept   ->Fill(1.5);
 
-    if ( AK8jet_SemiLept_P4corr.Perp()>200){
+    if ( 1==1 /*AK8jet_SemiLept_P4corr.Perp()>200*/){
       h_cutflow_semilept   ->Fill(2.5);
 
-      if (fabs( AK8jet_SemiLept_P4corr.Rapidity() ) <2.4  ){
+      if ( 1==1 /*fabs( AK8jet_SemiLept_P4corr.Rapidity() ) <2.4 */ ){
         h_cutflow_semilept   ->Fill(3.5);
 
         if (verbose_) cout<<"Write Semi-Lept Tree"<<endl;
@@ -6347,56 +6350,56 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         AK4_dRminLep_CorrUp    = AK4_dRMinLep_corrUp     ;
         AK4_dRminLep_CorrDn    = AK4_dRMinLep_corrDn     ;
 
-        AK4_hadTop_jet0_Pt        = AK4_hadTop_jet0_p4.Perp() ;
-        AK4_hadTop_jet0_Eta       = AK4_hadTop_jet0_p4.Eta()  ;
-        AK4_hadTop_jet0_Phi       = AK4_hadTop_jet0_p4.Phi()  ;
-        AK4_hadTop_jet0_Mass      = AK4_hadTop_jet0_p4.M()    ;
-        AK4_hadTop_jet0_Bdisc     = AK4_hadTop_jet0_bdisc     ;
-        AK4_hadTop_jet0_dRlep     = AK4_hadTop_jet0_deltaR    ;
-       
-        AK4_hadTop_jet0_PtSmear   = AK4_hadTop_jet0_ptsmear    ;
-        AK4_hadTop_jet0_PtSmearUp = AK4_hadTop_jet0_ptsmearUp  ;
-        AK4_hadTop_jet0_PtSmearDn = AK4_hadTop_jet0_ptsmearDn  ;
-        AK4_hadTop_jet0_PtUncorr  = AK4_hadTop_jet0_ptuncorr   ;
+        //AK4_hadTop_jet0_Pt        = AK4_hadTop_jet0_p4.Perp() ;
+        //AK4_hadTop_jet0_Eta       = AK4_hadTop_jet0_p4.Eta()  ;
+        //AK4_hadTop_jet0_Phi       = AK4_hadTop_jet0_p4.Phi()  ;
+        //AK4_hadTop_jet0_Mass      = AK4_hadTop_jet0_p4.M()    ;
+        //AK4_hadTop_jet0_Bdisc     = AK4_hadTop_jet0_bdisc     ;
+        //AK4_hadTop_jet0_dRlep     = AK4_hadTop_jet0_deltaR    ;
+       //
+        //AK4_hadTop_jet0_PtSmear   = AK4_hadTop_jet0_ptsmear    ;
+        //AK4_hadTop_jet0_PtSmearUp = AK4_hadTop_jet0_ptsmearUp  ;
+        //AK4_hadTop_jet0_PtSmearDn = AK4_hadTop_jet0_ptsmearDn  ;
+        //AK4_hadTop_jet0_PtUncorr  = AK4_hadTop_jet0_ptuncorr   ;
+//
+        //AK4_hadTop_jet0_Corr      = AK4_hadTop_jet0_corr       ;
+        //AK4_hadTop_jet0_CorrUp    = AK4_hadTop_jet0_corrUp     ;
+        //AK4_hadTop_jet0_CorrDn    = AK4_hadTop_jet0_corrDn     ;
+//
+//
+        //AK4_hadTop_jet1_Pt        = AK4_hadTop_jet1_p4.Perp() ;
+        //AK4_hadTop_jet1_Eta       = AK4_hadTop_jet1_p4.Eta()  ;
+        //AK4_hadTop_jet1_Phi       = AK4_hadTop_jet1_p4.Phi()  ;
+        //AK4_hadTop_jet1_Mass      = AK4_hadTop_jet1_p4.M()    ;
+        //AK4_hadTop_jet1_Bdisc     = AK4_hadTop_jet1_bdisc     ;
+        //AK4_hadTop_jet1_dRlep     = AK4_hadTop_jet1_deltaR    ;
+       //
+        //AK4_hadTop_jet1_PtSmear   = AK4_hadTop_jet1_ptsmear    ;
+        //AK4_hadTop_jet1_PtSmearUp = AK4_hadTop_jet1_ptsmearUp  ;
+        //AK4_hadTop_jet1_PtSmearDn = AK4_hadTop_jet1_ptsmearDn  ;
+        //AK4_hadTop_jet1_PtUncorr  = AK4_hadTop_jet1_ptuncorr   ;
+//
+        //AK4_hadTop_jet1_Corr      = AK4_hadTop_jet1_corr       ;
+        //AK4_hadTop_jet1_CorrUp    = AK4_hadTop_jet1_corrUp     ;
+        //AK4_hadTop_jet1_CorrDn    = AK4_hadTop_jet1_corrDn     ;
 
-        AK4_hadTop_jet0_Corr      = AK4_hadTop_jet0_corr       ;
-        AK4_hadTop_jet0_CorrUp    = AK4_hadTop_jet0_corrUp     ;
-        AK4_hadTop_jet0_CorrDn    = AK4_hadTop_jet0_corrDn     ;
-
-
-        AK4_hadTop_jet1_Pt        = AK4_hadTop_jet1_p4.Perp() ;
-        AK4_hadTop_jet1_Eta       = AK4_hadTop_jet1_p4.Eta()  ;
-        AK4_hadTop_jet1_Phi       = AK4_hadTop_jet1_p4.Phi()  ;
-        AK4_hadTop_jet1_Mass      = AK4_hadTop_jet1_p4.M()    ;
-        AK4_hadTop_jet1_Bdisc     = AK4_hadTop_jet1_bdisc     ;
-        AK4_hadTop_jet1_dRlep     = AK4_hadTop_jet1_deltaR    ;
-       
-        AK4_hadTop_jet1_PtSmear   = AK4_hadTop_jet1_ptsmear    ;
-        AK4_hadTop_jet1_PtSmearUp = AK4_hadTop_jet1_ptsmearUp  ;
-        AK4_hadTop_jet1_PtSmearDn = AK4_hadTop_jet1_ptsmearDn  ;
-        AK4_hadTop_jet1_PtUncorr  = AK4_hadTop_jet1_ptuncorr   ;
-
-        AK4_hadTop_jet1_Corr      = AK4_hadTop_jet1_corr       ;
-        AK4_hadTop_jet1_CorrUp    = AK4_hadTop_jet1_corrUp     ;
-        AK4_hadTop_jet1_CorrDn    = AK4_hadTop_jet1_corrDn     ;
-
-        for(int i= 0 ;i < 10;i++){
-          AK4_hadTop_Pt[i]        = AK4_hadTop_p4[i].Perp() ;
-          AK4_hadTop_Eta[i]       = AK4_hadTop_p4[i].Eta()  ;
-          AK4_hadTop_Phi[i]       = AK4_hadTop_p4[i].Phi()  ;
-          AK4_hadTop_Mass[i]      = AK4_hadTop_p4[i].M()    ;
-          AK4_hadTop_Bdisc[i]     = AK4_hadTop_bdisc[i]     ;
-          AK4_hadTop_dRlep[i]     = AK4_hadTop_deltaR[i]    ;
-        
-          AK4_hadTop_PtSmear[i]   = AK4_hadTop_ptsmear[i]    ;
-          AK4_hadTop_PtSmearUp[i] = AK4_hadTop_ptsmearUp[i]  ;
-          AK4_hadTop_PtSmearDn[i] = AK4_hadTop_ptsmearDn[i]  ;
-          AK4_hadTop_PtUncorr[i]  = AK4_hadTop_ptuncorr[i]   ;
-  
-          AK4_hadTop_Corr[i]      = AK4_hadTop_corr[i]       ;
-          AK4_hadTop_CorrUp[i]    = AK4_hadTop_corrUp[i]     ;
-          AK4_hadTop_CorrDn[i]    = AK4_hadTop_corrDn[i]     ;
-        }
+        //for(int i= 0 ;i < 10;i++){
+        //  AK4_hadTop_Pt[i]        = AK4_hadTop_p4[i].Perp() ;
+        //  AK4_hadTop_Eta[i]       = AK4_hadTop_p4[i].Eta()  ;
+        //  AK4_hadTop_Phi[i]       = AK4_hadTop_p4[i].Phi()  ;
+        //  AK4_hadTop_Mass[i]      = AK4_hadTop_p4[i].M()    ;
+        //  AK4_hadTop_Bdisc[i]     = AK4_hadTop_bdisc[i]     ;
+        //  AK4_hadTop_dRlep[i]     = AK4_hadTop_deltaR[i]    ;
+        //
+        //  AK4_hadTop_PtSmear[i]   = AK4_hadTop_ptsmear[i]    ;
+        //  AK4_hadTop_PtSmearUp[i] = AK4_hadTop_ptsmearUp[i]  ;
+        //  AK4_hadTop_PtSmearDn[i] = AK4_hadTop_ptsmearDn[i]  ;
+        //  AK4_hadTop_PtUncorr[i]  = AK4_hadTop_ptuncorr[i]   ;
+  //
+        //  AK4_hadTop_Corr[i]      = AK4_hadTop_corr[i]       ;
+        //  AK4_hadTop_CorrUp[i]    = AK4_hadTop_corrUp[i]     ;
+        //  AK4_hadTop_CorrDn[i]    = AK4_hadTop_corrDn[i]     ;
+        //}
 
 
 
