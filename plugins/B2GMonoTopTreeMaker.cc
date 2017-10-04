@@ -3348,6 +3348,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   TLorentzVector AK4_hadTop_jet0_p4;
   TLorentzVector AK4_hadTop_jet1_p4;
   TLorentzVector AK4_hadTop_p4[5];
+  double btag[5];
+
   TLorentzVector candidateJet;
 
   //int count_AK4_opposite = 0;
@@ -3444,6 +3446,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     
     if (ijet.pt()<15 || fabs(ijet.eta())>3.0) continue; 
 
+   
+
 
 
 
@@ -3455,6 +3459,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     //------------------------------------    
     auto uncorrJetObj = ijet.correctedJet(0);
     reco::Candidate::LorentzVector uncorrJet = ijet.correctedP4(0);
+
+    if (count_AK4<6){
+       btag[count_AK4-1] = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+       AK4_hadTop_p4[count_AK4-1].SetPtEtaPhiM( uncorrJet.pt(),uncorrJet.eta(), uncorrJet.phi(), uncorrJet.mass() );
+    }
+
     // now loop on pf candidates
     //// Jet constituent indices for lepton matching
     std::vector<int> constituentIndices;
@@ -3767,6 +3777,21 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     }
 
   } //end AK4 loop
+
+  double best_mass=0;
+  double temp_mass=0;
+  double top_mass=172;
+
+  for(int i = 0; i<5;i++){
+      for(int j = i+1; j<5;j++){
+            temp_mass= (AK4_hadTop_p4[i]+AK4_hadTop_p4[j]).M();
+            if(abs(temp_mass-top_mass) < abs(best_mass-top_mass) &&  (AK4_hadTop_p4[i]+AK4_hadTop_p4[j]).Pt() > 300 && (btag[i] >.5 || btag[j] >.5)  && AK4_hadTop_p4[i].DeltaR(AK4_hadTop_p4[j]) < 3.1) best_mass = temp_mass;
+            std::cout << "temp mass "<<temp_mass <<" deltaR " << AK4_hadTop_p4[i].DeltaR(AK4_hadTop_p4[j]) <<std::endl;
+            
+      }
+  }
+
+  std::cout << "-------------------------best mass "<<best_mass <<std::endl;
 
   if (verbose_) {
     cout<<"AK4 summary:"<<endl;
