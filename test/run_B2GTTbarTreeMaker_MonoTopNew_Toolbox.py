@@ -25,7 +25,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-      'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_had_1tev_lh_miniaod.root'
+      'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_had_1tev_rh_miniaod.root'
       #'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_mu_1tev_rh_miniaod001.root'
     )
 )
