@@ -89,6 +89,8 @@ from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
 
 ak8Cut    = 'pt > 30 && abs(eta) < 2.5'
 ak8pupCut = 'pt > 140 && abs(eta) < 2.5'
+ca8pupCut = 'pt > 140 && abs(eta) < 2.5'
+
 
 
 listBTagInfos = [
@@ -101,7 +103,16 @@ listBtagDiscriminatorsAK8 = [
     # 'pfCombinedCvsLJetTags',
     # 'pfCombinedCvsBJetTags',
     # 'pfBoostedDoubleSecondaryVertexAK8BJetTags',
-    # 'pfBoostedDoubleSecondaryVertexCA15BJetTags',
+    # 'pfBoostedDoubleSecondaryVertexCA8BJetTags',
+]
+listBtagDiscriminatorsCA8 = [ 
+    # 'pfJetProbabilityBJetTags',
+    'pfCombinedInclusiveSecondaryVertexV2BJetTags',
+    # 'pfCombinedMVAV2BJetTags',
+    # 'pfCombinedCvsLJetTags',
+    # 'pfCombinedCvsBJetTags',
+    # 'pfBoostedDoubleSecondaryVertexAK8BJetTags',
+    # 'pfBoostedDoubleSecondaryVertexCA8BJetTags',
 ]
 
 # |---- jetToolBox: JETTOOLBOX RUNNING ON MiniAOD FOR AK8 JETS USING CHS
@@ -132,7 +143,8 @@ jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',
   addCMSTopTagger = False, 
   Cut = ak8Cut , 
   addNsubSubjets = True, 
-  subjetMaxTau = 3 )
+  subjetMaxTau = 3,
+  )
 
 
 # |---- jetToolBox: JETTOOLBOX RUNNING ON MiniAOD FOR AK8 JETS USING Puppi
@@ -164,6 +176,29 @@ jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',
   addCMSTopTagger = False, 
   Cut = ak8pupCut , 
   addNsubSubjets = True, 
+  subjetMaxTau = 3,
+  addEnergyCorrFunc = True,
+  maxECF = 4 )
+
+
+jetToolbox( process, 'ca8', 'ca8JetSubs', 'out', 
+  runOnMC = isMC, 
+  newPFCollection=True, 
+  nameNewPFCollection='puppiOnTheFly',
+  PUMethod='Puppi', 
+  JETCorrLevels = [ 'None' ],
+  subJETCorrLevels = [ 'None' ],
+  addSoftDropSubjets = True, 
+  addTrimming = True,  rFiltTrim=0.2, ptFrac=0.05,
+  addPruning = True, 
+  addFiltering = True, 
+  addSoftDrop = True, 
+  addNsub = True, 
+  bTagInfos = listBTagInfos, 
+  bTagDiscriminators = listBtagDiscriminatorsCA8, 
+  addCMSTopTagger = True, 
+  Cut = ca8pupCut , 
+  addNsubSubjets = True, 
   subjetMaxTau = 3 )
 
 #----------------------------------------------------------------------------------------
@@ -193,8 +228,10 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
 
     ak8chsInput          = cms.InputTag("selectedPatJetsAK8PFCHS"),   
     ak8puppiInput        = cms.InputTag("selectedPatJetsAK8PFPuppi"),
+    ca8puppiInput        = cms.InputTag("selectedPatJetsCA8PFPuppi"),
     ak8chsSubjetsInput   = cms.InputTag("selectedPatJetsAK8PFCHSSoftDropPacked","SubJets"),
     ak8puppiSubjetsInput = cms.InputTag("selectedPatJetsAK8PFPuppiSoftDropPacked","SubJets"),
+    ca8puppiSubjetsInput = cms.InputTag("selectedPatJetsCA8PFPuppiSoftDropPacked","SubJets"),
     triggerBits          = cms.InputTag("TriggerResults", "", "HLT"),
     lheSrc               = cms.InputTag("externalLHEProducer", "", "LHE"),
     eleIdFullInfoMapToken_HLTpre  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1"),

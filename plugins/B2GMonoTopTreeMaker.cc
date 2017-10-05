@@ -176,6 +176,9 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       edm::EDGetTokenT<pat::JetCollection>                     puppijetToken_                   ;
       edm::EDGetTokenT<pat::JetCollection>                     ak8CHSSoftDropSubjetsToken_      ;
       edm::EDGetTokenT<pat::JetCollection>                     ak8PuppiSoftDropSubjetsToken_    ;
+      edm::EDGetTokenT<pat::JetCollection>                     ca8puppijetToken_                 ;
+      edm::EDGetTokenT<pat::JetCollection>                     ca8PuppiSoftDropSubjetsToken_    ;
+
       edm::EDGetTokenT<reco::GenJetCollection>                 ak4genjetToken_                  ;
       edm::EDGetTokenT<reco::GenJetCollection>                 ak8genjetToken_                  ;               
       edm::EDGetTokenT<edm::View<reco::GenParticle>>           prunedGenToken_                  ;               
@@ -357,6 +360,8 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
     puppijetToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ak8puppiInput"))),
     ak8CHSSoftDropSubjetsToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ak8chsSubjetsInput"))),
     ak8PuppiSoftDropSubjetsToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak8puppiSubjetsInput"))),
+    ca8puppijetToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ca8puppiInput"))),
+    ca8PuppiSoftDropSubjetsToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ca8puppiSubjetsInput"))),
     ak4genjetToken_(consumes<reco::GenJetCollection>(edm::InputTag("slimmedGenJets"))),
     ak8genjetToken_(consumes<reco::GenJetCollection>(edm::InputTag("slimmedGenJetsAK8"))),
     prunedGenToken_(consumes<edm::View<reco::GenParticle> >(edm::InputTag("prunedGenParticles"))),
@@ -1269,10 +1274,20 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   edm::Handle<pat::JetCollection> AK8CHSsub;
   edm::Handle<pat::JetCollection> AK8PUPPI;
   edm::Handle<pat::JetCollection> AK8PUPPIsub;
+  edm::Handle<pat::JetCollection> CA8PUPPI;
+  edm::Handle<pat::JetCollection> CA8PUPPIsub;
   if (useToolbox_){
     iEvent.getByToken( ak8CHSSoftDropSubjetsToken_   , AK8CHSsub);
     iEvent.getByToken( puppijetToken_ , AK8PUPPI );
     iEvent.getByToken( ak8PuppiSoftDropSubjetsToken_ , AK8PUPPIsub);
+    iEvent.getByToken( ca8puppijetToken_ , CA8PUPPI );
+    iEvent.getByToken( ca8PuppiSoftDropSubjetsToken_ , CA8PUPPIsub);
+  }
+
+
+  cout<<"\nJet CA8PUPPI "<<endl;
+  for (const pat::Jet &ijet : *CA8PUPPI) {
+      cout<<"\nJet CA8PUPPI "<<" with pT "<<ijet.pt()<< " mass " << ijet.mass() << endl;
   }
 
   TLorentzVector AK8_p4;
