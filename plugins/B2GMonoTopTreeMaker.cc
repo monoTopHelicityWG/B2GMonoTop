@@ -122,6 +122,34 @@ namespace LHAPDF {
   void extrapolate(bool extrapolate=true);
 }
 
+//  888     888                                8888888888                         888    d8b                            
+//  888     888                                888                                888    Y8P                            
+//  888     888                                888                                888                                   
+//  888     888 .d8888b   .d88b.  888d888      8888888 888  888 88888b.   .d8888b 888888 888  .d88b.  88888b.  .d8888b  
+//  888     888 88K      d8P  Y8b 888P"        888     888  888 888 "88b d88P"    888    888 d88""88b 888 "88b 88K      
+//  888     888 "Y8888b. 88888888 888          888     888  888 888  888 888      888    888 888  888 888  888 "Y8888b. 
+//  Y88b. .d88P      X88 Y8b.     888          888     Y88b 888 888  888 Y88b.    Y88b.  888 Y88..88P 888  888      X88 
+//   "Y88888P"   88888P'  "Y8888  888          888      "Y88888 888  888  "Y8888P  "Y888 888  "Y88P"  888  888  88888P' 
+//                                                                                                                      
+//                                                                                                                      
+//                                                                                                                      
+
+void setVector0( Float_t vec[4]){
+    vec[0] = 0;
+    vec[1] = 0;
+    vec[2] = 0;
+    vec[3] = 0;
+    return;
+}
+
+void setVectorTL( Float_t vec[4], TLorentzVector  TL4){
+    vec[0] = TL4.Pt();
+    vec[1] = TL4.Eta();
+    vec[2] = TL4.Phi();
+    vec[3] = TL4.M();
+    return;
+}
+
 //
 // class declaration
 //
@@ -262,6 +290,26 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       Float_t Jet0EtaRaw                                ;
       Float_t Jet0PhiRaw                                ;
       Float_t Jet0MassRaw                               ;
+
+
+      Float_t Gen_array_t_p4[4];
+      Float_t Gen_array_final_t_p4[4];
+      Float_t Gen_array_b_p4[4];
+      Float_t Gen_array_W_p4[4];
+    
+      Float_t Gen_array_Wd1_p4[4];
+      Float_t Gen_array_Wd2_p4[4];
+    
+      Float_t Gen_array_hardest_parton_hardScatterOutgoing_p4[4];
+      Float_t Gen_array_second_hardest_parton_hardScatterOutgoing_p4[4];
+    
+      bool tophadronic=false;
+      bool topleptonic=false;
+    
+      int parton1id = 0;
+      int parton2id = 0;
+      int Wd1_id = 0 ;
+      int Wd2_id = 0 ;
 
 //  888                       888                     d8b               88888888888                       
 //  888                       888                     Y8P                   888                           
@@ -445,6 +493,9 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
 
 
 
+
+
+
   TreeHad = new TTree("TreeHad","TreeHad"); 
 
 
@@ -455,7 +506,22 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("Jet0PtRaw"                             , & Jet0PtRaw                          ,    "Jet0PtRaw/F"                               );                                  
   TreeHad->Branch("Jet0EtaRaw"                            , & Jet0EtaRaw                         ,    "Jet0EtaRaw/F"                              );                                   
   TreeHad->Branch("Jet0PhiRaw"                            , & Jet0PhiRaw                         ,    "Jet0PhiRaw/F"                              );                                   
-  TreeHad->Branch("Jet0MassRaw"                           , & Jet0MassRaw                        ,    "Jet0MassRaw/F"                             );    
+  TreeHad->Branch("Jet0MassRaw"                           , & Jet0MassRaw                        ,    "Jet0MassRaw/F"                             );   
+
+  TreeHad->Branch("Gen_array_t_p4"                   , & Gen_array_t_p4                   ,  "Gen_array_t_p4[4]/F"                      );
+  TreeHad->Branch("Gen_array_final_t_p4"             , & Gen_array_final_t_p4             ,  "Gen_array_final_t_p4[4]/F"                );
+  TreeHad->Branch("Gen_array_b_p4"                   , & Gen_array_b_p4                   ,  "Gen_array_b_p4[4]/F"                      );
+  TreeHad->Branch("Gen_array_W_p4"                   , & Gen_array_W_p4                   ,  "Gen_array_W_p4[4]/F"                      );
+  TreeHad->Branch("Gen_array_Wd1_p4"                 , & Gen_array_Wd1_p4                 ,  "Gen_array_Wd1_p4[4]/F"                    );
+  TreeHad->Branch("Gen_array_Wd2_p4"                 , & Gen_array_Wd2_p4                 ,  "Gen_array_Wd2_p4[4]/F"                    );
+  TreeHad->Branch("Gen_array_hardest_parton_hardScatterOutgoing_p4", & Gen_array_hardest_parton_hardScatterOutgoing_p4 ,  "Gen_array_hardest_parton_hardScatterOutgoing_p4[4]/F");
+  TreeHad->Branch("Gen_array_second_hardest_parton_hardScatterOutgoing_p4", & Gen_array_second_hardest_parton_hardScatterOutgoing_p4 ,  "Gen_array_second_hardest_parton_hardScatterOutgoing_p4[4]/F" );
+  TreeHad->Branch("tophadronic"                         , & tophadronic                         ,  "tophadronic/O"                      );
+  TreeHad->Branch("topleptonic"                         , & topleptonic                         ,  "topleptonic/O"                      );
+  TreeHad->Branch("parton1id"                           , & parton1id                           ,  "parton1id/I"                        );
+  TreeHad->Branch("parton2id"                           , & parton2id                           ,  "parton2id/I"                        );
+  TreeHad->Branch("Wd1_id"                              , & Wd1_id                              ,  "Wd1_id/I"                           );
+  TreeHad->Branch("Wd2_id"                              , & Wd2_id                              ,  "Wd2_id/I"                           ); 
 
 
 //  888                       888                     d8b               88888888888                       
@@ -557,17 +623,18 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   TLorentzVector hardest_parton_hardScatterOutgoing_p4;
   TLorentzVector second_hardest_parton_hardScatterOutgoing_p4;
 
-  bool tophadronic=false;
-  bool topleptonic=false;
+
+  tophadronic=false;
+  topleptonic=false;
 
 
-  double hardest_parton_hardScatterOutgoing_pt        = 0;
-  double second_hardest_parton_hardScatterOutgoing_pt = 0;
+  int hardest_parton_hardScatterOutgoing_pt        = 0;
+  int second_hardest_parton_hardScatterOutgoing_pt = 0;
 
-  int parton1id = 0;
-  int parton2id = 0;
-  int Wd1_id = 0 ;
-  int Wd2_id = 0 ;
+  parton1id = 0;
+  parton2id = 0;
+  Wd1_id = 0 ;
+  Wd2_id = 0 ;
 
   double counttop = 0;
   if (!iEvent.isRealData() and runGenLoop_) {
@@ -1286,6 +1353,36 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
   if(1==2){
     std::cout << NNPDF3wgt_down<< NNPDF3wgt_up<<Q2wgt_up<<Q2wgt_down<<std::endl;
+  }
+
+
+  setVector0(Gen_array_t_p4);
+  setVector0(Gen_array_t_p4);
+  setVector0(Gen_array_final_t_p4);
+  setVector0(Gen_array_b_p4);
+  setVector0(Gen_array_W_p4);
+  setVector0(Gen_array_Wd1_p4);
+  setVector0(Gen_array_Wd2_p4);
+  setVector0(Gen_array_hardest_parton_hardScatterOutgoing_p4);
+  setVector0(Gen_array_second_hardest_parton_hardScatterOutgoing_p4);
+
+
+
+  if(runHadTree_){
+    if(runGenLoop_){
+      setVectorTL(Gen_array_t_p4, t_p4);
+      setVectorTL(Gen_array_t_p4, t_p4);
+      setVectorTL(Gen_array_final_t_p4, final_t_p4);
+      setVectorTL(Gen_array_b_p4, b_p4);
+      setVectorTL(Gen_array_W_p4, W_p4);
+      setVectorTL(Gen_array_Wd1_p4, Wd1_p4);
+      setVectorTL(Gen_array_Wd2_p4, Wd2_p4);
+      setVectorTL(Gen_array_hardest_parton_hardScatterOutgoing_p4, hardest_parton_hardScatterOutgoing_p4);
+      setVectorTL(Gen_array_second_hardest_parton_hardScatterOutgoing_p4, second_hardest_parton_hardScatterOutgoing_p4);
+    }
+
+
+    TreeHad->Fill();
   }
 
 } //end Event loop
