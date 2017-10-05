@@ -179,12 +179,12 @@ JERtxtlocation = '../../../JMEAnalysis/JRDatabase/textFiles/Spring16_25nsV10_MC/
 process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     
     verbose         = cms.bool(False),
-    verboseGen      = cms.bool(False),
+    verboseGen      = cms.bool(True),
     useToolbox      = cms.bool(True),
     
     runGenLoop      = cms.bool(True),
-    runAllHadTree   = cms.bool(True),
-    runSemiLeptTree = cms.bool(True),
+    runHadTree   = cms.bool(True),
+    runLeptTree = cms.bool(True),
 
     isZprime        = cms.bool(False),
     isMonoTop         = cms.bool(True),
