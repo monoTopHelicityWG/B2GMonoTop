@@ -208,14 +208,14 @@ jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',
 ## LOCAL RUNNING
 JECtxtlocation = '../../../JMEAnalysis/JECDatabase/textFiles/Summer16_23Sep2016V4_MC/'
 JERtxtlocation = '../../../JMEAnalysis/JRDatabase/textFiles/Spring16_25nsV10_MC/'
-## CRAB SUBMIT
-#JECtxtlocation=''
-#JERtxtlocation=''
+# CRAB SUBMIT
+JECtxtlocation=''
+JERtxtlocation=''
 
 process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     
     verbose         = cms.bool(False),
-    verboseGen      = cms.bool(True),
+    verboseGen      = cms.bool(False),
     useToolbox      = cms.bool(True),
     
     runGenLoop      = cms.bool(True),
