@@ -89,7 +89,7 @@ from JMEAnalysis.JetToolbox.jetToolbox_cff import jetToolbox
 
 ak8Cut    = 'pt > 30 && abs(eta) < 2.5'
 ak8pupCut = 'pt > 140 && abs(eta) < 2.5'
-ca8pupCut = 'pt > 140 && abs(eta) < 2.5'
+ca12pupCut = 'pt > 140 && abs(eta) < 2.5'
 
 
 
@@ -181,6 +181,43 @@ jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',
   ecfBeta = 1.0,
   maxECF = 5 )
 
+jetToolbox( process, 'ca12', 'ca12JetSubs', 'out', 
+  runOnMC = isMC, 
+  #newPFCollection=True, 
+  #nameNewPFCollection='puppiOnTheFly',
+  PUMethod='Puppi', 
+  #JETCorrLevels = [ 'None' ],
+  #subJETCorrLevels = [ 'None' ],
+  JETCorrPayload='AK8PFchs',
+  addSoftDropSubjets = True, 
+  addTrimming = True,  rFiltTrim=0.2, ptFrac=0.05,
+  addPruning = True, 
+  addFiltering = True, 
+  addSoftDrop = True, 
+  addNsub = True, 
+  bTagInfos = listBTagInfos, 
+  bTagDiscriminators = listBtagDiscriminatorsAK8, 
+  addCMSTopTagger = True, 
+  Cut = ak8pupCut , 
+  addNsubSubjets = True, 
+  subjetMaxTau = 3 )
+
+
+#jetToolbox( process, 'ak4', 'ak4JetSubs', 'out', 
+#  runOnMC = isMC, 
+#  updateCollection = 'selectedPatJetsCA12PFPuppiSoftDropPacked',
+#  updateCollectionSubjets=True,
+#  PUMethod='Puppi', 
+#  #JETCorrLevels = [ 'None' ],
+#  #subJETCorrLevels = [ 'None' ],
+#  JETCorrPayload='AK8PFchs',
+#  addSoftDropSubjets = True,
+#  addSoftDrop = True, 
+#  addNsub = True, 
+#  bTagInfos = listBTagInfos, 
+#  bTagDiscriminators = listBtagDiscriminatorsAK8, 
+#   )
+
 
 #jetToolbox( process, 'ca8', 'ca8JetSubs', 'out', 
 # runOnMC = isMC, 
@@ -209,8 +246,8 @@ jetToolbox( process, 'ak8', 'ak8JetSubs', 'out',
 JECtxtlocation = '../../../JMEAnalysis/JECDatabase/textFiles/Summer16_23Sep2016V4_MC/'
 JERtxtlocation = '../../../JMEAnalysis/JRDatabase/textFiles/Spring16_25nsV10_MC/'
 # CRAB SUBMIT
-JECtxtlocation=''
-JERtxtlocation=''
+#JECtxtlocation=''
+#JERtxtlocation=''
 
 process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     
@@ -229,10 +266,10 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
 
     ak8chsInput          = cms.InputTag("selectedPatJetsAK8PFCHS"),   
     ak8puppiInput        = cms.InputTag("selectedPatJetsAK8PFPuppi"),
-    ca8puppiInput        = cms.InputTag("selectedPatJetsCA8PFPuppi"),
+    ca12puppiInput        = cms.InputTag("selectedPatJetsCA12PFPuppi"),
     ak8chsSubjetsInput   = cms.InputTag("selectedPatJetsAK8PFCHSSoftDropPacked","SubJets"),
     ak8puppiSubjetsInput = cms.InputTag("selectedPatJetsAK8PFPuppiSoftDropPacked","SubJets"),
-    ca8puppiSubjetsInput = cms.InputTag("selectedPatJetsCA8PFPuppiSoftDropPacked","SubJets"),
+    ca12puppiSubjetsInput = cms.InputTag("selectedPatJetsCA12PFPuppiSoftDropPacked","SubJets"),
     triggerBits          = cms.InputTag("TriggerResults", "", "HLT"),
     lheSrc               = cms.InputTag("externalLHEProducer", "", "LHE"),
     eleIdFullInfoMapToken_HLTpre  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronHLTPreselection-Summer16-V1"),
