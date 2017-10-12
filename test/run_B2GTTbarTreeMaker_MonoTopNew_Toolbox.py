@@ -197,10 +197,37 @@ jetToolbox( process, 'ca12', 'ca12JetSubs', 'out',
   addNsub = True, 
   bTagInfos = listBTagInfos, 
   bTagDiscriminators = listBtagDiscriminatorsAK8, 
-  addCMSTopTagger = True, 
+  addHEPTopTagger = True, 
   Cut = ak8pupCut , 
   addNsubSubjets = True, 
   subjetMaxTau = 3 )
+
+
+#from RecoJets.JetProducers.AnomalousCellParameters_cfi import *
+#from RecoJets.JetProducers.PFJetParameters_cfi import *
+#process.HTT = cms.EDProducer(
+#        "HTTTopJetProducer",
+#        PFJetParameters.clone( src = cms.InputTag("selectedPatJetsCA12PFPuppi"),
+#                               doAreaFastjet = cms.bool(True),
+#                               doRhoFastjet = cms.bool(False),
+#                               jetPtMin = cms.double(100.0)
+#                           ),
+#        AnomalousCellParameters,
+#        optimalR = cms.bool(True),
+#        algorithm = cms.int32(1),
+#        jetAlgorithm = cms.string("CambridgeAachen"),
+#        rParam = cms.double(1.5),
+#        mode = cms.int32(4),
+#        minFatjetPt = cms.double(200.),
+#        minCandPt = cms.double(200.),
+#        minSubjetPt = cms.double(30.),
+#        writeCompound = cms.bool(True),
+#        minCandMass = cms.double(0.),
+#        maxCandMass = cms.double(1000),
+#        massRatioWidth = cms.double(100.),
+#        minM23Cut = cms.double(0.),
+#        minM13Cut = cms.double(0.),
+#        maxM13Cut = cms.double(2.))
 
 
 #jetToolbox( process, 'ak4', 'ak4JetSubs', 'out', 
@@ -263,6 +290,8 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     isMonoTop         = cms.bool(True),
     isRSG           = cms.bool(False),
     isRun2016F      = cms.bool(False),
+
+    #HTTV2Input          = cms.InputTag("HTTTopJetProducer"),   
 
     ak8chsInput          = cms.InputTag("selectedPatJetsAK8PFCHS"),   
     ak8puppiInput        = cms.InputTag("selectedPatJetsAK8PFPuppi"),
@@ -357,7 +386,7 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
 
 
 process.TFileService = cms.Service("TFileService",
-      fileName = cms.string("b2gtreeV5_MC_MonoTop.root"),
+      fileName = cms.string("b2gtreeV5_MC_MonoTop_rh.root"),
       closeFileFast = cms.untracked.bool(True)
   )
 
@@ -368,6 +397,7 @@ process.TFileService = cms.Service("TFileService",
 
 
 process.p = cms.Path(
+#  process.HTT*
   process.BadChargedCandidateFilter*
   process.BadPFMuonFilter*
   process.egmGsfElectronIDSequence*

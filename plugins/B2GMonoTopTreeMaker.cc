@@ -85,6 +85,8 @@
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
 
+
+
 // // CMS Top Tagger
 // #include "DataFormats/BTauReco/interface/CATopJetTagInfo.h"
 // #include "RecoJets/JetAlgorithms/interface/CATopJetHelper.h"
@@ -174,10 +176,10 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       edm::EDGetTokenT<pat::JetCollection>                     ak4jetToken_                     ;
       edm::EDGetTokenT<pat::JetCollection>                     ak8jetToken_                     ;
       edm::EDGetTokenT<pat::JetCollection>                     puppijetToken_                   ;
-      edm::EDGetTokenT<pat::JetCollection>                     ca15puppijetToken_                   ;
+      edm::EDGetTokenT<pat::JetCollection>                     ca12puppijetToken_                   ;
       edm::EDGetTokenT<pat::JetCollection>                     ak8CHSSoftDropSubjetsToken_      ;
       edm::EDGetTokenT<pat::JetCollection>                     ak8PuppiSoftDropSubjetsToken_    ;
-      edm::EDGetTokenT<pat::JetCollection>                     ca15PuppiSoftDropSubjetsToken_    ;
+      edm::EDGetTokenT<pat::JetCollection>                     ca12PuppiSoftDropSubjetsToken_    ;
       //edm::EDGetTokenT<pat::JetCollection>                     ca8puppijetToken_                 ;
       //edm::EDGetTokenT<pat::JetCollection>                     ca8PuppiSoftDropSubjetsToken_    ;
 
@@ -311,33 +313,33 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       int Wd1_id = 0 ;
       int Wd2_id = 0 ;
 
-      Float_t CA15JetPtRaw                               ;      
-      Float_t CA15JetEtaRaw                              ;
-      Float_t CA15JetPhiRaw                              ;
-      Float_t CA15JetMassRaw                             ;
+      Float_t CA12JetPtRaw                               ;      
+      Float_t CA12JetEtaRaw                              ;
+      Float_t CA12JetPhiRaw                              ;
+      Float_t CA12JetMassRaw                             ;
 
-      Float_t CA15JetTau1                           ;
-      Float_t CA15JetTau2                           ;
-      Float_t CA15JetTau3                           ;
-      Float_t CA15JetTau4                           ;
-      Float_t CA15JetTau32                          ;
-      Float_t CA15JetTau21                          ;
+      Float_t CA12JetTau1                           ;
+      Float_t CA12JetTau2                           ;
+      Float_t CA12JetTau3                           ;
+      Float_t CA12JetTau4                           ;
+      Float_t CA12JetTau32                          ;
+      Float_t CA12JetTau21                          ;
 
-      Float_t CA15Jetsubjet0bdisc                 ;
-      Float_t CA15Jetsubjet1bdisc                 ;
-      Float_t CA15Jetmaxbdisc                     ;
+      Float_t CA12Jetsubjet0bdisc                 ;
+      Float_t CA12Jetsubjet1bdisc                 ;
+      Float_t CA12Jetmaxbdisc                     ;
 
-      Float_t CA15Jetsubjet0pt                    ;
-      Float_t CA15Jetsubjet0mass                  ;
-      Float_t CA15Jetsubjet0eta                   ;
-      Float_t CA15Jetsubjet0phi                   ;
-      Float_t CA15Jetsubjet0area                  ;
+      Float_t CA12Jetsubjet0pt                    ;
+      Float_t CA12Jetsubjet0mass                  ;
+      Float_t CA12Jetsubjet0eta                   ;
+      Float_t CA12Jetsubjet0phi                   ;
+      Float_t CA12Jetsubjet0area                  ;
 
-      Float_t CA15Jetsubjet1pt                    ;
-      Float_t CA15Jetsubjet1mass                  ;
-      Float_t CA15Jetsubjet1eta                   ;
-      Float_t CA15Jetsubjet1phi                   ;
-      Float_t CA15Jetsubjet1area                  ;
+      Float_t CA12Jetsubjet1pt                    ;
+      Float_t CA12Jetsubjet1mass                  ;
+      Float_t CA12Jetsubjet1eta                   ;
+      Float_t CA12Jetsubjet1phi                   ;
+      Float_t CA12Jetsubjet1area                  ;
 
 
 
@@ -722,10 +724,10 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
     ak4jetToken_(consumes<pat::JetCollection>(    edm::InputTag("slimmedJets"))),
     ak8jetToken_(consumes<pat::JetCollection>(    iConfig.getParameter<edm::InputTag>("ak8chsInput"))),  //edm::InputTag("slimmedJetsAK8"))),
     puppijetToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ak8puppiInput"))),
-    ca15puppijetToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ca15puppiInput"))),
+    ca12puppijetToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ca12puppiInput"))),
     ak8CHSSoftDropSubjetsToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ak8chsSubjetsInput"))),
     ak8PuppiSoftDropSubjetsToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ak8puppiSubjetsInput"))),
-    ca15PuppiSoftDropSubjetsToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ca15puppiSubjetsInput"))),
+    ca12PuppiSoftDropSubjetsToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ca12puppiSubjetsInput"))),
     //ca8puppijetToken_(consumes<pat::JetCollection>(  iConfig.getParameter<edm::InputTag>("ca8puppiInput"))),
     //ca8PuppiSoftDropSubjetsToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("ca8puppiSubjetsInput"))),
     ak4genjetToken_(consumes<reco::GenJetCollection>(edm::InputTag("slimmedGenJets"))),
@@ -1179,33 +1181,33 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("HadPassMETFilters"               , & HadPassMETFilters            , "HadPassMETFilters/I"         );
 
 
-  TreeHad->Branch("CA15JetPtRaw",          & CA15JetPtRaw               , "CA15JetPtRaw/F");                
-  TreeHad->Branch("CA15JetEtaRaw",          & CA15JetEtaRaw               , "CA15JetEtaRaw/F");                 
-  TreeHad->Branch("CA15JetPhiRaw",          & CA15JetPhiRaw               , "CA15JetPhiRaw/F");                 
-  TreeHad->Branch("CA15JetMassRaw",          & CA15JetMassRaw               , "CA15JetMassRaw/F");                
+  TreeHad->Branch("CA12JetPtRaw",          & CA12JetPtRaw               , "CA12JetPtRaw/F");                
+  TreeHad->Branch("CA12JetEtaRaw",          & CA12JetEtaRaw               , "CA12JetEtaRaw/F");                 
+  TreeHad->Branch("CA12JetPhiRaw",          & CA12JetPhiRaw               , "CA12JetPhiRaw/F");                 
+  TreeHad->Branch("CA12JetMassRaw",          & CA12JetMassRaw               , "CA12JetMassRaw/F");                
 
-  TreeHad->Branch("CA15JetTau1",          & CA15JetTau1               , "CA15JetTau1/F");                   
-  TreeHad->Branch("CA15JetTau2",          & CA15JetTau2               , "CA15JetTau2/F");                   
-  TreeHad->Branch("CA15JetTau3",          & CA15JetTau3               , "CA15JetTau3/F");                   
-  TreeHad->Branch("CA15JetTau4",          & CA15JetTau4               , "CA15JetTau4/F");                   
-  TreeHad->Branch("CA15JetTau32",          & CA15JetTau32               , "CA15JetTau32/F");                  
-  TreeHad->Branch("CA15JetTau21",          & CA15JetTau21               , "CA15JetTau21/F");                  
+  TreeHad->Branch("CA12JetTau1",          & CA12JetTau1               , "CA12JetTau1/F");                   
+  TreeHad->Branch("CA12JetTau2",          & CA12JetTau2               , "CA12JetTau2/F");                   
+  TreeHad->Branch("CA12JetTau3",          & CA12JetTau3               , "CA12JetTau3/F");                   
+  TreeHad->Branch("CA12JetTau4",          & CA12JetTau4               , "CA12JetTau4/F");                   
+  TreeHad->Branch("CA12JetTau32",          & CA12JetTau32               , "CA12JetTau32/F");                  
+  TreeHad->Branch("CA12JetTau21",          & CA12JetTau21               , "CA12JetTau21/F");                  
 
-  TreeHad->Branch("CA15Jetsubjet0bdisc",          & CA15Jetsubjet0bdisc               , "CA15Jetsubjet0bdisc/F");           
-  TreeHad->Branch("CA15Jetsubjet1bdisc",          & CA15Jetsubjet1bdisc               , "CA15Jetsubjet1bdisc/F");           
-  TreeHad->Branch("CA15Jetmaxbdisc",          & CA15Jetmaxbdisc               , "CA15Jetmaxbdisc/F");               
+  TreeHad->Branch("CA12Jetsubjet0bdisc",          & CA12Jetsubjet0bdisc               , "CA12Jetsubjet0bdisc/F");           
+  TreeHad->Branch("CA12Jetsubjet1bdisc",          & CA12Jetsubjet1bdisc               , "CA12Jetsubjet1bdisc/F");           
+  TreeHad->Branch("CA12Jetmaxbdisc",          & CA12Jetmaxbdisc               , "CA12Jetmaxbdisc/F");               
 
-  TreeHad->Branch("CA15Jetsubjet0pt",          & CA15Jetsubjet0pt               , "CA15Jetsubjet0pt/F");              
-  TreeHad->Branch("CA15Jetsubjet0mass",          & CA15Jetsubjet0mass               , "CA15Jetsubjet0mass/F");            
-  TreeHad->Branch("CA15Jetsubjet0eta",          & CA15Jetsubjet0eta               , "CA15Jetsubjet0eta/F");             
-  TreeHad->Branch("CA15Jetsubjet0phi",          & CA15Jetsubjet0phi               , "CA15Jetsubjet0phi/F");             
-  TreeHad->Branch("CA15Jetsubjet0area",          & CA15Jetsubjet0area               , "CA15Jetsubjet0area/F");            
+  TreeHad->Branch("CA12Jetsubjet0pt",          & CA12Jetsubjet0pt               , "CA12Jetsubjet0pt/F");              
+  TreeHad->Branch("CA12Jetsubjet0mass",          & CA12Jetsubjet0mass               , "CA12Jetsubjet0mass/F");            
+  TreeHad->Branch("CA12Jetsubjet0eta",          & CA12Jetsubjet0eta               , "CA12Jetsubjet0eta/F");             
+  TreeHad->Branch("CA12Jetsubjet0phi",          & CA12Jetsubjet0phi               , "CA12Jetsubjet0phi/F");             
+  TreeHad->Branch("CA12Jetsubjet0area",          & CA12Jetsubjet0area               , "CA12Jetsubjet0area/F");            
 
-  TreeHad->Branch("CA15Jetsubjet1pt",          & CA15Jetsubjet1pt               , "CA15Jetsubjet1pt/F");              
-  TreeHad->Branch("CA15Jetsubjet1mass",          & CA15Jetsubjet1mass               , "CA15Jetsubjet1mass/F");            
-  TreeHad->Branch("CA15Jetsubjet1eta",          & CA15Jetsubjet1eta               , "CA15Jetsubjet1eta/F");             
-  TreeHad->Branch("CA15Jetsubjet1phi",          & CA15Jetsubjet1phi               , "CA15Jetsubjet1phi/F");             
-  TreeHad->Branch("CA15Jetsubjet1area",          & CA15Jetsubjet1area               , "CA15Jetsubjet1area/F");            
+  TreeHad->Branch("CA12Jetsubjet1pt",          & CA12Jetsubjet1pt               , "CA12Jetsubjet1pt/F");              
+  TreeHad->Branch("CA12Jetsubjet1mass",          & CA12Jetsubjet1mass               , "CA12Jetsubjet1mass/F");            
+  TreeHad->Branch("CA12Jetsubjet1eta",          & CA12Jetsubjet1eta               , "CA12Jetsubjet1eta/F");             
+  TreeHad->Branch("CA12Jetsubjet1phi",          & CA12Jetsubjet1phi               , "CA12Jetsubjet1phi/F");             
+  TreeHad->Branch("CA12Jetsubjet1area",          & CA12Jetsubjet1area               , "CA12Jetsubjet1area/F");            
 
 
 
@@ -2047,8 +2049,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   edm::Handle<pat::JetCollection> AK8PUPPI;
   edm::Handle<pat::JetCollection> AK8PUPPIsub;
 
-  edm::Handle<pat::JetCollection> CA15PUPPI;
-  edm::Handle<pat::JetCollection> CA15PUPPIsub;
+  edm::Handle<pat::JetCollection> CA12PUPPI;
+  edm::Handle<pat::JetCollection> CA12PUPPIsub;
   //edm::Handle<pat::JetCollection> CA8PUPPI;
   //edm::Handle<pat::JetCollection> CA8PUPPIsub;
   if (useToolbox_){
@@ -2056,8 +2058,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     iEvent.getByToken( puppijetToken_ , AK8PUPPI );
     iEvent.getByToken( ak8PuppiSoftDropSubjetsToken_ , AK8PUPPIsub);
 
-    iEvent.getByToken( ca15puppijetToken_ , CA15PUPPI );
-    iEvent.getByToken( ca15PuppiSoftDropSubjetsToken_ , CA15PUPPIsub);
+    iEvent.getByToken( ca12puppijetToken_ , CA12PUPPI );
+    iEvent.getByToken( ca12PuppiSoftDropSubjetsToken_ , CA12PUPPIsub);
     //iEvent.getByToken( ca8puppijetToken_ , CA8PUPPI );
     //iEvent.getByToken( ca8PuppiSoftDropSubjetsToken_ , CA8PUPPIsub);
   }
@@ -2086,8 +2088,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   TLorentzVector GenJetMatchedPuppi0;
   TLorentzVector GenJetMatchedPuppi1;
 
-  TLorentzVector leading_CA15;
-  TLorentzVector leading_CA15_subjet;
+  TLorentzVector leading_CA12;
+  TLorentzVector leading_CA12_subjet;
 
 
 
@@ -2097,114 +2099,114 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   
 
 
-  CA15JetPtRaw = 0.0;
-  CA15JetEtaRaw = 0.0;
-  CA15JetPhiRaw = 0.0;
-  CA15JetMassRaw = 0.0;
-  CA15Jetsubjet0bdisc = 0.0;
-  CA15Jetsubjet1bdisc = 0.0;
-  CA15Jetsubjet0pt    = 0.0;
-  CA15Jetsubjet0mass  = 0.0;
-  CA15Jetsubjet0eta   = 0.0;
-  CA15Jetsubjet0phi   = 0.0;
-  CA15Jetsubjet0area = 0.0;
-  CA15Jetsubjet1pt    = 0.0;
-  CA15Jetsubjet1mass  = 0.0;
-  CA15Jetsubjet1eta   = 0.0;
-  CA15Jetsubjet1phi   = 0.0;
-  CA15Jetsubjet1area  = 0.0;
+  CA12JetPtRaw = 0.0;
+  CA12JetEtaRaw = 0.0;
+  CA12JetPhiRaw = 0.0;
+  CA12JetMassRaw = 0.0;
+  CA12Jetsubjet0bdisc = 0.0;
+  CA12Jetsubjet1bdisc = 0.0;
+  CA12Jetsubjet0pt    = 0.0;
+  CA12Jetsubjet0mass  = 0.0;
+  CA12Jetsubjet0eta   = 0.0;
+  CA12Jetsubjet0phi   = 0.0;
+  CA12Jetsubjet0area = 0.0;
+  CA12Jetsubjet1pt    = 0.0;
+  CA12Jetsubjet1mass  = 0.0;
+  CA12Jetsubjet1eta   = 0.0;
+  CA12Jetsubjet1phi   = 0.0;
+  CA12Jetsubjet1area  = 0.0;
   int count_subjets = 0;
 
 
   if (verbose_) cout<<"\nAK8 jet loop"<<endl;
 
-  int count_CA15PUPPI = 0;
-  for (const pat::Jet &ijet : *CA15PUPPI) {
-    cout<<"\nJet CA15 "<<count_CA15PUPPI<<" with pT "<<ijet.pt()<<" sdMass "<<ijet.userFloat("ca15PFJetsPuppiSoftDropMass") <<endl;
-    if (count_CA15PUPPI ==0){
+  int count_CA12PUPPI = 0;
+  for (const pat::Jet &ijet : *CA12PUPPI) {
+    cout<<"\nJet CA12 "<<count_CA12PUPPI<<" with pT "<<ijet.pt()<<" sdMass "<<ijet.userFloat("ca12PFJetsPuppiSoftDropMass") <<endl;
+    if (count_CA12PUPPI ==0){
 
-       leading_CA15.SetPtEtaPhiM(ijet.pt(),ijet.eta(),ijet.phi(),ijet.userFloat("ca15PFJetsPuppiSoftDropMass"));
-       CA15JetPtRaw = ijet.pt();
-       CA15JetEtaRaw = ijet.eta();
-       CA15JetPhiRaw = ijet.phi();
-       CA15JetMassRaw = ijet.userFloat("ca15PFJetsPuppiSoftDropMass");
+       leading_CA12.SetPtEtaPhiM(ijet.pt(),ijet.eta(),ijet.phi(),ijet.userFloat("ca12PFJetsPuppiSoftDropMass"));
+       CA12JetPtRaw = ijet.pt();
+       CA12JetEtaRaw = ijet.eta();
+       CA12JetPhiRaw = ijet.phi();
+       CA12JetMassRaw = ijet.userFloat("ca12PFJetsPuppiSoftDropMass");
 
        
-    for (const pat::Jet &isubjet : *CA15PUPPIsub) {
-      leading_CA15_subjet.SetPtEtaPhiM(isubjet.pt(),isubjet.eta(),isubjet.phi(),isubjet.mass());
+    for (const pat::Jet &isubjet : *CA12PUPPIsub) {
+      leading_CA12_subjet.SetPtEtaPhiM(isubjet.pt(),isubjet.eta(),isubjet.phi(),isubjet.mass());
       if(count_subjets==0){
-          CA15Jetsubjet0bdisc = isubjet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-          CA15Jetsubjet0pt    = isubjet.pt();
-          CA15Jetsubjet0mass  = isubjet.mass();
-          CA15Jetsubjet0eta   = isubjet.eta();
-          CA15Jetsubjet0phi   = isubjet.phi();
-          CA15Jetsubjet0area = isubjet.jetArea();
+          CA12Jetsubjet0bdisc = isubjet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+          CA12Jetsubjet0pt    = isubjet.pt();
+          CA12Jetsubjet0mass  = isubjet.mass();
+          CA12Jetsubjet0eta   = isubjet.eta();
+          CA12Jetsubjet0phi   = isubjet.phi();
+          CA12Jetsubjet0area = isubjet.jetArea();
 
       }
       if(count_subjets==1){
-          CA15Jetsubjet1bdisc = isubjet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-          CA15Jetsubjet1pt    = isubjet.pt();
-          CA15Jetsubjet1mass  = isubjet.mass();
-          CA15Jetsubjet1eta   = isubjet.eta();
-          CA15Jetsubjet1phi   = isubjet.phi();
-          CA15Jetsubjet1area = isubjet.jetArea();   
+          CA12Jetsubjet1bdisc = isubjet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+          CA12Jetsubjet1pt    = isubjet.pt();
+          CA12Jetsubjet1mass  = isubjet.mass();
+          CA12Jetsubjet1eta   = isubjet.eta();
+          CA12Jetsubjet1phi   = isubjet.phi();
+          CA12Jetsubjet1area = isubjet.jetArea();   
           break;   
       }
     count_subjets++;
     }
 
-    //   CA15Jetsubjet0bdisc
-    //   CA15Jetsubjet1bdisc
+    //   CA12Jetsubjet0bdisc
+    //   CA12Jetsubjet1bdisc
 //
-    //   CA15Jetsubjet0pt   
-    //   CA15Jetsubjet0mass 
-    //   CA15Jetsubjet0eta  
-    //   CA15Jetsubjet0phi  
-    //   CA15Jetsubjet0area
+    //   CA12Jetsubjet0pt   
+    //   CA12Jetsubjet0mass 
+    //   CA12Jetsubjet0eta  
+    //   CA12Jetsubjet0phi  
+    //   CA12Jetsubjet0area
 //
-    //   CA15Jetsubjet1pt   
-    //   CA15Jetsubjet1mass 
-    //   CA15Jetsubjet1eta  
-    //   CA15Jetsubjet1phi  
-    //   CA15Jetsubjet1area 
+    //   CA12Jetsubjet1pt   
+    //   CA12Jetsubjet1mass 
+    //   CA12Jetsubjet1eta  
+    //   CA12Jetsubjet1phi  
+    //   CA12Jetsubjet1area 
 //
     }
 
 
 
-        count_CA15PUPPI++;
+        count_CA12PUPPI++;
   }
 
 
 
 
-      Float_t CA15JetPtRaw                               ;      
-      Float_t CA15JetEtaRaw                              ;
-      Float_t CA15JetPhiRaw                              ;
-      Float_t CA15JetMassRaw                             ;
+      Float_t CA12JetPtRaw                               ;      
+      Float_t CA12JetEtaRaw                              ;
+      Float_t CA12JetPhiRaw                              ;
+      Float_t CA12JetMassRaw                             ;
 
-      Float_t CA15JetTau1                           ;
-      Float_t CA15JetTau2                           ;
-      Float_t CA15JetTau3                           ;
-      Float_t CA15JetTau4                           ;
-      Float_t CA15JetTau32                          ;
-      Float_t CA15JetTau21                          ;
+      Float_t CA12JetTau1                           ;
+      Float_t CA12JetTau2                           ;
+      Float_t CA12JetTau3                           ;
+      Float_t CA12JetTau4                           ;
+      Float_t CA12JetTau32                          ;
+      Float_t CA12JetTau21                          ;
 
-      Float_t CA15Jetsubjet0bdisc                 ;
-      Float_t CA15Jetsubjet1bdisc                 ;
-      Float_t CA15Jetmaxbdisc                     ;
+      Float_t CA12Jetsubjet0bdisc                 ;
+      Float_t CA12Jetsubjet1bdisc                 ;
+      Float_t CA12Jetmaxbdisc                     ;
 
-      Float_t CA15Jetsubjet0pt                    ;
-      Float_t CA15Jetsubjet0mass                  ;
-      Float_t CA15Jetsubjet0eta                   ;
-      Float_t CA15Jetsubjet0phi                   ;
-      Float_t CA15Jetsubjet0area                  ;
+      Float_t CA12Jetsubjet0pt                    ;
+      Float_t CA12Jetsubjet0mass                  ;
+      Float_t CA12Jetsubjet0eta                   ;
+      Float_t CA12Jetsubjet0phi                   ;
+      Float_t CA12Jetsubjet0area                  ;
 
-      Float_t CA15Jetsubjet1pt                    ;
-      Float_t CA15Jetsubjet1mass                  ;
-      Float_t CA15Jetsubjet1eta                   ;
-      Float_t CA15Jetsubjet1phi                   ;
-      Float_t CA15Jetsubjet1area                  ;
+      Float_t CA12Jetsubjet1pt                    ;
+      Float_t CA12Jetsubjet1mass                  ;
+      Float_t CA12Jetsubjet1eta                   ;
+      Float_t CA12Jetsubjet1phi                   ;
+      Float_t CA12Jetsubjet1area                  ;
 
 
   for (const pat::Jet &ijet : *AK8CHS) {
@@ -3863,10 +3865,10 @@ AK4W2Jet_bDisc = 0.0;
 
 
 
-  if( abs(AK8jet_had_P4corr.M() -171) < abs(leading_CA15.M() -171) ){
+  if( abs(AK8jet_had_P4corr.M() -171) < abs(leading_CA12.M() -171) ){
     reconstructed_top = AK8jet_had_P4corr;
   } else {
-    reconstructed_top = leading_CA15;
+    reconstructed_top = leading_CA12;
   }
 int count_AK4CHS = 0;
 for (const pat::Jet &ijet : *AK4MINI) { 
@@ -3875,7 +3877,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
     reco::Candidate::LorentzVector corrJet = ijet.correctedP4(0);
     AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
 
-    if( AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA15.Pt()){
+    if( AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
 
       if (ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") >AK4bJet_bDisc &&  ijet.pt() > 30){
          AK4bJetPtRaw = ijet.pt();       
@@ -3904,7 +3906,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
     AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
 
 
-   if(AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA15.Pt()){
+   if(AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
 
 
      if(ijet.pt() > 30  && AK4WJetPtRaw == 0.0 && AK4bJetPtRaw!=ijet.pt()){
@@ -3932,15 +3934,15 @@ for (const pat::Jet &ijet : *AK4MINI) {
 
 
 
-    //cout << "gen, ak8, ca15 pt " <<t_p4.Pt() << " " << AK8jet_had_P4corr.Pt() << " " << leading_CA15.Pt()  << endl;
-    //cout << "gen, ak8, ca15 m " <<t_p4.M() << " " << AK8jet_had_P4corr.M() << " " <<leading_CA15.M()  << endl;
-    //cout << "gen b and W deltaR , 2*mT/ca15 pt " <<b_p4.DeltaR(W_p4) << " " << 2*174/leading_CA15.Pt() << endl;
+    //cout << "gen, ak8, ca12 pt " <<t_p4.Pt() << " " << AK8jet_had_P4corr.Pt() << " " << leading_CA12.Pt()  << endl;
+    //cout << "gen, ak8, ca12 m " <<t_p4.M() << " " << AK8jet_had_P4corr.M() << " " <<leading_CA12.M()  << endl;
+    //cout << "gen b and W deltaR , 2*mT/ca12 pt " <<b_p4.DeltaR(W_p4) << " " << 2*174/leading_CA12.Pt() << endl;
 //
-    //cout << "deltaR Gen t, leading ca15 " << t_p4.DeltaR(leading_CA15) << endl;
+    //cout << "deltaR Gen t, leading ca12 " << t_p4.DeltaR(leading_CA12) << endl;
     //cout << "deltaR Gen t, leading ak8 " << t_p4.DeltaR(AK8jet_had_P4corr) << endl;
     //cout << "deltaR Gen t, leading ak8 " << t_p4.DeltaR(reconstructed_top) << endl;
 //
-    //cout << "deltaR Ak4, leading CA15 " << leading_CA15.DeltaR(AK4_p4[count_AK4CHS]) << endl;
+    //cout << "deltaR Ak4, leading CA12 " << leading_CA12.DeltaR(AK4_p4[count_AK4CHS]) << endl;
 //
     //cout << "deltaR Ak4, leading ak8 " << AK8jet_had_P4corr.DeltaR(AK4_p4[count_AK4CHS]) << endl;
 //
@@ -3957,16 +3959,24 @@ for (const pat::Jet &ijet : *AK4MINI) {
   count_AK4CHS++;
 }
 if (count_AK4CHS > 0){
-  cout << "b, w, w2 pt " <<AK4bJetPtRaw << " " << AK4WJetPtRaw << " " << AK4W2JetPtRaw  << endl;
-  cout << "b, w, w2 btag  " <<AK4bJet_bDisc << " " << AK4WJet_bDisc << " " << AK4W2Jet_bDisc  << endl;
-  cout << "b, gen DR E(ak4)/E(gen) " << b_p4.DeltaR(AK4_b) << " " << AK4_b.E()/b_p4.E() << endl;
-  cout << "W, gen DR E(ak4)/E(gen) " << W_p4.DeltaR(AK4_W) << " " << AK4_W.E()/W_p4.E() << endl;
-  cout << "W2, gen DR E(ak4)/E(gen) " << W_p4.DeltaR(AK4_W+AK4_W2) << " " << (AK4_W+AK4_W2).E()/W_p4.E() << endl;
-  cout << "b, w, w2 mass  " << (AK4_b+AK4_W+AK4_W2).M()<< " " << (AK4_b+AK4_W+AK4_W2).Pt() << endl;
-  cout << "b, w mass  " << (AK4_b+AK4_W).M() << " " << (AK4_b+AK4_W).Pt()<< endl;
-  cout << "ca15 mass  pt " << leading_CA15.M() << " " << leading_CA15.Pt() << endl;
-  cout << "ak8 mass  pt " << AK8jet_had_P4corr.M() << " " << AK8jet_had_P4corr.Pt() << endl;
-  cout << "gen mass  pt " << t_p4.M() << " " << t_p4.Pt() << endl;
+  //cout << "b, w, w2 pt " <<AK4bJetPtRaw << " " << AK4WJetPtRaw << " " << AK4W2JetPtRaw  << endl;
+  //cout << "b, w, w2 btag  " <<AK4bJet_bDisc << " " << AK4WJet_bDisc << " " << AK4W2Jet_bDisc  << endl;
+  //cout << "b, gen DR E(ak4)/E(gen) " << b_p4.DeltaR(AK4_b) << " " << AK4_b.E()/b_p4.E() << endl;
+  //cout << "W, gen DR E(ak4)/E(gen) " << W_p4.DeltaR(AK4_W) << " " << AK4_W.E()/W_p4.E() << endl;
+  //cout << "W2, gen DR E(ak4)/E(gen) " << W_p4.DeltaR(AK4_W+AK4_W2) << " " << (AK4_W+AK4_W2).E()/W_p4.E() << endl;
+  //cout << "b, w, w2 mass  " << (AK4_b+AK4_W+AK4_W2).M()<< " " << (AK4_b+AK4_W+AK4_W2).Pt() << endl;
+  //cout << "b, w mass  " << (AK4_b+AK4_W).M() << " " << (AK4_b+AK4_W).Pt()<< endl;
+  //cout << "ca12 mass  pt " << leading_CA12.M() << " " << leading_CA12.Pt() << endl;
+  //cout << "ak8 mass  pt " << AK8jet_had_P4corr.M() << " " << AK8jet_had_P4corr.Pt() << endl;
+  //cout << "gen mass  pt " << t_p4.M() << " " << t_p4.Pt() << endl;
+
+  reconstructed_top = (AK4_b+AK4_W+AK4_W2);
+
+  AK4ReconstructedJetPt = reconstructed_top.Pt();
+  AK4ReconstructedJetEta = reconstructed_top.Eta();
+  AK4ReconstructedJetPhi = reconstructed_top.Phi();
+  AK4ReconstructedJetMass = reconstructed_top.M();
+ 
 }
 
 
