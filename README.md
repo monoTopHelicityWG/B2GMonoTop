@@ -8,6 +8,7 @@ cmsrel CMSSW_8_0_26
 cd CMSSW_8_0_26/src/
 cmsenv
 git cms-init
+git cms-merge-topic gkasieczka:test-httv2-8014 #adding HEP TT v2 https://twiki.cern.ch/twiki/bin/view/CMS/JetTopTagging
 git cms-merge-topic -u cms-met:fromCMSSW_8_0_20_postICHEPfilter
 git cms-merge-topic cms-met:METRecipe_8020
 git cms-merge-topic Sam-Harper:HEEPV70VID_8010_ReducedCheckout 
