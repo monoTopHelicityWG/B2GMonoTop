@@ -294,6 +294,11 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::string HadTrigAcceptBits;
 
 
+      double uncorrected_err = 0;
+      double uncorrected_se= 0;
+      double corrected_err = 0;
+      double corrected_se= 0;
+
       Float_t Gen_array_t_p4[4];
       Float_t Gen_array_final_t_p4[4];
       Float_t Gen_array_b_p4[4];
@@ -3901,7 +3906,133 @@ if (verbose_) cout<<"AK4 jet loop"<<endl;
 for (const pat::Jet &ijet : *AK4MINI) { 
   if (ijet.pt()<15 || fabs(ijet.eta())>3.0) continue; 
 
-  reco::Candidate::LorentzVector corrJet = ijet.correctedP4(0);
+
+
+    reco::Candidate::LorentzVector uncorrJet = ijet.correctedP4(0);
+    //------------------------------------
+    // AK4CHS JEC correction 
+    //------------------------------------
+    JetCorrectorAK4chs->setJetEta( uncorrJet.eta() );
+    JetCorrectorAK4chs->setJetPt ( uncorrJet.pt() );
+    JetCorrectorAK4chs->setJetE  ( uncorrJet.phi() );
+    JetCorrectorAK4chs->setJetA  ( ijet.jetArea() );
+    JetCorrectorAK4chs->setRho   ( rho );
+    JetCorrectorAK4chs->setNPV   ( nvtx );
+    double corr = JetCorrectorAK4chs->getCorrection();
+    reco::Candidate::LorentzVector corrJet = corr * uncorrJet;
+
+    if ( verbose_ ) cout << "   -> after JEC pt,eta,phi,m = " << corrJet.pt() << ", " << corrJet.eta() << ", " << corrJet.phi() << ", " << corrJet.mass() << endl;
+    
+
+    if (corrJet.pt()<15 ) continue;  
+
+    //------------------------------------
+    // AK4CHS JEC uncertainty
+    //------------------------------------
+    double corrDn = 1.0;
+    JetCorrUncertAK4chs->setJetPhi(  corrJet.phi()  );
+    JetCorrUncertAK4chs->setJetEta(  corrJet.eta()  );
+    JetCorrUncertAK4chs->setJetPt(   corrJet.pt()   );
+    corrDn = corr - JetCorrUncertAK4chs->getUncertainty(0);
+    double corrUp = 1.0;
+    JetCorrUncertAK4chs->setJetPhi(  corrJet.phi()  );
+    JetCorrUncertAK4chs->setJetEta(  corrJet.eta()  );
+    JetCorrUncertAK4chs->setJetPt(   corrJet.pt()   );
+    corrUp = corr + JetCorrUncertAK4chs->getUncertainty(1);
+
+    if (verbose_) cout<<"   -> corr "<<corr<<" corrDn "<<corrDn<<" corrUp "<< corrUp<<endl;
+
+    //------------------------------------
+    // AK4 JER SF
+    //------------------------------------
+   
+    double ptsmear   = 1;
+    double ptsmearUp = 1;
+    double ptsmearDn = 1;
+
+
+
+    if (!iEvent.isRealData()) {
+      if (verbose_) cout<<"   Get JER SF"<<endl;
+
+      // get genjet
+      double genpt = 0;
+      TLorentzVector GenJetMatched;
+      const reco::GenJet* genJet = ijet.genJet();
+      bool foundgenjet = false;
+      if (genJet) {
+        foundgenjet=true;
+        genpt = genJet->pt();
+        GenJetMatched.SetPtEtaPhiM( genJet->pt(), genJet->eta(), genJet->phi(), genJet->mass() );
+        if (verbose_) cout<<"      -> Found ak4 genJet pt "<<genJet->pt()<<" mass "<<genJet->mass()<<endl;
+      }
+      else{ if(verbose_)cout<<"      -> Did not find genJet"<<endl;}
+    
+      // Set parameters needed for jet resolution and scale factors
+      JME::JetParameters jer_parameters;
+      jer_parameters.setJetPt ( corrJet.pt()  );
+      jer_parameters.setJetEta( corrJet.eta() );
+      jer_parameters.setRho   ( rho           );
+
+      // Get resolution
+      double res = jet_resolution_AK4CHS.getResolution(jer_parameters); 
+
+      // Get scale factors
+      double jer_sf    = jer_scaler.getScaleFactor(jer_parameters                   );
+      double jer_sf_up = jer_scaler.getScaleFactor(jer_parameters , Variation::UP   );
+      double jer_sf_dn = jer_scaler.getScaleFactor(jer_parameters , Variation::DOWN );
+      if (verbose_) std::cout << "      -> JER Scale factors (Nominal / Up / Down) : " << jer_sf << " / " << jer_sf_up << " / " << jer_sf_dn <<"    & Resolution :"<<res<< std::endl;
+     
+      // Get Smearings  
+      // --- If well matched, smear based on GenJet, If not well matched,  gaussian smear based on resolution
+      TLorentzVector AK4JetP4;
+      AK4JetP4.SetPtEtaPhiM( corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
+      double DeltaR_gen_reco  = AK4JetP4.DeltaR( GenJetMatched );
+      double DeltaPt_gen_reco = AK4JetP4.Pt() - GenJetMatched.Pt()  ;
+      double jet_distance_param = 0.4; 
+      if (verbose_) cout<<"      -> gen pt "<<GenJetMatched.Pt()<<" reco pt "<<AK4JetP4.Pt()<<"  delta "<<DeltaPt_gen_reco<<endl;
+
+
+      //uncorrected_err = uncorrected_err + ijet.pt() - genpt;
+      //uncorrected_se = uncorrected_se + abs(ijet.pt() - genpt);
+      //corrected_err = corrected_err + corrJet.pt() - genpt;
+      //corrected_se = corrected_se + abs(corrJet.pt() - genpt);
+      //cout << "corr vs uncorr " << corrJet.pt() - genpt << " " << uncorrJet.pt() - genpt << endl;
+      //cout << "corr vs uncorr err " << corrected_err << " " << uncorrected_err << endl;
+      //cout << "corr vs uncorr se " << corrected_se << " " << uncorrected_se << endl;
+
+
+      if (genJet && (DeltaR_gen_reco<jet_distance_param/2.0) && (std::abs(DeltaPt_gen_reco)<(3*res*AK4JetP4.Pt())) ) {
+        if (verbose_) cout<<"      -> Well matched (recojet,genjet)"<<endl;
+        double recopt    = corrJet.pt();
+        // double genpt     = GenJetMatched.Perp();
+        double deltapt   = (recopt-genpt)*(jer_sf-1.0);
+        double deltaptUp = (recopt-genpt)*(jer_sf_up-1.0);
+        double deltaptDn = (recopt-genpt)*(jer_sf_dn-1.0);
+
+        ptsmear   = std::max((double)0.0, (recopt+deltapt)/recopt     );
+        ptsmearUp = std::max((double)0.0, (recopt+deltaptUp)/recopt   );
+        ptsmearDn = std::max((double)0.0, (recopt+deltaptDn)/recopt   );
+      }
+      else{
+        if (verbose_){
+          cout<<"      -> Not well matched. DeltaR_gen_reco "<<DeltaR_gen_reco<<" DeltaPt_gen_reco "<<DeltaPt_gen_reco<<" 3*res*AK4JetP4.Pt()) "<<3*res*AK4JetP4.Pt();
+          if (!foundgenjet) cout<<". Did not find genjet"<<endl;
+          else cout<<endl;
+        }
+        double sigma   = std::sqrt(jer_sf * jer_sf - 1)       * res ;  
+        double sigmaUp = std::sqrt(jer_sf_up * jer_sf_up - 1) * res ;
+        double sigmaDn = std::sqrt(jer_sf_dn * jer_sf_dn - 1) * res ;
+
+        TRandom3 rand1(0);
+        ptsmear   = std::max( (double)0.0, 1 + rand1.Gaus(0, sigma  ) );
+        ptsmearUp = std::max( (double)0.0, 1 + rand1.Gaus(0, sigmaUp) );
+        ptsmearDn = std::max( (double)0.0, 1 + rand1.Gaus(0, sigmaDn) );
+      }
+    }
+
+    if (verbose_) cout<<"   -> ptsmear "<<ptsmear<<" ptsmearUp "<<ptsmearUp<<" ptsmearDn "<< ptsmearDn<<endl;
+ 
   if(count_AK4CHS < 5){
     AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
 
