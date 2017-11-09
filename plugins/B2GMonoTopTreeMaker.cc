@@ -87,6 +87,7 @@
 
 
 
+
 // // CMS Top Tagger
 // #include "DataFormats/BTauReco/interface/CATopJetTagInfo.h"
 // #include "RecoJets/JetAlgorithms/interface/CATopJetHelper.h"
@@ -110,6 +111,10 @@
 #include "TTree.h"
 #include "TLorentzVector.h"
 #include <TRandom3.h>
+
+#ifdef __CINT__
+#pragma link C++ class std::vector<TLorentzVector>+;
+#endif
 
 //RS gluon PDF weights
 namespace LHAPDF {
@@ -317,6 +322,72 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       int parton2id = 0;
       int Wd1_id = 0 ;
       int Wd2_id = 0 ;
+
+
+      //std::vector<TLorentzVector>** AK4JetLV = new std::vector<TLorentzVector>*;
+      //std::vector<TLorentzVector>* AK4JetLV_p = new std::vector<TLorentzVector>;
+      std::vector<float>* AK4JetLV_pt = new std::vector<float>;
+      std::vector<float>* AK4JetLV_eta = new std::vector<float>;
+      std::vector<float>* AK4JetLV_phi = new std::vector<float>;
+      std::vector<float>* AK4JetLV_mass = new std::vector<float>;
+
+      std::vector<float>* AK4JetLV_corr = new std::vector<float>;
+      std::vector<float>* AK4JetLV_corrUp = new std::vector<float>;
+      std::vector<float>* AK4JetLV_corrDn = new std::vector<float>;
+      std::vector<float>* AK4JetLV_ptsmear = new std::vector<float>;
+      std::vector<float>* AK4JetLV_ptsmearUp = new std::vector<float>;
+      std::vector<float>* AK4JetLV_ptsmearDn = new std::vector<float>;
+
+      std::vector<float>* AK8JetLV_pt = new std::vector<float>;
+      std::vector<float>* AK8JetLV_eta = new std::vector<float>;
+      std::vector<float>* AK8JetLV_phi = new std::vector<float>;
+      std::vector<float>* AK8JetLV_mass = new std::vector<float>;
+
+      std::vector<float>* AK8SubjetLV_pt = new std::vector<float>;
+      std::vector<float>* AK8SubjetLV_eta = new std::vector<float>;
+      std::vector<float>* AK8SubjetLV_phi = new std::vector<float>;
+      std::vector<float>* AK8SubjetLV_mass = new std::vector<float>;
+
+     // std::vector<TLorentzVector>** AK4JetLV = &AK4JetLV_p;
+      std::vector<float>* AK4JetBtag_p = new std::vector<float>;
+      //std::vector<float>** AK4JetBtag = &AK4JetBtag_p;
+
+      //std::vector<TLorentzVector>* AK8JetLV_p = new std::vector<TLorentzVector>;
+      //std::vector<TLorentzVector>** AK8JetLV = &AK8JetLV_p;
+      //std::vector<TLorentzVector>* AK8SubjetLV_p = new std::vector<TLorentzVector>;
+      //std::vector<TLorentzVector>** AK8SubjetLV = &AK8SubjetLV_p;
+      std::vector<float>* AK8JetTau1_p = new std::vector<float>;
+      //std::vector<float>** AK8JetTau1 = &AK8JetTau1_p;
+      std::vector<float>* AK8JetTau2_p = new std::vector<float>;
+      //std::vector<float>** AK8JetTau2 = &AK8JetTau2_p;
+      std::vector<float>* AK8JetTau3_p = new std::vector<float>;
+     // std::vector<float>** AK8JetTau3 = &AK8JetTau3_p;
+      std::vector<float>* AK8JetSoftdropMass_p = new std::vector<float>;
+      //TLorentzVector::Class()->IgnoreTObjectStreamer();
+     // std::vector<double>** AK8JetSoftdropMass = &AK8JetSoftdropMass_p;
+
+      
+      //AK8 jet varaibles
+      //The elements of each vector refer to one AK8 jet
+      //std::vector<TLorentzVector>** AK8JetLV = new std::vector<TLorentzVector>*;
+      //std::vector<TLorentzVector>** AK8SubjetLV = new std::vector<TLorentzVector>*;
+      //std::vector<double>** AK8JetTau1 = new std::vector<double>*;
+      //std::vector<double>** AK8JetTau2 = new std::vector<double>*;
+      //std::vector<double>** AK8JetTau3 = new std::vector<double>*;
+      //std::vector<double>** AK8JetSoftdropMass = new std::vector<double>*;
+
+      //(*AK4JetBtag)->push_back(2);
+
+      //std::vector<double>** mydouble = new std::vector<double>*;
+      //*mydouble = new std::vector<double>();
+      //(*mydouble)->push_back(2)
+
+
+
+
+
+      Float_t AK4_corr_pt                               ;  
+      Float_t AK4_uncorr_pt                               ;  
 
       Float_t CA12JetPtRaw                               ;      
       Float_t CA12JetEtaRaw                              ;
@@ -703,6 +774,9 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<bool> *LeptTrigPass    = new std::vector<bool>;     
       std::string LeptTrigAcceptBits;
 
+      //Float_t Gen_array_Wd1_p4[4];
+      //Float_t Gen_array_Wd2_p4[4];
+
       //Float_t JetPtRaw                               ;      
       //Float_t JetEtaRaw                              ;
       //Float_t JetPhiRaw                              ;
@@ -897,6 +971,38 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("parton2id"                           , & parton2id                           ,  "parton2id/I"                        );
   TreeHad->Branch("Wd1_id"                              , & Wd1_id                              ,  "Wd1_id/I"                           );
   TreeHad->Branch("Wd2_id"                              , & Wd2_id                              ,  "Wd2_id/I"                           ); 
+
+
+  //TreeHad->Branch("AK4JetLV_p","vector<TLorentzVector>",&AK4JetLV_p);
+  TreeHad->Branch("AK4JetLV_pt","vector<float>",&AK4JetLV_pt);
+  TreeHad->Branch("AK4JetLV_eta","vector<float>",&AK4JetLV_eta);
+  TreeHad->Branch("AK4JetLV_phi","vector<float>",&AK4JetLV_phi);
+  TreeHad->Branch("AK4JetLV_mass","vector<float>",&AK4JetLV_mass);
+
+  TreeHad->Branch("AK4JetLV_corr", "vector<float>", &AK4JetLV_corr);
+  TreeHad->Branch("AK4JetLV_corrUp", "vector<float>", &AK4JetLV_corrUp);
+  TreeHad->Branch("AK4JetLV_corrDn", "vector<float>", &AK4JetLV_corrDn);
+  TreeHad->Branch("AK4JetLV_ptsmear", "vector<float>", &AK4JetLV_ptsmear);
+  TreeHad->Branch("AK4JetLV_ptsmearUp", "vector<float>", &AK4JetLV_ptsmearUp);
+  TreeHad->Branch("AK4JetLV_ptsmearDn", "vector<float>", &AK4JetLV_ptsmearDn);
+
+  TreeHad->Branch("AK8JetLV_pt","vector<float>",&AK8JetLV_pt);
+  TreeHad->Branch("AK8JetLV_eta","vector<float>",&AK8JetLV_eta);
+  TreeHad->Branch("AK8JetLV_phi","vector<float>",&AK8JetLV_phi);
+  TreeHad->Branch("AK8JetLV_mass","vector<float>",&AK8JetLV_mass);
+
+  TreeHad->Branch("AK8SubjetLV_pt","vector<float>",&AK8SubjetLV_pt);
+  TreeHad->Branch("AK8SubjetLV_eta","vector<float>",&AK8SubjetLV_eta);
+  TreeHad->Branch("AK8SubjetLV_phi","vector<float>",&AK8SubjetLV_phi);
+  TreeHad->Branch("AK8SubjetLV_mass","vector<float>",&AK8SubjetLV_mass);
+
+  TreeHad->Branch("AK4JetBtag_p","vector<float>",&AK4JetBtag_p);
+  //TreeHad->Branch("AK8JetLV_p","vector<TLorentzVector>",&AK8JetLV_p);
+  //TreeHad->Branch("AK8SubjetLV_p","vector<TLorentzVector>",&AK8SubjetLV_p);
+  TreeHad->Branch("AK8JetTau1_p","vector<float>",&AK8JetTau1_p);
+  TreeHad->Branch("AK8JetTau2_p","vector<float>",&AK8JetTau2_p);
+  TreeHad->Branch("AK8JetTau3_p","vector<float>",&AK8JetTau3_p);
+  TreeHad->Branch("AK8JetSoftdropMass_p","vector<float>",&AK8JetSoftdropMass_p);
 
 
 
@@ -1186,6 +1292,9 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("HadPassMETFilters"               , & HadPassMETFilters            , "HadPassMETFilters/I"         );
 
 
+  TreeHad->Branch("AK4_uncorr_pt",          & AK4_uncorr_pt               , "AK4_uncorr_pt/F");      
+  TreeHad->Branch("AK4_corr_pt",          & AK4_corr_pt               , "AK4_corr_pt/F");  
+
   TreeHad->Branch("CA12JetPtRaw",          & CA12JetPtRaw               , "CA12JetPtRaw/F");                
   TreeHad->Branch("CA12JetEtaRaw",          & CA12JetEtaRaw               , "CA12JetEtaRaw/F");                 
   TreeHad->Branch("CA12JetPhiRaw",          & CA12JetPhiRaw               , "CA12JetPhiRaw/F");                 
@@ -1288,6 +1397,21 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeLept->Branch("LeptTrigPrescales" , "vector<int>",  &LeptTrigPrescales);
   TreeLept->Branch("LeptTrigPass"      , "vector<bool>", &LeptTrigPass);
   TreeLept->Branch("LeptTrigAcceptBits", &LeptTrigAcceptBits);
+
+  TreeLept->Branch("Gen_array_t_p4"                   , & Gen_array_t_p4                   ,  "Gen_array_t_p4[4]/F"                      );
+  TreeLept->Branch("Gen_array_final_t_p4"             , & Gen_array_final_t_p4             ,  "Gen_array_final_t_p4[4]/F"                );
+  TreeLept->Branch("Gen_array_b_p4"                   , & Gen_array_b_p4                   ,  "Gen_array_b_p4[4]/F"                      );
+  TreeLept->Branch("Gen_array_W_p4"                   , & Gen_array_W_p4                   ,  "Gen_array_W_p4[4]/F"                      );
+  TreeLept->Branch("Gen_array_Wd1_p4"                 , & Gen_array_Wd1_p4                 ,  "Gen_array_Wd1_p4[4]/F"                    );
+  TreeLept->Branch("Gen_array_Wd2_p4"                 , & Gen_array_Wd2_p4                 ,  "Gen_array_Wd2_p4[4]/F"                    );
+  TreeLept->Branch("Gen_array_hardest_parton_hardScatterOutgoing_p4", & Gen_array_hardest_parton_hardScatterOutgoing_p4 ,  "Gen_array_hardest_parton_hardScatterOutgoing_p4[4]/F");
+  TreeLept->Branch("Gen_array_second_hardest_parton_hardScatterOutgoing_p4", & Gen_array_second_hardest_parton_hardScatterOutgoing_p4 ,  "Gen_array_second_hardest_parton_hardScatterOutgoing_p4[4]/F" );
+  TreeLept->Branch("tophadronic"                         , & tophadronic                         ,  "tophadronic/O"                      );
+  TreeLept->Branch("topleptonic"                         , & topleptonic                         ,  "topleptonic/O"                      );
+  TreeLept->Branch("parton1id"                           , & parton1id                           ,  "parton1id/I"                        );
+  TreeLept->Branch("parton2id"                           , & parton2id                           ,  "parton2id/I"                        );
+  TreeLept->Branch("Wd1_id"                              , & Wd1_id                              ,  "Wd1_id/I"                           );
+  TreeLept->Branch("Wd2_id"                              , & Wd2_id                              ,  "Wd2_id/I"                           ); 
  
 
   //TreeLept->Branch("JetPtRaw"                             , & JetPtRaw                          ,    "JetPtRaw/F"                               );                                  
@@ -1337,6 +1461,32 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   using namespace pat;
   using namespace LHAPDF;
   // using namespace fastjet;
+
+
+  AK4JetLV_pt->clear();
+  AK4JetLV_eta->clear();
+  AK4JetLV_phi->clear();
+  AK4JetLV_mass->clear();
+  AK4JetLV_corr->clear();
+  AK4JetLV_corrUp->clear();
+  AK4JetLV_corrDn->clear();
+  AK4JetLV_ptsmear->clear();
+  AK4JetLV_ptsmearUp->clear();
+  AK4JetLV_ptsmearDn->clear();
+  AK8JetLV_pt->clear();
+  AK8JetLV_eta->clear();
+  AK8JetLV_phi->clear();
+  AK8JetLV_mass->clear();
+  AK8SubjetLV_pt->clear();
+  AK8SubjetLV_eta->clear();
+  AK8SubjetLV_phi->clear();
+  AK8SubjetLV_mass->clear();
+  AK4JetBtag_p->clear();
+  AK8JetTau1_p->clear();
+  AK8JetTau2_p->clear();
+  AK8JetTau3_p->clear();
+  AK8JetSoftdropMass_p->clear();
+
 
   if (verbose_) {
     cout<<"----------------------------------------------------------------------------------------------------------"<<endl;
@@ -2070,6 +2220,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   }
 
 
+
+
   //cout<<"\nJet CA8PUPPI "<<endl;
   //for (const pat::Jet &ijet : *CA8PUPPI) {
       //cout<<"\nJet CA8PUPPI "<<" with pT "<<ijet.pt()<< " mass " << ijet.mass() << endl;
@@ -2127,7 +2279,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
   int count_CA12PUPPI = 0;
   for (const pat::Jet &ijet : *CA12PUPPI) {
-    cout<<"\nJet CA12 "<<count_CA12PUPPI<<" with pT "<<ijet.pt()<<" sdMass "<<ijet.userFloat("ca12PFJetsPuppiSoftDropMass") <<endl;
+    if(verbose_) cout<<"\nJet CA12 "<<count_CA12PUPPI<<" with pT "<<ijet.pt()<<" sdMass "<<ijet.userFloat("ca12PFJetsPuppiSoftDropMass") <<endl;
     if (count_CA12PUPPI ==0){
 
        leading_CA12.SetPtEtaPhiM(ijet.pt(),ijet.eta(),ijet.phi(),ijet.userFloat("ca12PFJetsPuppiSoftDropMass"));
@@ -2212,12 +2364,13 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       Float_t CA12Jetsubjet1eta                   ;
       Float_t CA12Jetsubjet1phi                   ;
       Float_t CA12Jetsubjet1area                  ;
+     
 
 
   for (const pat::Jet &ijet : *AK8CHS) {
     // if (count_AK8CHS>1) break;
     if (count_AK8CHS==0 && ijet.pt()<30) break;
-    if (verbose_) cout<<"\nJet "<<count_AK8CHS<<" with pT "<<ijet.pt()<<" sdMass "<<ijet.userFloat("ak8PFJetsCHSSoftDropMass")<<endl;
+
 
     //------------------------------------
     // Noise jet ID
@@ -2540,13 +2693,30 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     }
 
     // If you've clustered AK8PUPPI using the toolbox, match the Puppi jets to AK8CHS and save the puppi variables
-
+    //TLorentzVector  tempLV;
     double minDR_pup_chs = 99;
     if (useToolbox_){
       if (verbose_)  cout<<"   Puppi jet loop (toolbox)"<<endl; 
       int count_puppi_jet = 0;
       for (const pat::Jet &ipup : *AK8PUPPI) {  
         if (verbose_)  cout<<"    puppi jet "<<count_puppi_jet<<" uncorr "<<ipup.correctedP4(0).pt()<<" corr "<<ipup.pt()<<endl;
+
+        reco::Candidate::LorentzVector corrJet = ipup.correctedP4(2);
+        //tempLV.SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass());
+        AK8JetLV_pt->push_back(corrJet.pt());
+        AK8JetLV_eta->push_back(corrJet.eta());
+        AK8JetLV_phi->push_back(corrJet.phi());
+        AK8JetLV_mass->push_back(corrJet.mass());
+
+        AK8JetTau1_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau1"));
+        AK8JetTau2_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau2"));
+        AK8JetTau3_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau3"));
+        AK8JetSoftdropMass_p->push_back(ipup.userFloat("ak8PFJetsPuppiSoftDropMass"));
+
+
+    if (verbose_) cout<<"\nJet "<<count_AK8CHS<<" with pT "<<ijet.pt()<<" sdMass "<<ijet.userFloat("ak8PFJetsCHSSoftDropMass")<<endl;
+
+
         double deltaRpup = deltaR(ijet.eta(), ijet.phi(), ipup.eta(), ipup.phi() );
         if (deltaRpup< minDR_pup_chs){
           minDR_pup_chs = deltaRpup;
@@ -2738,9 +2908,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     int nsubjets_chs = 0;
     int nsubjets_pup = 0;
 
+   // TLorentzVector tempLVSJ          ;
     if (!useToolbox_){
       auto const & sdSubjets = ijet.subjets("SoftDrop");
       for ( auto const & it : sdSubjets ) {
+
+
         double subjetPt       = it->correctedP4(0).pt();
         double subjetEta      = it->correctedP4(0).eta();
         double subjetPhi      = it->correctedP4(0).phi();
@@ -3162,6 +3335,11 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if (!useToolbox_){
       auto const & sdSubjetsPuppi = ijet.subjets("SoftDropPuppi");
       for ( auto const & it : sdSubjetsPuppi ) {
+
+        //tempLVSJ.SetPtEtaPhiM(it->correctedP4(2).pt(),it->correctedP4(2).eta(),it->correctedP4(2).phi(),it->correctedP4(2).mass());
+
+      
+        //AK8SubjetLV_p->push_back(tempLV);
         double subjetPt       = it->correctedP4(0).pt();
         double subjetEta      = it->correctedP4(0).eta();
         double subjetPhi      = it->correctedP4(0).phi();
@@ -3253,6 +3431,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       // Loop once to find the subjets closest to the AK8 jet
       for (const pat::Jet &isub : *AK8PUPPIsub) {  
   
+
+        AK8SubjetLV_pt->push_back(isub.correctedP4(2).pt());
+        AK8SubjetLV_eta->push_back(isub.correctedP4(2).eta());
+        AK8SubjetLV_phi->push_back(isub.correctedP4(2).phi());
+        AK8SubjetLV_mass->push_back(isub.correctedP4(2).mass());
+
         double subjetPt       = isub.correctedP4(0).pt();
         double subjetEta      = isub.correctedP4(0).eta();
         double subjetPhi      = isub.correctedP4(0).phi();
@@ -3818,7 +4002,8 @@ TLorentzVector AK4_W2;
 
 
 
-
+AK4_uncorr_pt = 0.0;
+AK4_corr_pt = 0.0;
 
 AK4ReconstructedJetPt = 0.0;            
 AK4ReconstructedJetEta = 0.0;      
@@ -3868,8 +4053,6 @@ AK4W2Jet_CorrUp = 0.0;
 AK4W2Jet_CorrDn = 0.0;     
 AK4W2Jet_bDisc = 0.0;     
 
-
-
   if( abs(AK8jet_had_P4corr.M() -171) < abs(leading_CA12.M() -171) ){
     reconstructed_top = AK8jet_had_P4corr;
   } else {
@@ -3879,18 +4062,28 @@ int count_AK4CHS = 0;
 for (const pat::Jet &ijet : *AK4MINI) { 
   if (ijet.pt()<15 || fabs(ijet.eta())>3.0) continue; 
 
-    reco::Candidate::LorentzVector corrJet = ijet.correctedP4(0);
-    AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
+  reco::Candidate::LorentzVector corrJet = ijet.correctedP4(2);
+ //  AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
+ //  //(*AK4JetLV)->push_back(AK4_p4[count_AK4CHS]);
+ //  //AK4JetLV_p->push_back(AK4_p4[count_AK4CHS]);
+
+ //  AK4JetLV_pt->push_back(corrJet.pt());
+ //  AK4JetLV_eta->push_back(corrJet.eta());
+ //  AK4JetLV_phi->push_back(corrJet.phi());
+ //  AK4JetLV_mass->push_back(corrJet.mass());
+ //  AK4JetBtag_p->push_back(ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+
+        
 
     if( AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
 
       if (ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") >AK4bJet_bDisc &&  ijet.pt() > 30){
-         AK4bJetPtRaw = ijet.pt();       
-         AK4bJetEtaRaw = ijet.eta();      
-         AK4bJetPhiRaw = ijet.phi();      
-         AK4bJetMassRaw = ijet.mass();     
+         AK4bJetPtRaw = corrJet.pt();       
+         AK4bJetEtaRaw = corrJet.eta();      
+         AK4bJetPhiRaw = corrJet.phi();      
+         AK4bJetMassRaw = corrJet.mass();     
          AK4bJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-         AK4_b.SetPtEtaPhiM(ijet.pt(),ijet.eta(),ijet.phi(),ijet.mass());
+         AK4_b.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
        } else {
          break;
        }
@@ -3904,11 +4097,19 @@ for (const pat::Jet &ijet : *AK4MINI) {
 count_AK4CHS = 0;
 if (verbose_) cout<<"AK4 jet loop"<<endl;
 for (const pat::Jet &ijet : *AK4MINI) { 
-  if (ijet.pt()<15 || fabs(ijet.eta())>3.0) continue; 
+  if (ijet.pt()<30 || fabs(ijet.eta())>3.0) continue; 
 
 
 
     reco::Candidate::LorentzVector uncorrJet = ijet.correctedP4(0);
+
+
+    AK4JetLV_pt->push_back(uncorrJet.pt());
+    AK4JetLV_eta->push_back(uncorrJet.eta());
+    AK4JetLV_phi->push_back(uncorrJet.phi());
+    AK4JetLV_mass->push_back(uncorrJet.mass());
+    AK4JetBtag_p->push_back(ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+
     //------------------------------------
     // AK4CHS JEC correction 
     //------------------------------------
@@ -3920,6 +4121,10 @@ for (const pat::Jet &ijet : *AK4MINI) {
     JetCorrectorAK4chs->setNPV   ( nvtx );
     double corr = JetCorrectorAK4chs->getCorrection();
     reco::Candidate::LorentzVector corrJet = corr * uncorrJet;
+
+    AK4JetLV_corr->push_back(corr);
+
+
 
     if ( verbose_ ) cout << "   -> after JEC pt,eta,phi,m = " << corrJet.pt() << ", " << corrJet.eta() << ", " << corrJet.phi() << ", " << corrJet.mass() << endl;
     
@@ -3939,6 +4144,10 @@ for (const pat::Jet &ijet : *AK4MINI) {
     JetCorrUncertAK4chs->setJetEta(  corrJet.eta()  );
     JetCorrUncertAK4chs->setJetPt(   corrJet.pt()   );
     corrUp = corr + JetCorrUncertAK4chs->getUncertainty(1);
+
+    AK4JetLV_corrUp->push_back(corrUp);
+    AK4JetLV_corrDn->push_back(corrDn);
+
 
     if (verbose_) cout<<"   -> corr "<<corr<<" corrDn "<<corrDn<<" corrUp "<< corrUp<<endl;
 
@@ -3964,6 +4173,13 @@ for (const pat::Jet &ijet : *AK4MINI) {
         foundgenjet=true;
         genpt = genJet->pt();
         GenJetMatched.SetPtEtaPhiM( genJet->pt(), genJet->eta(), genJet->phi(), genJet->mass() );
+        reco::Candidate::LorentzVector corrJet = ijet.correctedP4(2);
+
+       if(verbose_) cout << "cor vs un corr " << corrJet.pt() - GenJetMatched.Pt() << " " << uncorrJet.pt() - GenJetMatched.Pt() << endl;
+
+        AK4_uncorr_pt = uncorrJet.pt() - GenJetMatched.Pt();
+        AK4_corr_pt = corrJet.pt() - GenJetMatched.Pt();
+
         if (verbose_) cout<<"      -> Found ak4 genJet pt "<<genJet->pt()<<" mass "<<genJet->mass()<<endl;
       }
       else{ if(verbose_)cout<<"      -> Did not find genJet"<<endl;}
@@ -4031,32 +4247,36 @@ for (const pat::Jet &ijet : *AK4MINI) {
       }
     }
 
+    AK4JetLV_ptsmear->push_back(ptsmear);
+    AK4JetLV_ptsmearUp->push_back(ptsmearUp);
+    AK4JetLV_ptsmearDn->push_back(ptsmearDn);
+
     if (verbose_) cout<<"   -> ptsmear "<<ptsmear<<" ptsmearUp "<<ptsmearUp<<" ptsmearDn "<< ptsmearDn<<endl;
  
   if(count_AK4CHS < 5){
+    reco::Candidate::LorentzVector corrJet = ijet.correctedP4(2);
     AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
 
 
    if(AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
 
 
-     if(ijet.pt() > 30  && AK4WJetPtRaw == 0.0 && AK4bJetPtRaw!=ijet.pt()){
-        AK4WJetPtRaw = ijet.pt();       
-        AK4WJetEtaRaw = ijet.eta();      
-        AK4WJetPhiRaw = ijet.phi();      
-        AK4WJetMassRaw = ijet.mass();     
+     if(corrJet.pt() > 30  && AK4WJetPtRaw == 0.0 && AK4bJetPtRaw!=corrJet.pt()){
+        AK4WJetPtRaw = corrJet.pt();       
+        AK4WJetEtaRaw = corrJet.eta();      
+        AK4WJetPhiRaw = corrJet.phi();      
+        AK4WJetMassRaw = corrJet.mass();     
         AK4WJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-        AK4_W.SetPtEtaPhiM(ijet.pt(),ijet.eta(),ijet.phi(),ijet.mass());
-     } else if(ijet.pt() > 30 &&  AK4W2JetPtRaw == 0.0 && AK4bJetPtRaw!=ijet.pt()){
-        AK4W2JetPtRaw = ijet.pt();       
-        AK4W2JetEtaRaw = ijet.eta();      
-        AK4W2JetPhiRaw = ijet.phi();      
-        AK4W2JetMassRaw = ijet.mass();     
+        AK4_W.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
+     } else if(corrJet.pt() > 30 &&  AK4W2JetPtRaw == 0.0 && AK4bJetPtRaw!=corrJet.pt()){
+        AK4W2JetPtRaw = corrJet.pt();       
+        AK4W2JetEtaRaw = corrJet.eta();      
+        AK4W2JetPhiRaw = corrJet.phi();      
+        AK4W2JetMassRaw = corrJet.mass();     
         AK4W2Jet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-        AK4_W2.SetPtEtaPhiM(ijet.pt(),ijet.eta(),ijet.phi(),ijet.mass());
+        AK4_W2.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
 
      }
-
 
 
    }
@@ -4168,12 +4388,6 @@ if (count_AK4CHS > 0){
 
 
 
-
-
-
-
-
-
   if(runHadTree_){
     if(runGenLoop_){
       setVectorTL(Gen_array_t_p4, t_p4);
@@ -4196,7 +4410,7 @@ if (count_AK4CHS > 0){
       if ( 1==1 /*fabs( AK8jet_Had_P4corr.Rapidity() ) <2.4 */ ){
         h_cutflow_had   ->Fill(3.5);
 
-        if (verbose_) cout<<"Write Semi-Lept Tree"<<endl;
+        if (verbose_) cout<<"Write Had Tree"<<endl;
 
         HadMETpx                = met.px();                   
         HadMETpy                = met.py();                   
@@ -4314,6 +4528,120 @@ if (count_AK4CHS > 0){
  
     
   }
+
+  //if(runLeptTree_){
+  //  if(runGenLoop_){
+  //    setVectorTL(Gen_array_t_p4, t_p4);
+  //    setVectorTL(Gen_array_t_p4, t_p4);
+  //    setVectorTL(Gen_array_final_t_p4, final_t_p4);
+  //    setVectorTL(Gen_array_b_p4, b_p4);
+  //    setVectorTL(Gen_array_W_p4, W_p4);
+  //    setVectorTL(Gen_array_Wd1_p4, Wd1_p4);
+  //    setVectorTL(Gen_array_Wd2_p4, Wd2_p4);
+  //    setVectorTL(Gen_array_hardest_parton_hardScatterOutgoing_p4, hardest_parton_hardScatterOutgoing_p4);
+  //    setVectorTL(Gen_array_second_hardest_parton_hardScatterOutgoing_p4, second_hardest_parton_hardScatterOutgoing_p4);
+//
+  //  }
+//
+  //  h_cutflow_lept   ->Fill(1.5);
+//
+  //  if ( 1==1 /*AK8jet_Had_P4corr.Perp()>200*/){
+  //    h_cutflow_lept   ->Fill(2.5);
+//
+  //    if ( 1==1 /*fabs( AK8jet_Had_P4corr.Rapidity() ) <2.4 */ ){
+  //      h_cutflow_lept   ->Fill(3.5);
+//
+  //      if (verbose_) cout<<"Write Lept Tree"<<endl;
+//
+  //      LeptMETpx                = met.px();                   
+  //      LeptMETpy                = met.py();                   
+  //      LeptMETpt                = met.pt();                   
+  //      LeptMETphi               = met.phi();                   
+  //      LeptMETsumET             = met.sumEt();   
+  //  
+  //      if ( !iEvent.isRealData() )  LeptMETgenMET            = met.genMET()->pt();                   
+  //      LeptMETuncorPt           = met.uncorPt();                    
+  //         
+  //      LeptMETshiftedPtJetEnUp  = met.shiftedPt(pat::MET::JetEnUp            ) ;                    
+  //      LeptMETshiftedPtJetEnDn  = met.shiftedPt(pat::MET::JetEnDown          ) ;                    
+  //      LeptMETshiftedPtElEnUp   = met.shiftedPt(pat::MET::ElectronEnUp       ) ;                    
+  //      LeptMETshiftedPtElEnDn   = met.shiftedPt(pat::MET::ElectronEnDown     ) ;                    
+  //      LeptMETshiftedPtMuEnUp   = met.shiftedPt(pat::MET::MuonEnUp           ) ;                    
+  //      LeptMETshiftedPtMuEnDn   = met.shiftedPt(pat::MET::MuonEnDown         ) ;                    
+  //      LeptMETshiftedPtJetResUp = met.shiftedPt(pat::MET::JetResUp           ) ;                    
+  //      LeptMETshiftedPtJetResDn = met.shiftedPt(pat::MET::JetResDown         ) ;                    
+  //      LeptMETshiftedPtUnclEnUp = met.shiftedPt(pat::MET::UnclusteredEnUp    ) ;                    
+  //      LeptMETshiftedPtUnclEnDn = met.shiftedPt(pat::MET::UnclusteredEnDown  ) ;                    
+//
+  //      
+  //      LeptNvtx                 = nvtx;     
+  //      LeptNvtxGood             = nvtxgood;     
+  //      LeptNPUtrue              = nPU;     
+  //      LeptRho                  = rho ;               
+  //      if ( !iEvent.isRealData() ){
+  //        LeptEventWeight          = evWeight ;              
+  //        LeptPUweight             = puweight  ; 
+  //        LeptPUweight_MBup        = puweightUp ;
+  //        LeptPUweight_MBdn        = puweightDn  ;
+  //       
+  //        LeptQ2weight_CorrDn      = Q2wgt_down ;              
+  //        LeptQ2weight_CorrUp      = Q2wgt_up ;              
+  //        LeptNNPDF3weight_CorrDn  = NNPDF3wgt_down ;              
+  //        LeptNNPDF3weight_CorrUp  = NNPDF3wgt_up ;    
+  //      }  
+  //      else{ 
+  //        LeptEventWeight          = 1;    
+  //        LeptPUweight             = 1;
+  //        LeptPUweight_MBup        = 1;
+  //        LeptPUweight_MBdn        = 1;
+  //        LeptGenTTmass            = 0;
+  //        LeptGenCountLeptTop       = 0;            
+  //        LeptQ2weight_CorrDn      = 1;       
+  //        LeptQ2weight_CorrUp      = 1;     
+  //        LeptNNPDF3weight_CorrDn  = 1;           
+  //        LeptNNPDF3weight_CorrUp  = 1;
+  //      }
+  //     
+  //            
+  //      LeptRunNum               = iEvent.id().run() ;              
+  //      LeptLumiBlock            = iEvent.id().luminosityBlock() ;              
+  //      LeptEventNum             = iEvent.id().event() ; 
+  //      LeptPassMETFilters       = (int) passMETfilters;              
+//
+  //     
+  //      if      (count_mu==1 && count_el==0) LeptonIsMu  = 1  ; 
+  //      else if (count_mu==0 && count_el==1) LeptonIsMu  = 0  ; 
+  //      else                                 LeptonIsMu  = -1  ;
+  //      
+  //      PtRel  = AK4_dRMinLep_p4.Perp( lep0_p4.Vect() );
+  //      MuIso  = mu0_iso04;
+  //      
+  //      Elecron_absiso            = el0_absiso           ;  
+  //      Elecron_relIsoWithDBeta   = el0_relIsoWithDBeta  ;  
+  //      Elecron_absiso_EA         = el0_absiso_EA        ;  
+  //      Elecron_relIsoWithEA      = el0_relIsoWithEA     ;  
+  //      
+  //      Electron_iso_passHLTpre   = el0_iso_passHLTpre  ;
+  //      Electron_iso_passLoose    = el0_iso_passLoose   ;
+  //      Electron_iso_passMedium   = el0_iso_passMedium  ;
+  //      Electron_iso_passTight    = el0_iso_passTight   ;
+  //      Electron_iso_passHEEP     = el0_iso_passHEEP    ;
+  //      Electron_noiso_passLoose  = el0_noiso_passLoose ;
+  //      Electron_noiso_passMedium = el0_noiso_passMedium;
+  //      Electron_noiso_passTight  = el0_noiso_passTight ;
+  //      Electron_noiso_passHEEP   = el0_noiso_passHEEP  ;
+  //      
+  //      MuMedium = (int) mu0_isMedium   ;
+  //      MuTight  = (int) mu0_isTight    ;
+  //      MuHighPt = (int) mu0_isHighPt   ;
+//
+  //      TreeLept -> Fill();
+  //    }// end rapidity selection
+  //  }// end pt selection
+
+ 
+    
+  //}
    jecPayloadsAK4chsFinal  .clear();
   jecPayloadsAK8chsFinal  .clear();
   jecPayloadsAK4pupFinal  .clear();
