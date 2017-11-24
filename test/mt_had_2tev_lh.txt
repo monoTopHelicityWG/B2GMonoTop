@@ -1,0 +1,3 @@
+/store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_had_2tev_lh_miniaod.root
+/store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_had_2tev_lh_miniaod001.root
+/store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_had_2tev_lh_miniaod002.root

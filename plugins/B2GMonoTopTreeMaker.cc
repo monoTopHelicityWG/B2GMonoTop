@@ -754,6 +754,37 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       Int_t   HadEventNum                       ;
       Int_t   HadPassMETFilters                 ;  
 
+      std::vector<float>* MuPhi = new std::vector<float>                              ;
+      std::vector<float>* MuPt = new std::vector<float>                               ;
+      std::vector<float>* MuEta = new std::vector<float>                              ;
+      std::vector<float>* MuMass = new std::vector<float>                             ;
+      std::vector<float>* MuIso = new std::vector<float>                                  ;
+      std::vector<int>* MuTight = new std::vector<int>                                ;
+      std::vector<int>* MuMedium = new std::vector<int>                               ;
+      
+
+      std::vector<float>* Electron_Phi = new std::vector<float>                              ;
+      std::vector<float>* Electron_Pt = new std::vector<float>                               ;
+      std::vector<float>* Electron_Eta = new std::vector<float>                              ;
+      std::vector<float>* Electron_Mass = new std::vector<float>                             ;
+      std::vector<float>* Elecron_absiso = new std::vector<float>                         ;
+      std::vector<float>* Elecron_relIsoWithDBeta = new std::vector<float>                ;
+      std::vector<float>* Elecron_absiso_EA = new std::vector<float>                      ;
+      std::vector<float>* Elecron_relIsoWithEA = new std::vector<float>                   ;
+
+      std::vector<int>* Electron_iso_passHLTpre = new std::vector<int>                  ;
+      std::vector<int>* Electron_iso_passLoose = new std::vector<int>                   ;
+      std::vector<int>* Electron_iso_passMedium = new std::vector<int>                  ;
+      std::vector<int>* Electron_iso_passTight = new std::vector<int>                   ;
+      std::vector<int>* Electron_iso_passHEEP = new std::vector<int>                    ;
+      std::vector<int>* Electron_noiso_passLoose = new std::vector<int>                 ;
+      std::vector<int>* Electron_noiso_passMedium = new std::vector<int>                ;
+      std::vector<int>* Electron_noiso_passTight = new std::vector<int>                 ;
+      std::vector<int>* Electron_noiso_passHEEP = new std::vector<int>                  ;
+      
+
+
+
 
 
 //  888                       888                     d8b               88888888888                       
@@ -774,8 +805,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<bool> *LeptTrigPass    = new std::vector<bool>;     
       std::string LeptTrigAcceptBits;
 
-      //Float_t Gen_array_Wd1_p4[4];
-      //Float_t Gen_array_Wd2_p4[4];
+
 
       //Float_t JetPtRaw                               ;      
       //Float_t JetEtaRaw                              ;
@@ -971,6 +1001,13 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("parton2id"                           , & parton2id                           ,  "parton2id/I"                        );
   TreeHad->Branch("Wd1_id"                              , & Wd1_id                              ,  "Wd1_id/I"                           );
   TreeHad->Branch("Wd2_id"                              , & Wd2_id                              ,  "Wd2_id/I"                           ); 
+
+
+
+  TreeHad->Branch("AK4JetLV_pt","vector<float>",&AK4JetLV_pt);
+  TreeHad->Branch("AK4JetLV_eta","vector<float>",&AK4JetLV_eta);
+  TreeHad->Branch("AK4JetLV_phi","vector<float>",&AK4JetLV_phi);
+  TreeHad->Branch("AK4JetLV_mass","vector<float>",&AK4JetLV_mass);
 
 
   //TreeHad->Branch("AK4JetLV_p","vector<TLorentzVector>",&AK4JetLV_p);
@@ -1374,6 +1411,70 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("AK4W2Jet_CorrDn",      & AK4W2Jet_CorrDn ,             "AK4W2Jet_CorrDn/F");     
   TreeHad->Branch("AK4W2Jet_bDisc",      & AK4W2Jet_bDisc ,             "AK4W2Jet_bDisc/F");      
 
+  TreeHad->Branch("AK4JetLV_pt","vector<float>",&AK4JetLV_pt);
+
+  TreeHad->Branch("MuPhi", "vector<float>",&MuPhi);
+  TreeHad->Branch("MuPt", "vector<float>",&MuPt);
+  TreeHad->Branch("MuEta", "vector<float>",&MuEta);
+  TreeHad->Branch("MuMass", "vector<float>",&MuMass);
+  TreeHad->Branch("MuIso", "vector<float>",&MuIso);
+  TreeHad->Branch("MuMedium", "vector<int>", &MuMedium);
+  TreeHad->Branch("MuTight", "vector<int>", &MuTight);
+
+  TreeHad->Branch("Electron_Phi", "vector<float>",&Electron_Phi);
+  TreeHad->Branch("Electron_Pt", "vector<float>",&Electron_Pt);
+  TreeHad->Branch("Electron_Eta", "vector<float>",&Electron_Eta);
+  TreeHad->Branch("Electron_Mass", "vector<float>",&Electron_Mass);
+  TreeHad->Branch("Elecron_absiso", "vector<float>",&Elecron_absiso);
+  TreeHad->Branch("Elecron_relIsoWithDBeta", "vector<float>",&Elecron_relIsoWithDBeta);
+  TreeHad->Branch("Elecron_absiso_EA", "vector<float>",&Elecron_absiso_EA);
+  TreeHad->Branch("Elecron_relIsoWithEA", "vector<float>",&Elecron_relIsoWithEA);
+
+
+
+TreeHad->Branch("Electron_iso_passHLTpre", "vector<int>", &Electron_iso_passHLTpre);
+TreeHad->Branch("Electron_iso_passLoose", "vector<int>", &Electron_iso_passLoose);
+TreeHad->Branch("Electron_iso_passMedium", "vector<int>", &Electron_iso_passMedium);
+TreeHad->Branch("Electron_iso_passTight", "vector<int>", &Electron_iso_passTight);
+TreeHad->Branch("Electron_iso_passHEEP", "vector<int>", &Electron_iso_passHEEP);
+TreeHad->Branch("Electron_noiso_passLoose", "vector<int>", &Electron_noiso_passLoose);
+TreeHad->Branch("Electron_noiso_passMedium", "vector<int>", &Electron_noiso_passMedium);
+TreeHad->Branch("Electron_noiso_passTight", "vector<int>", &Electron_noiso_passTight);
+TreeHad->Branch("Electron_noiso_passHEEP", "vector<int>", &Electron_noiso_passHEEP);
+
+
+
+
+//TreeHad->Branch("MuPhi"                            , &  MuPhi                        , "MuPhi/F"                      ); 
+//TreeHad->Branch("MuPt"                             , &  MuPt                         , "MuPt/F"                       ); 
+//TreeHad->Branch("MuEta"                            , &  MuEta                        , "MuEta/F"                      ); 
+//TreeHad->Branch("MuMass"                           , &  MuMass                       , "MuMass/F"                     ); 
+//TreeHad->Branch("MuMedium"                             , &  MuMedium                         , "MuMedium/I"                       ); 
+//TreeHad->Branch("MuTight"                              , &  MuTight                          , "MuTight/I"                        );
+//TreeHad->Branch("MuIso"                                , &  MuIso                            , "MuIso/F"                          ); 
+
+//TreeHad->Branch("Electron_Phi",        ,& Electron_Phi       ,"Electron_Phi/F"   );
+//TreeHad->Branch("Electron_Pt",       ,& Electron_Pt        ,"Electron_Pt/F"    );
+//TreeHad->Branch("Electron_Eta",        ,& Electron_Eta       ,"Electron_Eta/F"   );
+//TreeHad->Branch("Electron_Mass",       ,& Electron_Mass        ,"Electron_Mass/F"    );
+//TreeHad->Branch("Elecron_absiso",        ,& Elecron_absiso       ,"Elecron_absiso/F"   );
+//TreeHad->Branch("Elecron_relIsoWithDBeta",       ,& Elecron_relIsoWithDBeta        ,"Elecron_relIsoWithDBeta/F"    );
+//TreeHad->Branch("Elecron_absiso_EA",       ,& Elecron_absiso_EA        ,"Elecron_absiso_EA/F"    );
+//TreeHad->Branch("Elecron_relIsoWithEA",        ,& Elecron_relIsoWithEA       ,"Elecron_relIsoWithEA/F"   );
+
+
+//TreeHad->Branch("Electron_iso_passHLTpre",   , & Electron_iso_passHLTpre,      "Electron_iso_passHLTpre/I" );
+//TreeHad->Branch("Electron_iso_passLoose",    , & Electron_iso_passLoose,       "Electron_iso_passLoose/I"  );
+//TreeHad->Branch("Electron_iso_passMedium",   , & Electron_iso_passMedium,      "Electron_iso_passMedium/I" );
+//TreeHad->Branch("Electron_iso_passTight",    , & Electron_iso_passTight,       "Electron_iso_passTight/I"  );
+//TreeHad->Branch("Electron_iso_passHEEP",   , & Electron_iso_passHEEP,      "Electron_iso_passHEEP/I" );
+//TreeHad->Branch("Electron_noiso_passLoose",    , & Electron_noiso_passLoose,       "Electron_noiso_passLoose/I"  );
+//TreeHad->Branch("Electron_noiso_passMedium",   , & Electron_noiso_passMedium,      "Electron_noiso_passMedium/I" );
+//TreeHad->Branch("Electron_noiso_passTight",    , & Electron_noiso_passTight,       "Electron_noiso_passTight/I"  );
+//TreeHad->Branch("Electron_noiso_passHEEP",   , & Electron_noiso_passHEEP,      "Electron_noiso_passHEEP/I" );
+
+
+
 
                        
 
@@ -1461,6 +1562,35 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   using namespace pat;
   using namespace LHAPDF;
   // using namespace fastjet;
+
+
+       MuPhi->clear();
+       MuPt->clear();
+       MuEta->clear();
+       MuMass->clear();
+       MuIso->clear();
+       MuTight->clear();
+       MuMedium->clear();
+      
+
+       Electron_Phi->clear();
+       Electron_Pt->clear();
+       Electron_Eta->clear();
+       Electron_Mass->clear();
+       Elecron_absiso->clear();
+       Elecron_relIsoWithDBeta->clear();
+       Elecron_absiso_EA->clear();
+       Elecron_relIsoWithEA->clear();
+
+       Electron_iso_passHLTpre->clear();
+       Electron_iso_passLoose->clear();
+       Electron_iso_passMedium->clear();
+       Electron_iso_passTight->clear();
+       Electron_iso_passHEEP->clear();
+       Electron_noiso_passLoose->clear();
+       Electron_noiso_passMedium->clear();
+       Electron_noiso_passTight->clear();
+       Electron_noiso_passHEEP->clear();
 
 
   AK4JetLV_pt->clear();
@@ -2177,8 +2307,274 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     cout<<"MET sumEt "<<met.sumEt()<<endl;
     if (!iEvent.isRealData() )  cout<<"genMET "<< met.genMET()->pt()<<endl;
   }
+
+//  888b     d888                            
+//  8888b   d8888                            
+//  88888b.d88888                            
+//  888Y88888P888 888  888  .d88b.  88888b.  
+//  888 Y888P 888 888  888 d88""88b 888 "88b 
+//  888  Y8P  888 888  888 888  888 888  888 
+//  888   "   888 Y88b 888 Y88..88P 888  888 
+//  888       888  "Y88888  "Y88P"  888  888 
+//                                           
+//                                           
+//                                           
   
 
+
+  edm::Handle<pat::MuonCollection> muons;
+  iEvent.getByToken(muonToken_, muons);
+
+  TLorentzVector mu0_p4;
+  bool mu0_isTight=false;
+  bool mu0_isMedium=false;
+  bool mu0_isHighPt = false;
+  double mu0_iso04=0;
+  int count_mu=0;
+
+
+
+
+  std::vector<reco::CandidatePtr> muFootprint;
+
+  for (const pat::Muon &mu : *muons) {
+
+      // use only loose muons 
+      if (mu.pt() < 30 || !mu.isLooseMuon() || fabs( mu.eta() ) > 2.1) continue;
+      // only look at 3 leading muons
+      if (count_mu< 2){
+        mu0_p4.SetPtEtaPhiM( mu.pt(), mu.eta(), mu.phi(), mu.mass() );
+
+        MuPhi->push_back(mu.phi());
+        MuPt->push_back(mu.pt());
+        MuEta->push_back(mu.eta());
+        MuMass->push_back(mu.mass());
+
+
+        // Moriond 2017 short term instructions for medium muon ID
+        //https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideMuonIdRun2
+        bool goodGlob   = mu.isGlobalMuon() && 
+                          mu.globalTrack()->normalizedChi2() < 3 && 
+                          mu.combinedQuality().chi2LocalPosition < 12 && 
+                          mu.combinedQuality().trkKink < 20; 
+        bool isMediumBF = muon::isLooseMuon(mu) && 
+                          mu.innerTrack()->validFraction() > 0.49 && 
+                          muon::segmentCompatibility(mu) > (goodGlob ? 0.303 : 0.451); 
+        bool isMediumStandard = muon::isMediumMuon(mu);
+        bool isMedium   = false;
+        if      (iEvent.isRealData() && runNumber <= 278808) isMedium = isMediumBF;       // Data B-F
+        else if (iEvent.isRealData() && runNumber  > 278808) isMedium = isMediumStandard; // Data G-H
+        else isMedium = isMediumStandard;  // MC 
+        if ( isMedium ) mu0_isMedium = true;
+
+        // Tight ID
+        if ( mu.isTightMuon(PV) ) mu0_isTight = true;
+
+        // HighPt ID
+        bool isHighPt = mu.isHighPtMuon(PV);
+        if ( isHighPt ) mu0_isHighPt = true;
+
+        // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideMuonId#Accessing_PF_Isolation_from_reco
+        double sumChargedHadronPt = mu.pfIsolationR04().sumChargedHadronPt;
+        double sumNeutralHadronPt = mu.pfIsolationR04().sumNeutralHadronEt;
+        double sumPhotonPt        = mu.pfIsolationR04().sumPhotonEt;
+        double sumPUPt            = mu.pfIsolationR04().sumPUPt;
+        double pt                 = mu.pt();
+        double iso04 = (sumChargedHadronPt+TMath::Max(0.,sumNeutralHadronPt+sumPhotonPt-0.5*sumPUPt))/pt;
+       // mu0_iso04 = iso04;
+
+
+        MuIso->push_back(iso04);
+        MuTight->push_back( (int) mu0_isTight);
+        MuMedium->push_back( (int) mu0_isMedium);
+
+        //for (unsigned int i = 0, n = mu.numberOfSourceCandidatePtrs(); i < n; ++i) {
+        //  muFootprint.push_back(mu.sourceCandidatePtr(i));
+        //}
+        if (verbose_) cout<<"Muon pT "<<mu.pt()<<" iso04 "<<iso04<<" isMedium "<<mu0_isTight<<" isTight "<<mu0_isTight<<" isHighPt "<<mu0_isHighPt<<endl;
+      } 
+      // printf("muon with pt %4.1f, dz(PV) %+5.3f, POG loose id %d, tight id %d\n",
+      // mu.pt(), mu.muonBestTrack()->dz(PV.position()), mu.isLooseMuon(), mu.isTightMuon(PV));
+      count_mu++;
+  }
+
+
+//  8888888888 888                   888                             
+//  888        888                   888                             
+//  888        888                   888                             
+//  8888888    888  .d88b.   .d8888b 888888 888d888 .d88b.  88888b.  
+//  888        888 d8P  Y8b d88P"    888    888P"  d88""88b 888 "88b 
+//  888        888 88888888 888      888    888    888  888 888  888 
+//  888        888 Y8b.     Y88b.    Y88b.  888    Y88..88P 888  888 
+//  8888888888 888  "Y8888   "Y8888P  "Y888 888     "Y88P"  888  888 
+//                                                                   
+//                                                                   
+//                                                                   
+
+
+  edm::Handle<edm::View<pat::Electron>> electrons; //Collection
+  iEvent.getByToken(electronToken_, electrons);
+
+  // Get the conversions collection
+  edm::Handle<reco::ConversionCollection> conversions;
+  iEvent.getByToken(conversionsToken_, conversions);
+
+
+  edm::Handle<edm::ValueMap<vid::CutFlowResult> > cutflow_eleId_HLTpre  ;
+  edm::Handle<edm::ValueMap<vid::CutFlowResult> > cutflow_eleId_Loose   ;
+  edm::Handle<edm::ValueMap<vid::CutFlowResult> > cutflow_eleId_Medium  ;
+  edm::Handle<edm::ValueMap<vid::CutFlowResult> > cutflow_eleId_Tight   ;
+  edm::Handle<edm::ValueMap<vid::CutFlowResult> > cutflow_eleId_HEEP    ;
+  iEvent.getByToken(eleIdFullInfoMapToken_HLTpre_   ,   cutflow_eleId_HLTpre   );
+  iEvent.getByToken(eleIdFullInfoMapToken_Loose_    ,   cutflow_eleId_Loose   );
+  iEvent.getByToken(eleIdFullInfoMapToken_Medium_   ,   cutflow_eleId_Medium  );
+  iEvent.getByToken(eleIdFullInfoMapToken_Tight_    ,   cutflow_eleId_Tight   );
+  iEvent.getByToken(eleIdFullInfoMapToken_HEEP_     ,   cutflow_eleId_HEEP    );
+
+
+
+  TLorentzVector el0_p4;
+  Float_t el0_absiso           =0;
+  Float_t el0_relIsoWithDBeta  =0;
+  Float_t el0_absiso_EA        =0;
+  Float_t el0_relIsoWithEA     =0;
+  int el0_iso_passHLTpre    = 0;
+  int el0_iso_passLoose     = 0;
+  int el0_iso_passMedium    = 0;
+  int el0_iso_passTight     = 0;
+  int el0_iso_passHEEP      = 0;
+  int el0_noiso_passLoose   = 0;
+  int el0_noiso_passMedium  = 0;
+  int el0_noiso_passTight   = 0;
+  int el0_noiso_passHEEP    = 0;
+  int count_el=0;
+
+  for (size_t i = 0; i < electrons->size(); ++i){   
+    const auto el = electrons->ptrAt(i);          // easier if we use ptrs for the id
+    if (el->pt() < 30 || fabs(el->eta())>2.4 ) continue;
+
+     // electron ID
+    vid::CutFlowResult full_cutflow_HLTpre = (*cutflow_eleId_HLTpre )[el];
+    vid::CutFlowResult full_cutflow_Loose  = (*cutflow_eleId_Loose  )[el];
+    vid::CutFlowResult full_cutflow_Medium = (*cutflow_eleId_Medium )[el];
+    vid::CutFlowResult full_cutflow_Tight  = (*cutflow_eleId_Tight  )[el];
+    vid::CutFlowResult full_cutflow_HEEP   = (*cutflow_eleId_HEEP   )[el];
+
+    bool iso_passHLTpre   =  full_cutflow_HLTpre.cutFlowPassed();
+    bool iso_passLoose    =  full_cutflow_Loose .cutFlowPassed();
+    bool iso_passMedium   =  full_cutflow_Medium.cutFlowPassed();
+    bool iso_passTight    =  full_cutflow_Tight .cutFlowPassed();
+    bool iso_passHEEP     =  full_cutflow_HEEP  .cutFlowPassed();
+
+    // get electron ID without isolation cuts
+    vid::CutFlowResult masked_cutflow_Loose  = full_cutflow_Loose     .getCutFlowResultMasking(7); // 7 = GsfEleEffAreaPFIsoCut_0
+    vid::CutFlowResult masked_cutflow_Medium = full_cutflow_Medium    .getCutFlowResultMasking(7); // 7 = GsfEleEffAreaPFIsoCut_0
+    vid::CutFlowResult masked_cutflow_Tight  = full_cutflow_Tight     .getCutFlowResultMasking(7); // 7 = GsfEleEffAreaPFIsoCut_0
+
+    std::vector<std::string> maskCuts;
+    // maskCuts.push_back("GsfEleTrkPtIsoCut_0");  // OLD HEEP v6 only
+    maskCuts.push_back("GsfEleValueMapIsoRhoCut_0"); // new in HEEP v7
+    maskCuts.push_back("GsfEleEmHadD1IsoRhoCut_0");
+    vid::CutFlowResult masked_cutflow_HEEP   = full_cutflow_HEEP      .getCutFlowResultMasking(maskCuts);
+
+    bool noiso_passLoose    =  masked_cutflow_Loose .cutFlowPassed();
+    bool noiso_passMedium   =  masked_cutflow_Medium.cutFlowPassed();
+    bool noiso_passTight    =  masked_cutflow_Tight .cutFlowPassed();
+    bool noiso_passHEEP     =  masked_cutflow_HEEP  .cutFlowPassed();
+
+    if (verbose_){
+      cout<<"full_cutflow_Loose"<<endl;
+      printCutFlowResult(full_cutflow_Loose);
+      cout<<"masked_cutflow_Loose"<<endl;
+      printCutFlowResult(masked_cutflow_Loose);
+      cout<<"masked_cutflow_HEEP"<<endl;
+      printCutFlowResult(masked_cutflow_HEEP);
+    }
+
+
+    bool electronEvent = noiso_passLoose || noiso_passHEEP;
+    if (electronEvent){
+      if (count_el==0){
+        if (verbose_) cout<<"Electron pT "<<el->pt()<<endl;
+
+        //calculate isolation variables    
+        GsfElectron::PflowIsolationVariables pfIso = el->pfIsolationVariables();
+        float absiso = pfIso.sumChargedHadronPt + max(0.0 , pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - 0.5 * pfIso.sumPUPt );
+        float relIsoWithDBeta = absiso/el->pt();
+        float eta = el->eta();
+
+        float effArea = 0.;
+        if(abs(eta)>0.0 && abs(eta)<=1.0) effArea = 0.1752;
+        if(abs(eta)>1.0 && abs(eta)<=1.479) effArea = 0.1862;
+        if(abs(eta)>1.479 && abs(eta)<=2.0) effArea = 0.1411;
+        if(abs(eta)>2.0 && abs(eta)<=2.2) effArea = 0.1534;
+        if(abs(eta)>2.2 && abs(eta)<=2.3) effArea = 0.1903;
+        if(abs(eta)>2.3 && abs(eta)<=2.4) effArea = 0.2243;
+        if(abs(eta)>2.4 && abs(eta)<=2.5) effArea = 0.2687;
+
+        float absiso_EA = pfIso.sumChargedHadronPt + max(0.0 , pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - rho * effArea );
+        float relIsoWithEA = absiso_EA/el->pt();
+
+       // el0_p4.SetPtEtaPhiM( el->pt(), el->eta(), el->phi(), el->mass() );
+
+
+
+
+        el0_iso_passHLTpre    = (int) iso_passHLTpre   ;
+        el0_iso_passLoose     = (int) iso_passLoose    ;
+        el0_iso_passMedium    = (int) iso_passMedium   ;
+        el0_iso_passTight     = (int) iso_passTight    ;
+        el0_iso_passHEEP      = (int) iso_passHEEP     ;
+        el0_noiso_passLoose   = (int) noiso_passLoose  ;
+        el0_noiso_passMedium  = (int) noiso_passMedium ;
+        el0_noiso_passTight   = (int) noiso_passTight  ;
+        el0_noiso_passHEEP    = (int) noiso_passHEEP   ;
+
+
+        Electron_Phi->push_back(el->phi());
+        Electron_Pt->push_back(el->pt());
+        Electron_Eta->push_back(el->eta());
+        Electron_Mass->push_back(el->mass());
+
+        Elecron_absiso->push_back(absiso);
+        Elecron_relIsoWithDBeta->push_back(relIsoWithDBeta);
+        Elecron_absiso_EA->push_back(absiso_EA);
+        Elecron_relIsoWithEA->push_back(relIsoWithEA);
+        Electron_iso_passHLTpre->push_back(el0_iso_passHLTpre);
+        Electron_iso_passLoose->push_back(el0_iso_passLoose);
+        Electron_iso_passMedium->push_back(el0_iso_passMedium);
+        Electron_iso_passTight->push_back(el0_iso_passTight);
+        Electron_iso_passHEEP->push_back(el0_iso_passHEEP);
+        Electron_noiso_passLoose->push_back(el0_noiso_passLoose);
+        Electron_noiso_passMedium->push_back(el0_noiso_passMedium);
+        Electron_noiso_passTight->push_back(el0_noiso_passTight);
+        Electron_noiso_passHEEP->push_back(el0_noiso_passHEEP);
+
+        //for (unsigned int i = 0, n = el->numberOfSourceCandidatePtrs(); i < n; ++i) {
+        //  elFootprint.push_back(el->sourceCandidatePtr(i));
+        //}
+      } 
+      count_el++;
+    }
+    //printf("elec with pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes), lost hits %d, pass conv veto %d\n",
+    //              el.pt(), el.superCluster()->eta(), el.sigmaIetaIeta(), el.full5x5_sigmaIetaIeta(), el.gsfTrack()->trackerExpectedHitsInner().numberOfLostHits(), el.passConversionVeto());
+  }
+
+
+
+Elecron_absiso = new std::vector<float>                         ;
+Elecron_relIsoWithDBeta = new std::vector<float>                ;
+Elecron_absiso_EA = new std::vector<float>                      ;
+Elecron_relIsoWithEA = new std::vector<float>                   ;
+Electron_iso_passHLTpre = new std::vector<int>                  ;
+Electron_iso_passLoose = new std::vector<int>                   ;
+Electron_iso_passMedium = new std::vector<int>                  ;
+Electron_iso_passTight = new std::vector<int>                   ;
+Electron_iso_passHEEP = new std::vector<int>                    ;
+Electron_noiso_passLoose = new std::vector<int>                 ;
+Electron_noiso_passMedium = new std::vector<int>                ;
+Electron_noiso_passTight = new std::vector<int>                 ;
+Electron_noiso_passHEEP = new std::vector<int>                  ;
 
 
   //      
@@ -4520,6 +4916,19 @@ if (count_AK4CHS > 0){
         //MuMedium = (int) mu0_isMedium   ;
         //MuTight  = (int) mu0_isTight    ;
         //MuHighPt = (int) mu0_isHighPt   ;
+
+
+       // MuPhi  = mu0_p4.Phi();
+       // MuEta  = mu0_p4.Eta();
+       // MuMass  = mu0_p4.M();
+       // MuPt  = mu0_p4.Pt();
+
+        //MuMedium = (int) mu0_isMedium;
+        //MuTight  = (int) mu0_isTight;
+        //MuIso = (int) mu0_iso04;
+
+
+
 
         TreeHad -> Fill();
       }// end rapidity selection
