@@ -275,6 +275,8 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       TH1D * h_NPVgoodreweighted ;     
 
       // -- Triggers to be saved in tree
+      std::vector<std::string> trigsToRunHad;
+      std::vector<std::string> trigsToRunMu;
       std::vector<std::string> trigsToRun;
 
 
@@ -294,9 +296,22 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
     
       TTree *TreeHad; 
 
+      std::vector<int>  *HadTrigPrescalesMu = new std::vector<int>  ;
+      std::vector<bool> *HadTrigPassMu      = new std::vector<bool> ;
+      std::string HadTrigAcceptBitsMu;
+
+      std::vector<int>  *HadTrigPrescalesHad = new std::vector<int>  ;
+      std::vector<bool> *HadTrigPassHad      = new std::vector<bool> ;
+      std::string HadTrigAcceptBitsHad;
+
       std::vector<int>  *HadTrigPrescales = new std::vector<int>  ;
       std::vector<bool> *HadTrigPass      = new std::vector<bool> ;
       std::string HadTrigAcceptBits;
+
+      std::vector<std::string>  *HLTtriggers = new std::vector<std::string>  ;
+      std::vector<bool> *HLTtriggersPass      = new std::vector<bool> ;
+      std::vector<int>  *HLTtriggersPrescales = new std::vector<int>  ;
+
 
 
       double uncorrected_err = 0;
@@ -924,7 +939,22 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   h_NPVgood                          =  fs->make<TH1D>("h_NPVgood"                         ,"",200,0,200);
   h_NPVgoodreweighted                =  fs->make<TH1D>("h_NPVgoodreweighted"               ,"",200,0,200);
 
+  trigsToRunMu.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v1");
+  trigsToRunMu.push_back("HLT_PFMET120_BTagCSV_p067_v2");
+  trigsToRunMu.push_back("HLT_PFMET120_BTagCSV_p067_v2");
+  trigsToRunMu.push_back("HLT_PFMET120_Mu5_v2");
 
+
+  trigsToRunHad.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v1");
+  trigsToRunHad.push_back("HLT_PFMET300_v2");
+  trigsToRunHad.push_back("HLT_PFMET400_v2");
+  trigsToRunHad.push_back("HLT_PFMET500_v2");
+  trigsToRunHad.push_back("HLT_PFMET600_v2");
+
+  trigsToRun.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v1");
+  trigsToRun.push_back("HLT_PFMET120_BTagCSV_p067_v2");
+  trigsToRun.push_back("HLT_PFMET120_Mu5_v2");
+  trigsToRun.push_back("HLT_Ele10_CaloIdM_TrackIdM_CentralPFJet30_BTagCSV_p13_v2");
   trigsToRun.push_back("HLT_PFHT300_v");
   trigsToRun.push_back("HLT_PFHT350_v");
   trigsToRun.push_back("HLT_PFHT400_v");
@@ -935,8 +965,8 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   trigsToRun.push_back("HLT_PFHT900_v");
   trigsToRun.push_back("HLT_PFHT650_WideJetMJJ900"); //HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_v6
   trigsToRun.push_back("HLT_PFHT650_WideJetMJJ950"); //HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_v6
-
-  // Single jet
+//
+  //// Single jet
   trigsToRun.push_back("HLT_CaloJet500_NoJetID_v");
   trigsToRun.push_back("HLT_PFJet320_v");
   trigsToRun.push_back("HLT_PFJet400_v");
@@ -944,17 +974,17 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   trigsToRun.push_back("HLT_PFJet500_v");
   trigsToRun.push_back("HLT_AK8PFJet450_v");
   trigsToRun.push_back("HLT_AK8PFJet500_v");
-
-  // Substructure
+//
+  //// Substructure
   trigsToRun.push_back("HLT_AK8PFJet360_TrimMass30_v");
   trigsToRun.push_back("HLT_AK8PFHT650_TrimR0p1PT0p03Mass50_v");
   trigsToRun.push_back("HLT_AK8PFHT700_TrimR0p1PT0p03Mass50_v");
-
-  // Substructure + b-tag
+//
+  //// Substructure + b-tag
   trigsToRun.push_back("HLT_AK8PFHT600_TrimR0p1PT0p03Mass50_BTagCSV_p20_v");
   trigsToRun.push_back("HLT_AK8DiPFJet280_200_TrimMass30_BTagCSV_p20_v");
-
-  // Muon
+//
+  //// Muon
   trigsToRun.push_back("HLT_Mu45_eta2p1_v");
   trigsToRun.push_back("HLT_Mu50_v");
   trigsToRun.push_back("HLT_Mu55_v");
@@ -962,17 +992,17 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   trigsToRun.push_back("HLT_IsoMu22_eta2p1_v");
   trigsToRun.push_back("HLT_IsoMu24_v");
   trigsToRun.push_back("HLT_IsoMu27_v");
-
-  // Muon + jet
+//
+  //// Muon + jet
   trigsToRun.push_back("HLT_Mu30_eta2p1_PFJet150_PFJet50_v");
   trigsToRun.push_back("HLT_Mu40_eta2p1_PFJet200_PFJet50_v");
-
-  // Electron
+//
+  //// Electron
   trigsToRun.push_back("HLT_Ele32_eta2p1_WPTight_Gsf_v");
   trigsToRun.push_back("HLT_Ele35_WPLoose_Gsf_v");
   trigsToRun.push_back("HLT_Ele105_CaloIdVT_GsfTrkIdT_v");
   trigsToRun.push_back("HLT_Ele115_CaloIdVT_GsfTrkIdT_v");
-
+//
   // Electron + jet
   trigsToRun.push_back("HLT_Ele45_CaloIdVT_GsfTrkIdT_PFJet200_PFJet50_v");
   trigsToRun.push_back("HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet140_v");
@@ -998,10 +1028,21 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
 
   TreeHad = new TTree("TreeHad","TreeHad"); 
 
+  TreeHad->Branch("HLTtriggers"        , "vector<std::string>", &HLTtriggers);
+  TreeHad->Branch("HLTtriggersPass"        , "vector<bool>", &HLTtriggersPass);
+  TreeHad->Branch("HLTtriggersPrescales"        , "vector<int>", &HLTtriggersPrescales);
 
   TreeHad->Branch("HadTrigPrescales"   , "vector<int>", &HadTrigPrescales);
   TreeHad->Branch("HadTrigPass"        , "vector<bool>", &HadTrigPass);
   TreeHad->Branch("HadTrigAcceptBits"  , &HadTrigAcceptBits);
+
+  TreeHad->Branch("HadTrigPrescalesMu"   , "vector<int>", &HadTrigPrescalesMu);
+  TreeHad->Branch("HadTrigPassMu"        , "vector<bool>", &HadTrigPassMu);
+  TreeHad->Branch("HadTrigAcceptBitsMu"  , &HadTrigAcceptBitsMu);
+
+  TreeHad->Branch("HadTrigPrescalesHad"   , "vector<int>", &HadTrigPrescalesHad);
+  TreeHad->Branch("HadTrigPassHad"        , "vector<bool>", &HadTrigPassHad);
+  TreeHad->Branch("HadTrigAcceptBitsHad"  , &HadTrigAcceptBitsHad);
                         
 
   TreeHad->Branch("Gen_array_t_p4"                   , & Gen_array_t_p4                   ,  "Gen_array_t_p4[4]/F"                      );
@@ -1846,6 +1887,9 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   iEvent.getByToken(triggerObjects_, triggerObjects);
   iEvent.getByToken(triggerPrescales_, triggerPrescales);
 
+
+  
+
   const int ntrigs = trigsToRun.size();
   if (verbose_) cout<<"trigsToRun size "<<ntrigs<<endl;
 
@@ -1860,9 +1904,35 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   HadTrigPass        ->clear();
   LeptTrigPass      ->clear();
 
+  HadTrigPrescalesMu   ->clear();
+  HadTrigPassMu        ->clear();
+  
+
+  HadTrigPrescalesHad   ->clear();
+  HadTrigPassHad        ->clear();
+  HLTtriggers->clear();
+  HLTtriggersPass->clear();
+  HLTtriggersPrescales->clear();
+
   const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
   if (verbose_) std::cout << "\n === TRIGGER PATHS === " << std::endl;
   int counttrigs =0;
+
+  string name = "";
+  for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
+     name = names.triggerName(i);
+     HLTtriggers->push_back(name);
+
+    bool pass = false;
+    int accept = triggerBits->accept(i) ;
+    int prescale = 0;
+    if (accept ==1 ) pass = true;
+    prescale = triggerPrescales->getPrescaleForIndex(i)  ;
+
+    HLTtriggersPass->push_back(pass);
+    HLTtriggersPrescales->push_back(prescale);
+  }
+
 
   // Loop over the list of triggers to save
   for (unsigned int j=0; j<trigsToRun.size(); j++){ 
@@ -1878,6 +1948,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       name = names.triggerName(i);
       std::size_t found = name.find( trigsToRun[j] );
 
+ 	//std::cout << "trigg: " << name << std::endl;
       // If the trigger from the trigger list is found in the event check if it passed
       if ( found !=std::string::npos ) {
         foundtrig = true;
@@ -1902,6 +1973,76 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       counttrigs++;
   
   }// end loop over list of triggers to save in tree
+
+  for (unsigned int j=0; j<trigsToRunMu.size(); j++){ 
+    if (verbose_) cout<<"try to find "<<setw(50)<< trigsToRunMu[j];
+    
+    bool foundtrig  = false;
+    bool pass = false;
+    int prescale = 0;
+    string name = "";
+    // Loop over all triggers in the event
+    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
+      
+      name = names.triggerName(i);
+      std::size_t found = name.find( trigsToRunMu[j] );
+
+      // If the trigger from the trigger list is found in the event check if it passed
+      if ( found !=std::string::npos ) {
+        foundtrig = true;
+        int accept = triggerBits->accept(i) ;
+        if (accept ==1 ) pass = true;
+        prescale = triggerPrescales->getPrescaleForIndex(i)  ;
+        break;
+      }
+    }// end loop over all triggers in event
+
+    if (verbose_ && foundtrig)  cout<<"  -> found. pass = "<<pass << ", prescale = " << prescale<<", name = "<< name  << std::endl; 
+    if (verbose_ && !foundtrig) cout<<"  -> did not find "<< trigsToRunMu[j]<<endl;
+
+      // HadTrigNames       ->push_back(name);
+      // LeptTrigNames     ->push_back(name);
+      HadTrigPrescalesMu   ->push_back(prescale);
+      HadTrigPassMu        ->push_back(pass);
+      if (pass)  hltbit[counttrigs]=1;  
+      counttrigs++; 
+  }
+
+  for (unsigned int j=0; j<trigsToRunHad.size(); j++){ 
+    if (verbose_) cout<<"try to find "<<setw(50)<< trigsToRunHad[j];
+    
+    bool foundtrig  = false;
+    bool pass = false;
+    int prescale = 0;
+    string name = "";
+    // Loop over all triggers in the event
+    for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
+      
+      name = names.triggerName(i);
+      std::size_t found = name.find( trigsToRunHad[j] );
+
+      // If the trigger from the trigger list is found in the event check if it passed
+      if ( found !=std::string::npos ) {
+        foundtrig = true;
+        int accept = triggerBits->accept(i) ;
+        if (accept ==1 ) pass = true;
+        prescale = triggerPrescales->getPrescaleForIndex(i)  ;
+        break;
+      }
+    }// end loop over all triggers in event
+
+    if (verbose_ && foundtrig)  cout<<"  -> found. pass = "<<pass << ", prescale = " << prescale<<", name = "<< name  << std::endl; 
+    if (verbose_ && !foundtrig) cout<<"  -> did not find "<< trigsToRunHad[j]<<endl;
+
+      // HadTrigNames       ->push_back(name);
+      // LeptTrigNames     ->push_back(name);
+      HadTrigPrescalesHad   ->push_back(prescale);
+      HadTrigPassHad        ->push_back(pass);
+      if (pass)  hltbit[counttrigs]=1;  
+      counttrigs++; 
+  }
+
+
 
   if (verbose_) {
     cout<<"trig accept vector. size = "<<trigAccept.size()<<" contents = "<<endl;
