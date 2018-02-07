@@ -939,22 +939,22 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   h_NPVgood                          =  fs->make<TH1D>("h_NPVgood"                         ,"",200,0,200);
   h_NPVgoodreweighted                =  fs->make<TH1D>("h_NPVgoodreweighted"               ,"",200,0,200);
 
-  trigsToRunMu.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v1");
-  trigsToRunMu.push_back("HLT_PFMET120_BTagCSV_p067_v2");
-  trigsToRunMu.push_back("HLT_PFMET120_BTagCSV_p067_v2");
-  trigsToRunMu.push_back("HLT_PFMET120_Mu5_v2");
+  trigsToRunMu.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v");
+  trigsToRunMu.push_back("HLT_PFMET120_BTagCSV_p067_v");
+  trigsToRunMu.push_back("HLT_PFMET120_BTagCSV_p067_v");
+  trigsToRunMu.push_back("HLT_PFMET120_Mu5_v");
 
 
-  trigsToRunHad.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v1");
-  trigsToRunHad.push_back("HLT_PFMET300_v2");
-  trigsToRunHad.push_back("HLT_PFMET400_v2");
-  trigsToRunHad.push_back("HLT_PFMET500_v2");
-  trigsToRunHad.push_back("HLT_PFMET600_v2");
+  trigsToRunHad.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v");
+  trigsToRunHad.push_back("HLT_PFMET300_v");
+  trigsToRunHad.push_back("HLT_PFMET400_v");
+  trigsToRunHad.push_back("HLT_PFMET500_v");
+  trigsToRunHad.push_back("HLT_PFMET600_v");
 
-  trigsToRun.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v1");
-  trigsToRun.push_back("HLT_PFMET120_BTagCSV_p067_v2");
-  trigsToRun.push_back("HLT_PFMET120_Mu5_v2");
-  trigsToRun.push_back("HLT_Ele10_CaloIdM_TrackIdM_CentralPFJet30_BTagCSV_p13_v2");
+  trigsToRun.push_back("HLT_PFMET120_NoiseCleaned_BTagCSV07_v");
+  trigsToRun.push_back("HLT_PFMET120_BTagCSV_p067_v");
+  trigsToRun.push_back("HLT_PFMET120_Mu5_v");
+  trigsToRun.push_back("HLT_Ele10_CaloIdM_TrackIdM_CentralPFJet30_BTagCSV_p13_v");
   trigsToRun.push_back("HLT_PFHT300_v");
   trigsToRun.push_back("HLT_PFHT350_v");
   trigsToRun.push_back("HLT_PFHT400_v");
