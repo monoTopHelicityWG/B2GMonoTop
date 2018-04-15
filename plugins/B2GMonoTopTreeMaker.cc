@@ -267,21 +267,27 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       TH1D * h_trigger_efficency_1;
       TH1D * h_trigger_efficency_2;
       TH1D * h_trigger_efficency_3;
+      TH1D * h_trigger_efficency_4;
       TH1D * h_trigger_accept_1;
       TH1D * h_trigger_accept_2;
       TH1D * h_trigger_accept_3;
+      TH1D * h_trigger_accept_4;
       TH1D * h_trigger_reject_1;
       TH1D * h_trigger_reject_2;
       TH1D * h_trigger_reject_3;
+      TH1D * h_trigger_reject_4;
       TH1D * h_trigger_efficency_1_topPt;
       TH1D * h_trigger_efficency_2_topPt;
       TH1D * h_trigger_efficency_3_topPt;
+      TH1D * h_trigger_efficency_4_topPt;
       TH1D * h_trigger_accept_1_topPt;
       TH1D * h_trigger_accept_2_topPt;
       TH1D * h_trigger_accept_3_topPt;
+      TH1D * h_trigger_accept_4_topPt;
       TH1D * h_trigger_reject_1_topPt;
       TH1D * h_trigger_reject_2_topPt;
       TH1D * h_trigger_reject_3_topPt;
+      TH1D * h_trigger_reject_4_topPt;
       // TH1D * h_ak8puppi_softDropMass          ;
       // TH1D * h_ak8chs_softDropMass            ;
       // TH1D * h_ak8chs_softDropMass_reweighted ;
@@ -337,6 +343,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       bool PFMET120_BTagCSV_Mu5_Trigger = false;
       bool PFMET300_Trigger = false;
       bool HLT_PFMET120_PFMHT120_Trigger = false;
+      bool HLT_PFMET170_Trigger = false;
 
       double uncorrected_err = 0;
       double uncorrected_se= 0;
@@ -957,27 +964,33 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   h_cutflow_had                      =  fs->make<TH1D>("h_cutflow_had"                     ,"",20,0,20);
   h_cutflow_lept                     =  fs->make<TH1D>("h_cutflow_lept"                    ,"",20,0,20);
 
-  h_trigger_efficency_1               = fs->make<TH1D>("h_trigger_efficency_1", "trigger efficency vs //MET btag + mu", 100, 0, 1200);
-  h_trigger_efficency_2               = fs->make<TH1D>("h_trigger_efficency_2", "trigger efficency vs //MET pfmet300", 100, 0, 1200);
-  h_trigger_efficency_3               = fs->make<TH1D>("h_trigger_efficency_3", "trigger efficency vs //MET 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_efficency_1               = fs->make<TH1D>("h_trigger_efficency_1", "trigger efficency vs MET btag + mu", 100, 0, 1200);
+  h_trigger_efficency_2               = fs->make<TH1D>("h_trigger_efficency_2", "trigger efficency vs MET pfmet300", 100, 0, 1200);
+  h_trigger_efficency_3               = fs->make<TH1D>("h_trigger_efficency_3", "trigger efficency vs MET 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_efficency_4               = fs->make<TH1D>("h_trigger_efficency_4", "trigger efficency vs MET 170 ", 100, 0, 1200);
 
-  h_trigger_accept_1               = fs->make<TH1D>("h_trigger_accept_1", "trigger accept vs //MET btag + mu", 100, 0, 1200);
-  h_trigger_accept_2               = fs->make<TH1D>("h_trigger_accept_2", "trigger accept vs //MET pfmet300", 100, 0, 1200);
-  h_trigger_accept_3               = fs->make<TH1D>("h_trigger_accept_3", "trigger accept vs //MET 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_accept_1               = fs->make<TH1D>("h_trigger_accept_1", "trigger accept vs MET btag + mu", 100, 0, 1200);
+  h_trigger_accept_2               = fs->make<TH1D>("h_trigger_accept_2", "trigger accept vs MET pfmet300", 100, 0, 1200);
+  h_trigger_accept_3               = fs->make<TH1D>("h_trigger_accept_3", "trigger accept vs MET 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_accept_4               = fs->make<TH1D>("h_trigger_accept_4", "trigger accept vs MET 170", 100, 0, 1200);
 
   h_trigger_reject_1               = fs->make<TH1D>("h_trigger_reject_1", "trigger reject valuesGen Met", 100, 0, 1200);
   h_trigger_reject_2               = fs->make<TH1D>("h_trigger_reject_2", "trigger reject valuesGen Met", 100, 0, 1200);
   h_trigger_reject_3               = fs->make<TH1D>("h_trigger_reject_3", "trigger reject valuesGen Met", 100, 0, 1200);
+  h_trigger_reject_4               = fs->make<TH1D>("h_trigger_reject_4", "trigger reject valuesGen Met", 100, 0, 1200);
 
   h_trigger_efficency_1_topPt               = fs->make<TH1D>("h_trigger_efficency_1_topPt", "trigger efficency vs Gen Top p_{T} btag + mu", 100, 0, 1200);
   h_trigger_efficency_2_topPt               = fs->make<TH1D>("h_trigger_efficency_2_topPt", "trigger efficency vs Gen Top p_{T} pfmet300", 100, 0, 1200);
   h_trigger_efficency_3_topPt               = fs->make<TH1D>("h_trigger_efficency_3_topPt", "trigger efficency vs Gen Top p_{T} 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_efficency_4_topPt               = fs->make<TH1D>("h_trigger_efficency_4_topPt", "trigger efficency vs Gen Top p_{T} 120met + 120 MHT", 100, 0, 1200);
   h_trigger_accept_1_topPt               = fs->make<TH1D>("h_trigger_accept_1_topPt", "trigger accept vs Gen Top p_{T} btag + mu", 100, 0, 1200);
   h_trigger_accept_2_topPt               = fs->make<TH1D>("h_trigger_accept_2_topPt", "trigger accept vs Gen Top p_{T} pfmet300", 100, 0, 1200);
   h_trigger_accept_3_topPt               = fs->make<TH1D>("h_trigger_accept_3_topPt", "trigger accept vs Gen Top p_{T} 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_accept_4_topPt               = fs->make<TH1D>("h_trigger_accept_4_topPt", "trigger accept vs Gen Top p_{T} 120met + 120 MHT", 100, 0, 1200);
   h_trigger_reject_1_topPt               = fs->make<TH1D>("h_trigger_reject_1_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
   h_trigger_reject_2_topPt               = fs->make<TH1D>("h_trigger_reject_2_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
   h_trigger_reject_3_topPt               = fs->make<TH1D>("h_trigger_reject_3_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
+  h_trigger_reject_4_topPt               = fs->make<TH1D>("h_trigger_reject_4_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
   // h_ak8puppi_softDropMass            =  fs->make<TH1D>("h_ak8puppi_softDropMass"           ,"",200,0,400);
   // h_ak8chs_softDropMass              =  fs->make<TH1D>("h_ak8chs_softDropMass"             ,"",200,0,400);
   // h_ak8chs_softDropMass_reweighted   =  fs->make<TH1D>("h_ak8chs_softDropMass_reweighted"  ,"",200,0,400);
@@ -1697,6 +1710,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       PFMET120_BTagCSV_Mu5_Trigger = false;
       PFMET300_Trigger = false;
       HLT_PFMET120_PFMHT120_Trigger = false;
+      HLT_PFMET170_Trigger =  false;
 
        MuPhi->clear();
        MuPt->clear();
@@ -2001,6 +2015,9 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       
     } else if(pass && (name.find("HLT_PFMET300_v2") !=std::string::npos)  ) {
       PFMET300_Trigger = true;
+      
+    }else if(pass && ( name.find("HLT_PFMET170_NoiseCleaned_v") !=std::string::npos or name.find("HLT_PFMET170_HBHECleaned_v") !=std::string::npos or name.find("HLT_PFMET170_JetIdCleaned_v") !=std::string::npos or name.find("HLT_PFMET170_BeamHaloCleaned_v") !=std::string::npos )  ) {
+      HLT_PFMET170_Trigger = true;
       
     }
 
@@ -5286,7 +5303,17 @@ if (count_AK4CHS > 0){
       } else {
         h_trigger_reject_3->Fill(met.pt());
         h_trigger_reject_3_topPt->Fill(t_p4.Pt());
+      } 
+      if(HLT_PFMET170_Trigger){
+        h_trigger_efficency_4->Fill(met.pt());
+        h_trigger_accept_4->Fill(met.pt());
+        h_trigger_efficency_4_topPt->Fill(t_p4.Pt());
+        h_trigger_accept_4_topPt->Fill(t_p4.Pt());
+      } else {
+        h_trigger_reject_4->Fill(met.pt());
+        h_trigger_reject_4_topPt->Fill(t_p4.Pt());
       }
+
     }
 
 
@@ -5601,10 +5628,11 @@ B2GMonoTopTreeMaker::endJob()
   computeEfficencyHist(h_trigger_efficency_1, h_trigger_reject_1);
   computeEfficencyHist(h_trigger_efficency_2, h_trigger_reject_2);
   computeEfficencyHist(h_trigger_efficency_3, h_trigger_reject_3);
+  computeEfficencyHist(h_trigger_efficency_4, h_trigger_reject_4);
   computeEfficencyHist(h_trigger_efficency_1_topPt, h_trigger_reject_1_topPt);
   computeEfficencyHist(h_trigger_efficency_2_topPt, h_trigger_reject_2_topPt);
   computeEfficencyHist(h_trigger_efficency_3_topPt, h_trigger_reject_3_topPt);
-
+  computeEfficencyHist(h_trigger_efficency_4_topPt, h_trigger_reject_4_topPt);
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
