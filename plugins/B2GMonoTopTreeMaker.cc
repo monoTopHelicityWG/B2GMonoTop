@@ -216,6 +216,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
   
       // Grab from configuration file
     
+
       bool verbose_         ;
       bool verboseGen_      ;
       
@@ -263,6 +264,24 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       // A few basic histograms
       TH1D * h_cutflow_had ;
       TH1D * h_cutflow_lept;
+      TH1D * h_trigger_efficency_1;
+      TH1D * h_trigger_efficency_2;
+      TH1D * h_trigger_efficency_3;
+      TH1D * h_trigger_accept_1;
+      TH1D * h_trigger_accept_2;
+      TH1D * h_trigger_accept_3;
+      TH1D * h_trigger_reject_1;
+      TH1D * h_trigger_reject_2;
+      TH1D * h_trigger_reject_3;
+      TH1D * h_trigger_efficency_1_topPt;
+      TH1D * h_trigger_efficency_2_topPt;
+      TH1D * h_trigger_efficency_3_topPt;
+      TH1D * h_trigger_accept_1_topPt;
+      TH1D * h_trigger_accept_2_topPt;
+      TH1D * h_trigger_accept_3_topPt;
+      TH1D * h_trigger_reject_1_topPt;
+      TH1D * h_trigger_reject_2_topPt;
+      TH1D * h_trigger_reject_3_topPt;
       // TH1D * h_ak8puppi_softDropMass          ;
       // TH1D * h_ak8chs_softDropMass            ;
       // TH1D * h_ak8chs_softDropMass_reweighted ;
@@ -279,6 +298,9 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<std::string> trigsToRunMu;
       std::vector<std::string> trigsToRun;
 
+
+      Int_t nEvents = 0;
+      Int_t totalEvents = 0;
 
 //  888    888               888                          d8b               88888888888                       
 //  888    888               888                          Y8P                   888                           
@@ -312,13 +334,18 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<bool> *HLTtriggersPass      = new std::vector<bool> ;
       std::vector<int>  *HLTtriggersPrescales = new std::vector<int>  ;
 
-
+      bool PFMET120_BTagCSV_Mu5_Trigger = false;
+      bool PFMET300_Trigger = false;
+      bool HLT_PFMET120_PFMHT120_Trigger = false;
 
       double uncorrected_err = 0;
       double uncorrected_se= 0;
       double corrected_err = 0;
       double corrected_se= 0;
 
+      Float_t Gen_MET_pT;
+      Float_t Gen_MET_phi;
+      Float_t Gen_MET_eta;
       Float_t Gen_array_t_p4[4];
       Float_t Gen_array_final_t_p4[4];
       Float_t Gen_array_b_p4[4];
@@ -791,6 +818,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<float>* MuEta = new std::vector<float>                              ;
       std::vector<float>* MuMass = new std::vector<float>                             ;
       std::vector<float>* MuIso = new std::vector<float>                                  ;
+      std::vector<float>* MuIsoTrk = new std::vector<float>                                  ;
       std::vector<int>* MuTight = new std::vector<int>                                ;
       std::vector<int>* MuMedium = new std::vector<int>                               ;
       
@@ -928,6 +956,28 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
 
   h_cutflow_had                      =  fs->make<TH1D>("h_cutflow_had"                     ,"",20,0,20);
   h_cutflow_lept                     =  fs->make<TH1D>("h_cutflow_lept"                    ,"",20,0,20);
+
+  h_trigger_efficency_1               = fs->make<TH1D>("h_trigger_efficency_1", "trigger efficency vs //MET btag + mu", 100, 0, 1200);
+  h_trigger_efficency_2               = fs->make<TH1D>("h_trigger_efficency_2", "trigger efficency vs //MET pfmet300", 100, 0, 1200);
+  h_trigger_efficency_3               = fs->make<TH1D>("h_trigger_efficency_3", "trigger efficency vs //MET 120met + 120 MHT", 100, 0, 1200);
+
+  h_trigger_accept_1               = fs->make<TH1D>("h_trigger_accept_1", "trigger accept vs //MET btag + mu", 100, 0, 1200);
+  h_trigger_accept_2               = fs->make<TH1D>("h_trigger_accept_2", "trigger accept vs //MET pfmet300", 100, 0, 1200);
+  h_trigger_accept_3               = fs->make<TH1D>("h_trigger_accept_3", "trigger accept vs //MET 120met + 120 MHT", 100, 0, 1200);
+
+  h_trigger_reject_1               = fs->make<TH1D>("h_trigger_reject_1", "trigger reject valuesGen Met", 100, 0, 1200);
+  h_trigger_reject_2               = fs->make<TH1D>("h_trigger_reject_2", "trigger reject valuesGen Met", 100, 0, 1200);
+  h_trigger_reject_3               = fs->make<TH1D>("h_trigger_reject_3", "trigger reject valuesGen Met", 100, 0, 1200);
+
+  h_trigger_efficency_1_topPt               = fs->make<TH1D>("h_trigger_efficency_1_topPt", "trigger efficency vs Gen Top p_{T} btag + mu", 100, 0, 1200);
+  h_trigger_efficency_2_topPt               = fs->make<TH1D>("h_trigger_efficency_2_topPt", "trigger efficency vs Gen Top p_{T} pfmet300", 100, 0, 1200);
+  h_trigger_efficency_3_topPt               = fs->make<TH1D>("h_trigger_efficency_3_topPt", "trigger efficency vs Gen Top p_{T} 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_accept_1_topPt               = fs->make<TH1D>("h_trigger_accept_1_topPt", "trigger accept vs Gen Top p_{T} btag + mu", 100, 0, 1200);
+  h_trigger_accept_2_topPt               = fs->make<TH1D>("h_trigger_accept_2_topPt", "trigger accept vs Gen Top p_{T} pfmet300", 100, 0, 1200);
+  h_trigger_accept_3_topPt               = fs->make<TH1D>("h_trigger_accept_3_topPt", "trigger accept vs Gen Top p_{T} 120met + 120 MHT", 100, 0, 1200);
+  h_trigger_reject_1_topPt               = fs->make<TH1D>("h_trigger_reject_1_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
+  h_trigger_reject_2_topPt               = fs->make<TH1D>("h_trigger_reject_2_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
+  h_trigger_reject_3_topPt               = fs->make<TH1D>("h_trigger_reject_3_topPt", "trigger reject valuesGen MTop p_{T}", 100, 0, 1200);
   // h_ak8puppi_softDropMass            =  fs->make<TH1D>("h_ak8puppi_softDropMass"           ,"",200,0,400);
   // h_ak8chs_softDropMass              =  fs->make<TH1D>("h_ak8chs_softDropMass"             ,"",200,0,400);
   // h_ak8chs_softDropMass_reweighted   =  fs->make<TH1D>("h_ak8chs_softDropMass_reweighted"  ,"",200,0,400);
@@ -961,7 +1011,7 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   trigsToRun.push_back("HLT_PFHT475_v");
   trigsToRun.push_back("HLT_PFHT600_v");
   trigsToRun.push_back("HLT_PFHT650_v");
-  trigsToRun.push_back("HLT_PFHT800_v");
+  trigsToRun.push_back("HiLT_PFHT800_v");
   trigsToRun.push_back("HLT_PFHT900_v");
   trigsToRun.push_back("HLT_PFHT650_WideJetMJJ900"); //HLT_PFHT650_WideJetMJJ900DEtaJJ1p5_v6
   trigsToRun.push_back("HLT_PFHT650_WideJetMJJ950"); //HLT_PFHT650_WideJetMJJ950DEtaJJ1p5_v6
@@ -1043,7 +1093,12 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("HadTrigPrescalesHad"   , "vector<int>", &HadTrigPrescalesHad);
   TreeHad->Branch("HadTrigPassHad"        , "vector<bool>", &HadTrigPassHad);
   TreeHad->Branch("HadTrigAcceptBitsHad"  , &HadTrigAcceptBitsHad);
-                        
+                     
+
+
+  TreeHad->Branch("Gen_MET_pT",         & Gen_MET_pT          , "Gen_MET_pT/F"        );
+  TreeHad->Branch("Gen_MET_phi",        & Gen_MET_phi         , "Gen_MET_phi/F"       );
+  TreeHad->Branch("Gen_MET_eta",        & Gen_MET_eta         , "Gen_MET_eta/F"       );
 
   TreeHad->Branch("Gen_array_t_p4"                   , & Gen_array_t_p4                   ,  "Gen_array_t_p4[4]/F"                      );
   TreeHad->Branch("Gen_array_final_t_p4"             , & Gen_array_final_t_p4             ,  "Gen_array_final_t_p4[4]/F"                );
@@ -1489,6 +1544,7 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
   TreeHad->Branch("MuEta", "vector<float>",&MuEta);
   TreeHad->Branch("MuMass", "vector<float>",&MuMass);
   TreeHad->Branch("MuIso", "vector<float>",&MuIso);
+  TreeHad->Branch("MuIsoTrk", "vector<float>",&MuIsoTrk);
   TreeHad->Branch("MuMedium", "vector<int>", &MuMedium);
   TreeHad->Branch("MuTight", "vector<int>", &MuTight);
 
@@ -1635,11 +1691,19 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   // using namespace fastjet;
 
 
+      if (nEvents%100==0) std::cout << "nEvents: " << nEvents << std::endl;
+      nEvents = nEvents +1;
+      
+      PFMET120_BTagCSV_Mu5_Trigger = false;
+      PFMET300_Trigger = false;
+      HLT_PFMET120_PFMHT120_Trigger = false;
+
        MuPhi->clear();
        MuPt->clear();
        MuEta->clear();
        MuMass->clear();
        MuIso->clear();
+       MuIsoTrk->clear();
        MuTight->clear();
        MuMedium->clear();
       
@@ -1928,6 +1992,17 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     int prescale = 0;
     if (accept ==1 ) pass = true;
     prescale = triggerPrescales->getPrescaleForIndex(i)  ;
+
+    if(pass && (name.find("HLT_PFMET120_BTagCSV_p067_v") !=std::string::npos or name.find("HLT_PFMET120_Mu5_v") !=std::string::npos )  ) {
+      PFMET120_BTagCSV_Mu5_Trigger = true;
+      
+    } else if(pass && (name.find("HLT_PFMET120_PFMHT120_IDTight_v3") !=std::string::npos)  ) {
+      HLT_PFMET120_PFMHT120_Trigger = true;
+      
+    } else if(pass && (name.find("HLT_PFMET300_v2") !=std::string::npos)  ) {
+      PFMET300_Trigger = true;
+      
+    }
 
     HLTtriggersPass->push_back(pass);
     HLTtriggersPrescales->push_back(prescale);
@@ -2518,7 +2593,6 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 
 
-
   std::vector<reco::CandidatePtr> muFootprint;
 
   for (const pat::Muon &mu : *muons) {
@@ -2565,10 +2639,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         double sumPUPt            = mu.pfIsolationR04().sumPUPt;
         double pt                 = mu.pt();
         double iso04 = (sumChargedHadronPt+TMath::Max(0.,sumNeutralHadronPt+sumPhotonPt-0.5*sumPUPt))/pt;
+        double isoForTrk03 = mu.isolationR03().sumPt/mu.pt();
        // mu0_iso04 = iso04;
 
 
         MuIso->push_back(iso04);
+        MuIsoTrk->push_back(isoForTrk03);
         MuTight->push_back( (int) mu0_isTight);
         MuMedium->push_back( (int) mu0_isMedium);
 
@@ -5179,6 +5255,40 @@ if (count_AK4CHS > 0){
 
     h_cutflow_had   ->Fill(1.5);
 
+    if ( !iEvent.isRealData() ){
+
+      Gen_MET_pT = met.genMET()->pt();
+
+      //std::cout << met.pt() <<  " " << t_p4.Pt() << std::endl;
+      if(PFMET120_BTagCSV_Mu5_Trigger){
+        h_trigger_efficency_1->Fill(met.pt());
+        h_trigger_accept_1->Fill(met.pt());
+        h_trigger_efficency_1_topPt->Fill(t_p4.Pt());
+        h_trigger_accept_1_topPt->Fill(t_p4.Pt());
+      } else {
+        h_trigger_reject_1->Fill(met.pt());
+        h_trigger_reject_1_topPt->Fill(t_p4.Pt());
+      }
+      if(PFMET300_Trigger){
+        h_trigger_efficency_2->Fill(met.pt());
+        h_trigger_accept_2->Fill(met.pt());
+        h_trigger_efficency_2_topPt->Fill(t_p4.Pt());
+        h_trigger_accept_2_topPt->Fill(t_p4.Pt());
+      } else {
+        h_trigger_reject_2->Fill(met.pt());
+        h_trigger_reject_2_topPt->Fill(t_p4.Pt());
+      }
+      if(HLT_PFMET120_PFMHT120_Trigger){
+        h_trigger_efficency_3->Fill(met.pt());
+        h_trigger_accept_3->Fill(met.pt());
+        h_trigger_efficency_3_topPt->Fill(t_p4.Pt());
+        h_trigger_accept_3_topPt->Fill(t_p4.Pt());
+      } else {
+        h_trigger_reject_3->Fill(met.pt());
+        h_trigger_reject_3_topPt->Fill(t_p4.Pt());
+      }
+    }
+
 
   //if ( 1==1 /*AK8jet_Had_P4corr.Perp()>200*/){
     if ( bJet_count > 0){ //} && PUPPIjet0_P4corr.Perp()>200 ){
@@ -5189,6 +5299,13 @@ if (count_AK4CHS > 0){
         h_cutflow_had   ->Fill(3.5);
 
         if (verbose_) cout<<"Write Had Tree"<<endl;
+
+
+        if (!iEvent.isRealData() )  {
+          Gen_MET_pT = met.genMET()->pt();
+          Gen_MET_phi = met.genMET()->phi();
+          Gen_MET_eta = met.genMET()->eta();
+        }
 
         HadMETpx                = met.px();                   
         HadMETpy                = met.py();                   
@@ -5249,7 +5366,8 @@ if (count_AK4CHS > 0){
           HadQ2weight_CorrDn      = Q2wgt_down ;              
           HadQ2weight_CorrUp      = Q2wgt_up ;              
           HadNNPDF3weight_CorrDn  = NNPDF3wgt_down ;              
-          HadNNPDF3weight_CorrUp  = NNPDF3wgt_up ;    
+          HadNNPDF3weight_CorrUp  = NNPDF3wgt_up ;   
+          
         }  
         else{ 
           HadEventWeight          = 1;    
@@ -5456,10 +5574,37 @@ B2GMonoTopTreeMaker::beginJob()
   } 
 }
 
+void computeEfficencyHist(TH1D* accept, TH1D* reject){
+  if (accept->GetNbinsX() != reject->GetNbinsX()) {
+    std::cout << "not equal bins" << std::endl;
+    return;
+  }
+  double n_accept =0;
+  double n_reject =0;
+  for( int i=-1; i < accept->GetNbinsX()+1; i++){
+    n_accept = accept->GetBinContent(i);
+    n_reject = reject->GetBinContent(i);
+
+    if (n_accept == 0){
+      accept->SetBinContent(i, 0);
+    } else {
+      n_accept = n_accept/(n_accept+n_reject);
+      accept->SetBinContent(i, n_accept);
+    }
+  }
+}
+
 // ------------ method called once each job just after ending the event loop  ------------
 void 
 B2GMonoTopTreeMaker::endJob() 
 {
+  computeEfficencyHist(h_trigger_efficency_1, h_trigger_reject_1);
+  computeEfficencyHist(h_trigger_efficency_2, h_trigger_reject_2);
+  computeEfficencyHist(h_trigger_efficency_3, h_trigger_reject_3);
+  computeEfficencyHist(h_trigger_efficency_1_topPt, h_trigger_reject_1_topPt);
+  computeEfficencyHist(h_trigger_efficency_2_topPt, h_trigger_reject_2_topPt);
+  computeEfficencyHist(h_trigger_efficency_3_topPt, h_trigger_reject_3_topPt);
+
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
