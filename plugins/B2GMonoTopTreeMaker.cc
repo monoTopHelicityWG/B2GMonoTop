@@ -2010,10 +2010,10 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if(pass && (name.find("HLT_PFMET120_BTagCSV_p067_v") !=std::string::npos or name.find("HLT_PFMET120_Mu5_v") !=std::string::npos )  ) {
       PFMET120_BTagCSV_Mu5_Trigger = true;
       
-    } else if(pass && (name.find("HLT_PFMET120_PFMHT120_IDTight_v3") !=std::string::npos)  ) {
+    } else if(pass && (name.find("HLT_PFMET120_PFMHT120_IDTight_v") !=std::string::npos)  ) {
       HLT_PFMET120_PFMHT120_Trigger = true;
       
-    } else if(pass && (name.find("HLT_PFMET300_v2") !=std::string::npos)  ) {
+    } else if(pass && (name.find("HLT_PFMET300_v") !=std::string::npos)  ) {
       PFMET300_Trigger = true;
       
     }else if(pass && ( name.find("HLT_PFMET170_NoiseCleaned_v") !=std::string::npos or name.find("HLT_PFMET170_HBHECleaned_v") !=std::string::npos or name.find("HLT_PFMET170_JetIdCleaned_v") !=std::string::npos or name.find("HLT_PFMET170_BeamHaloCleaned_v") !=std::string::npos )  ) {
