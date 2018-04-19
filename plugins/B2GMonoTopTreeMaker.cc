@@ -340,451 +340,454 @@ B2GMonoTopTreeMaker::B2GMonoTopTreeMaker(const edm::ParameterSet& iConfig):
 
 
 
-    TTree *example; 
-    eventDataStruct * example2;
-    //bookEventTree(example, example2);
+    TreeHad = new TTree("TreeHad","TreeHad"); ; 
+    event_data= new eventDataStruct();
+    bookEventTree(TreeHad, event_data);
+
+    TreeHad->Print();
 
 
-
+/*
   TreeHad = new TTree("TreeHad","TreeHad"); 
 
-  TreeHad->Branch("HLTtriggers"        , "vector<std::string>", &HLTtriggers);
-  TreeHad->Branch("HLTtriggersPass"        , "vector<bool>", &HLTtriggersPass);
-  TreeHad->Branch("HLTtriggersPrescales"        , "vector<int>", &HLTtriggersPrescales);
+  TreeHad->Branch("HLTtriggers"        , "vector<std::string>", &event_data->HLTtriggers);
+  TreeHad->Branch("event_data->HLTtriggersPass"        , "vector<bool>", &event_data->HLTtriggersPass);
+  TreeHad->Branch("event_data->HLTtriggersPrescales"        , "vector<int>", &event_data->HLTtriggersPrescales);
 
-  TreeHad->Branch("HadTrigPrescales"   , "vector<int>", &HadTrigPrescales);
-  TreeHad->Branch("HadTrigPass"        , "vector<bool>", &HadTrigPass);
-  TreeHad->Branch("HadTrigAcceptBits"  , &HadTrigAcceptBits);
+  TreeHad->Branch("event_data->HadTrigPrescales"   , "vector<int>", &event_data->HadTrigPrescales);
+  TreeHad->Branch("event_data->HadTrigPass"        , "vector<bool>", &event_data->HadTrigPass);
+  TreeHad->Branch("event_data->HadTrigAcceptBits"  , &event_data->HadTrigAcceptBits);
 
-  TreeHad->Branch("HadTrigPrescalesMu"   , "vector<int>", &HadTrigPrescalesMu);
-  TreeHad->Branch("HadTrigPassMu"        , "vector<bool>", &HadTrigPassMu);
-  TreeHad->Branch("HadTrigAcceptBitsMu"  , &HadTrigAcceptBitsMu);
+  TreeHad->Branch("event_data->HadTrigPrescalesMu"   , "vector<int>", &event_data->HadTrigPrescalesMu);
+  TreeHad->Branch("event_data->HadTrigPassMu"        , "vector<bool>", &event_data->HadTrigPassMu);
+  TreeHad->Branch("event_data->HadTrigAcceptBitsMu"  , &event_data->HadTrigAcceptBitsMu);
 
-  TreeHad->Branch("HadTrigPrescalesHad"   , "vector<int>", &HadTrigPrescalesHad);
-  TreeHad->Branch("HadTrigPassHad"        , "vector<bool>", &HadTrigPassHad);
-  TreeHad->Branch("HadTrigAcceptBitsHad"  , &HadTrigAcceptBitsHad);
+  TreeHad->Branch("event_data->HadTrigPrescalesHad"   , "vector<int>", &event_data->HadTrigPrescalesHad);
+  TreeHad->Branch("event_data->HadTrigPassHad"        , "vector<bool>", &event_data->HadTrigPassHad);
+  TreeHad->Branch("event_data->HadTrigAcceptBitsHad"  , &event_data->HadTrigAcceptBitsHad);
                      
 
 
-  TreeHad->Branch("Gen_MET_pT",         & Gen_MET_pT          , "Gen_MET_pT/F"        );
-  TreeHad->Branch("Gen_MET_phi",        & Gen_MET_phi         , "Gen_MET_phi/F"       );
-  TreeHad->Branch("Gen_MET_eta",        & Gen_MET_eta         , "Gen_MET_eta/F"       );
+  TreeHad->Branch("event_data->Gen_MET_pT",         & event_data->Gen_MET_pT          , "event_data->Gen_MET_pT/F"        );
+  TreeHad->Branch("event_data->Gen_MET_phi",        & event_data->Gen_MET_phi         , "event_data->Gen_MET_phi/F"       );
+  TreeHad->Branch("event_data->Gen_MET_eta",        & event_data->Gen_MET_eta         , "event_data->Gen_MET_eta/F"       );
 
-  TreeHad->Branch("Gen_array_t_p4"                   , & Gen_array_t_p4                   ,  "Gen_array_t_p4[4]/F"                      );
-  TreeHad->Branch("Gen_array_final_t_p4"             , & Gen_array_final_t_p4             ,  "Gen_array_final_t_p4[4]/F"                );
-  TreeHad->Branch("Gen_array_b_p4"                   , & Gen_array_b_p4                   ,  "Gen_array_b_p4[4]/F"                      );
-  TreeHad->Branch("Gen_array_W_p4"                   , & Gen_array_W_p4                   ,  "Gen_array_W_p4[4]/F"                      );
-  TreeHad->Branch("Gen_array_Wd1_p4"                 , & Gen_array_Wd1_p4                 ,  "Gen_array_Wd1_p4[4]/F"                    );
-  TreeHad->Branch("Gen_array_Wd2_p4"                 , & Gen_array_Wd2_p4                 ,  "Gen_array_Wd2_p4[4]/F"                    );
-  TreeHad->Branch("Gen_array_hardest_parton_hardScatterOutgoing_p4", & Gen_array_hardest_parton_hardScatterOutgoing_p4 ,  "Gen_array_hardest_parton_hardScatterOutgoing_p4[4]/F");
-  TreeHad->Branch("Gen_array_second_hardest_parton_hardScatterOutgoing_p4", & Gen_array_second_hardest_parton_hardScatterOutgoing_p4 ,  "Gen_array_second_hardest_parton_hardScatterOutgoing_p4[4]/F" );
-  TreeHad->Branch("tophadronic"                         , & tophadronic                         ,  "tophadronic/O"                      );
-  TreeHad->Branch("topleptonic"                         , & topleptonic                         ,  "topleptonic/O"                      );
-  TreeHad->Branch("parton1id"                           , & parton1id                           ,  "parton1id/I"                        );
-  TreeHad->Branch("parton2id"                           , & parton2id                           ,  "parton2id/I"                        );
-  TreeHad->Branch("Wd1_id"                              , & Wd1_id                              ,  "Wd1_id/I"                           );
-  TreeHad->Branch("Wd2_id"                              , & Wd2_id                              ,  "Wd2_id/I"                           ); 
+  TreeHad->Branch("event_data->Gen_array_t_p4"                   , & event_data->Gen_array_t_p4                   ,  "event_data->Gen_array_t_p4[4]/F"                      );
+  TreeHad->Branch("event_data->Gen_array_final_t_p4"             , & event_data->Gen_array_final_t_p4             ,  "event_data->Gen_array_final_t_p4[4]/F"                );
+  TreeHad->Branch("event_data->Gen_array_b_p4"                   , & event_data->Gen_array_b_p4                   ,  "event_data->Gen_array_b_p4[4]/F"                      );
+  TreeHad->Branch("event_data->Gen_array_W_p4"                   , & event_data->Gen_array_W_p4                   ,  "event_data->Gen_array_W_p4[4]/F"                      );
+  TreeHad->Branch("event_data->Gen_array_Wd1_p4"                 , & event_data->Gen_array_Wd1_p4                 ,  "event_data->Gen_array_Wd1_p4[4]/F"                    );
+  TreeHad->Branch("event_data->Gen_array_Wd2_p4"                 , & event_data->Gen_array_Wd2_p4                 ,  "event_data->Gen_array_Wd2_p4[4]/F"                    );
+  TreeHad->Branch("event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4", & event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4 ,  "event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4[4]/F");
+  TreeHad->Branch("event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4", & event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4 ,  "event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4[4]/F" );
+  TreeHad->Branch("event_data->tophadronic"                         , & event_data->tophadronic                         ,  "event_data->tophadronic/O"                      );
+  TreeHad->Branch("event_data->topleptonic"                         , & event_data->topleptonic                         ,  "event_data->topleptonic/O"                      );
+  TreeHad->Branch("event_data->parton1id"                           , & event_data->parton1id                           ,  "event_data->parton1id/I"                        );
+  TreeHad->Branch("event_data->parton2id"                           , & event_data->parton2id                           ,  "event_data->parton2id/I"                        );
+  TreeHad->Branch("event_data->Wd1_id"                              , & event_data->Wd1_id                              ,  "event_data->Wd1_id/I"                           );
+  TreeHad->Branch("event_data->Wd2_id"                              , & event_data->Wd2_id                              ,  "event_data->Wd2_id/I"                           ); 
 
-  TreeHad->Branch("AK4JetLV_pt","vector<float>",&AK4JetLV_pt);
-  TreeHad->Branch("AK4JetLV_eta","vector<float>",&AK4JetLV_eta);
-  TreeHad->Branch("AK4JetLV_phi","vector<float>",&AK4JetLV_phi);
-  TreeHad->Branch("AK4JetLV_mass","vector<float>",&AK4JetLV_mass);
+  TreeHad->Branch("event_data->AK4JetLV_pt","vector<float>",&event_data->AK4JetLV_pt);
+  TreeHad->Branch("event_data->AK4JetLV_eta","vector<float>",&event_data->AK4JetLV_eta);
+  TreeHad->Branch("event_data->AK4JetLV_phi","vector<float>",&event_data->AK4JetLV_phi);
+  TreeHad->Branch("event_data->AK4JetLV_mass","vector<float>",&event_data->AK4JetLV_mass);
 
-  TreeHad->Branch("AK4JetLV_corr", "vector<float>", &AK4JetLV_corr);
-  TreeHad->Branch("AK4JetLV_corrUp", "vector<float>", &AK4JetLV_corrUp);
-  TreeHad->Branch("AK4JetLV_corrDn", "vector<float>", &AK4JetLV_corrDn);
-  TreeHad->Branch("AK4JetLV_SF", "vector<float>", &AK4JetLV_SF);
-  TreeHad->Branch("AK4JetLV_SFUp", "vector<float>", &AK4JetLV_SFUp);
-  TreeHad->Branch("AK4JetLV_SFDn", "vector<float>", &AK4JetLV_SFDn);
-  TreeHad->Branch("AK4JetLV_ptsmear", "vector<float>", &AK4JetLV_ptsmear);
-  TreeHad->Branch("AK4JetLV_ptsmearUp", "vector<float>", &AK4JetLV_ptsmearUp);
-  TreeHad->Branch("AK4JetLV_ptsmearDn", "vector<float>", &AK4JetLV_ptsmearDn);
+  TreeHad->Branch("event_data->AK4JetLV_corr", "vector<float>", &event_data->AK4JetLV_corr);
+  TreeHad->Branch("event_data->AK4JetLV_corrUp", "vector<float>", &event_data->AK4JetLV_corrUp);
+  TreeHad->Branch("event_data->AK4JetLV_corrDn", "vector<float>", &event_data->AK4JetLV_corrDn);
+  TreeHad->Branch("event_data->AK4JetLV_SF", "vector<float>", &event_data->AK4JetLV_SF);
+  TreeHad->Branch("event_data->AK4JetLV_SFUp", "vector<float>", &event_data->AK4JetLV_SFUp);
+  TreeHad->Branch("event_data->AK4JetLV_SFDn", "vector<float>", &event_data->AK4JetLV_SFDn);
+  TreeHad->Branch("event_data->AK4JetLV_ptsmear", "vector<float>", &event_data->AK4JetLV_ptsmear);
+  TreeHad->Branch("event_data->AK4JetLV_ptsmearUp", "vector<float>", &event_data->AK4JetLV_ptsmearUp);
+  TreeHad->Branch("event_data->AK4JetLV_ptsmearDn", "vector<float>", &event_data->AK4JetLV_ptsmearDn);
 
-  TreeHad->Branch("AK8JetLV_corr", "vector<float>", &AK8JetLV_corr);
-  TreeHad->Branch("AK8JetLV_corrUp", "vector<float>", &AK8JetLV_corrUp);
-  TreeHad->Branch("AK8JetLV_corrDn", "vector<float>", &AK8JetLV_corrDn);
-  TreeHad->Branch("AK8JetLV_SF", "vector<float>", &AK8JetLV_SF);
-  TreeHad->Branch("AK8JetLV_SFUp", "vector<float>", &AK8JetLV_SFUp);
-  TreeHad->Branch("AK8JetLV_SFDn", "vector<float>", &AK8JetLV_SFDn);
-  TreeHad->Branch("AK8JetLV_ptsmear", "vector<float>", &AK8JetLV_ptsmear);
-  TreeHad->Branch("AK8JetLV_ptsmearUp", "vector<float>", &AK8JetLV_ptsmearUp);
-  TreeHad->Branch("AK8JetLV_ptsmearDn", "vector<float>", &AK8JetLV_ptsmearDn);
+  TreeHad->Branch("event_data->AK8JetLV_corr", "vector<float>", &event_data->AK8JetLV_corr);
+  TreeHad->Branch("event_data->AK8JetLV_corrUp", "vector<float>", &event_data->AK8JetLV_corrUp);
+  TreeHad->Branch("event_data->AK8JetLV_corrDn", "vector<float>", &event_data->AK8JetLV_corrDn);
+  TreeHad->Branch("event_data->AK8JetLV_SF", "vector<float>", &event_data->AK8JetLV_SF);
+  TreeHad->Branch("event_data->AK8JetLV_SFUp", "vector<float>", &event_data->AK8JetLV_SFUp);
+  TreeHad->Branch("event_data->AK8JetLV_SFDn", "vector<float>", &event_data->AK8JetLV_SFDn);
+  TreeHad->Branch("event_data->AK8JetLV_ptsmear", "vector<float>", &event_data->AK8JetLV_ptsmear);
+  TreeHad->Branch("event_data->AK8JetLV_ptsmearUp", "vector<float>", &event_data->AK8JetLV_ptsmearUp);
+  TreeHad->Branch("event_data->AK8JetLV_ptsmearDn", "vector<float>", &event_data->AK8JetLV_ptsmearDn);
 
-  TreeHad->Branch("AK8JetLV_pt","vector<float>",&AK8JetLV_pt);
-  TreeHad->Branch("AK8JetLV_eta","vector<float>",&AK8JetLV_eta);
-  TreeHad->Branch("AK8JetLV_phi","vector<float>",&AK8JetLV_phi);
-  TreeHad->Branch("AK8JetLV_mass","vector<float>",&AK8JetLV_mass);
+  TreeHad->Branch("event_data->AK8JetLV_pt","vector<float>",&event_data->AK8JetLV_pt);
+  TreeHad->Branch("event_data->AK8JetLV_eta","vector<float>",&event_data->AK8JetLV_eta);
+  TreeHad->Branch("event_data->AK8JetLV_phi","vector<float>",&event_data->AK8JetLV_phi);
+  TreeHad->Branch("event_data->AK8JetLV_mass","vector<float>",&event_data->AK8JetLV_mass);
 
-  TreeHad->Branch("AK8SubjetLV_pt","vector<float>",&AK8SubjetLV_pt);
-  TreeHad->Branch("AK8SubjetLV_eta","vector<float>",&AK8SubjetLV_eta);
-  TreeHad->Branch("AK8SubjetLV_phi","vector<float>",&AK8SubjetLV_phi);
-  TreeHad->Branch("AK8SubjetLV_mass","vector<float>",&AK8SubjetLV_mass);
+  TreeHad->Branch("event_data->AK8SubjetLV_pt","vector<float>",&event_data->AK8SubjetLV_pt);
+  TreeHad->Branch("event_data->AK8SubjetLV_eta","vector<float>",&event_data->AK8SubjetLV_eta);
+  TreeHad->Branch("event_data->AK8SubjetLV_phi","vector<float>",&event_data->AK8SubjetLV_phi);
+  TreeHad->Branch("event_data->AK8SubjetLV_mass","vector<float>",&event_data->AK8SubjetLV_mass);
 
-  TreeHad->Branch("AK4JetBtag_p","vector<float>",&AK4JetBtag_p);
-  TreeHad->Branch("AK8JetTau1_p","vector<float>",&AK8JetTau1_p);
-  TreeHad->Branch("AK8JetTau2_p","vector<float>",&AK8JetTau2_p);
-  TreeHad->Branch("AK8JetTau3_p","vector<float>",&AK8JetTau3_p);
-  TreeHad->Branch("AK8JetSoftdropMass_p","vector<float>",&AK8JetSoftdropMass_p);
+  TreeHad->Branch("event_data->AK4JetBtag_p","vector<float>",&event_data->AK4JetBtag_p);
+  TreeHad->Branch("event_data->AK8JetTau1_p","vector<float>",&event_data->AK8JetTau1_p);
+  TreeHad->Branch("event_data->AK8JetTau2_p","vector<float>",&event_data->AK8JetTau2_p);
+  TreeHad->Branch("event_data->AK8JetTau3_p","vector<float>",&event_data->AK8JetTau3_p);
+  TreeHad->Branch("event_data->AK8JetSoftdropMass_p","vector<float>",&event_data->AK8JetSoftdropMass_p);
 
 
 
-  TreeHad->Branch("JetPtRaw"                             , & JetPtRaw                          ,    "JetPtRaw/F"                               );                                  
-  TreeHad->Branch("JetEtaRaw"                            , & JetEtaRaw                         ,    "JetEtaRaw/F"                              );                                   
-  TreeHad->Branch("JetPhiRaw"                            , & JetPhiRaw                         ,    "JetPhiRaw/F"                              );                                   
-  TreeHad->Branch("JetMassRaw"                           , & JetMassRaw                        ,    "JetMassRaw/F"                             );                                                                                      
-  TreeHad->Branch("JetArea"                              , & JetArea                           ,    "JetArea/F"                                );                                 
+  TreeHad->Branch("event_data->JetPtRaw"                             , & event_data->JetPtRaw                          ,    "event_data->JetPtRaw/F"                               );                                  
+  TreeHad->Branch("event_data->JetEtaRaw"                            , & event_data->JetEtaRaw                         ,    "event_data->JetEtaRaw/F"                              );                                   
+  TreeHad->Branch("event_data->JetPhiRaw"                            , & event_data->JetPhiRaw                         ,    "event_data->JetPhiRaw/F"                              );                                   
+  TreeHad->Branch("event_data->JetMassRaw"                           , & event_data->JetMassRaw                        ,    "event_data->JetMassRaw/F"                             );                                                                                      
+  TreeHad->Branch("event_data->JetArea"                              , & event_data->JetArea                           ,    "event_data->JetArea/F"                                );                                 
                                     
-  TreeHad->Branch("JetSDmassRaw"                         , & JetSDmassRaw                      ,    "JetSDmassRaw/F"                           );                                               
-  TreeHad->Branch("JetSDmassSubjetCorrL23"                     , & JetSDmassSubjetCorrL23                  ,    "JetSDmassSubjetCorrL23/F"                       );                                                                                                     
-  TreeHad->Branch("JetSDmassSubjetCorrL123"                    , & JetSDmassSubjetCorrL123                 ,    "JetSDmassSubjetCorrL123/F"                      );                                                      
-  TreeHad->Branch("JetSDptRaw"                           , & JetSDptRaw                        ,    "JetSDptRaw/F"                             );                                                                                                 
-  TreeHad->Branch("JetSDetaRaw"                          , & JetSDetaRaw                       ,    "JetSDetaRaw/F"                            );                                               
-  TreeHad->Branch("JetSDphiRaw"                          , & JetSDphiRaw                       ,    "JetSDphiRaw/F"                            );  
+  TreeHad->Branch("event_data->JetSDmassRaw"                         , & event_data->JetSDmassRaw                      ,    "event_data->JetSDmassRaw/F"                           );                                               
+  TreeHad->Branch("event_data->JetSDmassSubjetCorrL23"                     , & event_data->JetSDmassSubjetCorrL23                  ,    "event_data->JetSDmassSubjetCorrL23/F"                       );                                                                                                     
+  TreeHad->Branch("event_data->JetSDmassSubjetCorrL123"                    , & event_data->JetSDmassSubjetCorrL123                 ,    "event_data->JetSDmassSubjetCorrL123/F"                      );                                                      
+  TreeHad->Branch("event_data->JetSDptRaw"                           , & event_data->JetSDptRaw                        ,    "event_data->JetSDptRaw/F"                             );                                                                                                 
+  TreeHad->Branch("event_data->JetSDetaRaw"                          , & event_data->JetSDetaRaw                       ,    "event_data->JetSDetaRaw/F"                            );                                               
+  TreeHad->Branch("event_data->JetSDphiRaw"                          , & event_data->JetSDphiRaw                       ,    "event_data->JetSDphiRaw/F"                            );  
 
-  TreeHad->Branch("JetMassPruned"                        , & JetMassPruned                     ,    "JetMassPruned/F"                          );                                       
-  TreeHad->Branch("JetMassTrimmed"                       , & JetMassTrimmed                    ,    "JetMassTrimmed/F"                         );                                       
-  TreeHad->Branch("JetTau1"                              , & JetTau1                           ,    "JetTau1/F"                                );                                 
-  TreeHad->Branch("JetTau2"                              , & JetTau2                           ,    "JetTau2/F"                                );                                 
-  TreeHad->Branch("JetTau3"                              , & JetTau3                           ,    "JetTau3/F"                                );                                 
-  TreeHad->Branch("JetTau4"                              , & JetTau4                           ,    "JetTau4/F"                                );                                 
-  TreeHad->Branch("JetTau32"                             , & JetTau32                          ,    "JetTau32/F"                               );                                  
-  TreeHad->Branch("JetTau21"                             , & JetTau21                          ,    "JetTau21/F"                               );                                  
-  TreeHad->Branch("JetSDmaxbdisc"                        , & JetSDmaxbdisc                     ,    "JetSDmaxbdisc/F"                          );                                       
-  TreeHad->Branch("JetSDmaxbdiscflavHadron"              , & JetSDmaxbdiscflavHadron           ,    "JetSDmaxbdiscflavHadron/F"                );                                           
-  TreeHad->Branch("JetSDmaxbdiscflavParton"              , & JetSDmaxbdiscflavParton           ,    "JetSDmaxbdiscflavParton/F"                );  
+  TreeHad->Branch("event_data->JetMassPruned"                        , & event_data->JetMassPruned                     ,    "event_data->JetMassPruned/F"                          );                                       
+  TreeHad->Branch("event_data->JetMassTrimmed"                       , & event_data->JetMassTrimmed                    ,    "event_data->JetMassTrimmed/F"                         );                                       
+  TreeHad->Branch("event_data->JetTau1"                              , & event_data->JetTau1                           ,    "event_data->JetTau1/F"                                );                                 
+  TreeHad->Branch("event_data->JetTau2"                              , & event_data->JetTau2                           ,    "event_data->JetTau2/F"                                );                                 
+  TreeHad->Branch("event_data->JetTau3"                              , & event_data->JetTau3                           ,    "event_data->JetTau3/F"                                );                                 
+  TreeHad->Branch("event_data->JetTau4"                              , & event_data->JetTau4                           ,    "event_data->JetTau4/F"                                );                                 
+  TreeHad->Branch("event_data->JetTau32"                             , & event_data->JetTau32                          ,    "event_data->JetTau32/F"                               );                                  
+  TreeHad->Branch("event_data->JetTau21"                             , & event_data->JetTau21                          ,    "event_data->JetTau21/F"                               );                                  
+  TreeHad->Branch("event_data->JetSDmaxbdisc"                        , & event_data->JetSDmaxbdisc                     ,    "event_data->JetSDmaxbdisc/F"                          );                                       
+  TreeHad->Branch("event_data->JetSDmaxbdiscflavHadron"              , & event_data->JetSDmaxbdiscflavHadron           ,    "event_data->JetSDmaxbdiscflavHadron/F"                );                                           
+  TreeHad->Branch("event_data->JetSDmaxbdiscflavParton"              , & event_data->JetSDmaxbdiscflavParton           ,    "event_data->JetSDmaxbdiscflavParton/F"                );  
                                          
-  TreeHad->Branch("JetSDsubjet0pt"                       , & JetSDsubjet0pt                    ,    "JetSDsubjet0pt/F"                         );    
-  TreeHad->Branch("JetSDsubjet0mass"                     , & JetSDsubjet0mass                  ,    "JetSDsubjet0mass/F"                       );
-  TreeHad->Branch("JetSDsubjet0eta"                      , & JetSDsubjet0eta                   ,    "JetSDsubjet0eta/F"                        );
-  TreeHad->Branch("JetSDsubjet0phi"                      , & JetSDsubjet0phi                   ,    "JetSDsubjet0phi/F"                        );
-  TreeHad->Branch("JetSDsubjet0area"                     , & JetSDsubjet0area                  ,    "JetSDsubjet0area/F"                       );
-  TreeHad->Branch("JetSDsubjet0flavHadron"               , & JetSDsubjet0flavHadron            ,    "JetSDsubjet0flavHadron/F"                 );
-  TreeHad->Branch("JetSDsubjet0flavParton"               , & JetSDsubjet0flavParton            ,    "JetSDsubjet0flavParton/F"                 );
-  TreeHad->Branch("JetSDsubjet0matchedgenjetpt"          , & JetSDsubjet0matchedgenjetpt       ,    "JetSDsubjet0matchedgenjetpt/F"            ); 
-  TreeHad->Branch("JetSDsubjet0tau1"                     , & JetSDsubjet0tau1                  ,    "JetSDsubjet0tau1/F"                       );
-  TreeHad->Branch("JetSDsubjet0tau2"                     , & JetSDsubjet0tau2                  ,    "JetSDsubjet0tau2/F"                       );
-  TreeHad->Branch("JetSDsubjet0tau3"                     , & JetSDsubjet0tau3                  ,    "JetSDsubjet0tau3/F"                       ); 
-  TreeHad->Branch("JetSDsubjet0bdisc"                    , & JetSDsubjet0bdisc                 ,    "JetSDsubjet0bdisc/F"                      );                                          
-  TreeHad->Branch("JetSDsubjet1pt"                       , & JetSDsubjet1pt                    ,    "JetSDsubjet1pt/F"                         );    
-  TreeHad->Branch("JetSDsubjet1mass"                     , & JetSDsubjet1mass                  ,    "JetSDsubjet1mass/F"                       );
-  TreeHad->Branch("JetSDsubjet1eta"                      , & JetSDsubjet1eta                   ,    "JetSDsubjet1eta/F"                        );
-  TreeHad->Branch("JetSDsubjet1phi"                      , & JetSDsubjet1phi                   ,    "JetSDsubjet1phi/F"                        );  
-  TreeHad->Branch("JetSDsubjet1area"                     , & JetSDsubjet1area                  ,    "JetSDsubjet1area/F"                       );
-  TreeHad->Branch("JetSDsubjet1flavHadron"               , & JetSDsubjet1flavHadron            ,    "JetSDsubjet1flavHadron/F"                 );
-  TreeHad->Branch("JetSDsubjet1flavParton"               , & JetSDsubjet1flavParton            ,    "JetSDsubjet1flavParton/F"                 );
-  TreeHad->Branch("JetSDsubjet1matchedgenjetpt"          , & JetSDsubjet1matchedgenjetpt       ,    "JetSDsubjet1matchedgenjetpt/F"            ); 
-  TreeHad->Branch("JetSDsubjet1tau1"                     , & JetSDsubjet1tau1                  ,    "JetSDsubjet1tau1/F"                       );
-  TreeHad->Branch("JetSDsubjet1tau2"                     , & JetSDsubjet1tau2                  ,    "JetSDsubjet1tau2/F"                       );
-  TreeHad->Branch("JetSDsubjet1tau3"                     , & JetSDsubjet1tau3                  ,    "JetSDsubjet1tau3/F"                       );                                           
-  TreeHad->Branch("JetSDsubjet1bdisc"                    , & JetSDsubjet1bdisc                 ,    "JetSDsubjet1bdisc/F"                      );                                     
+  TreeHad->Branch("event_data->JetSDsubjet0pt"                       , & event_data->JetSDsubjet0pt                    ,    "event_data->JetSDsubjet0pt/F"                         );    
+  TreeHad->Branch("event_data->JetSDsubjet0mass"                     , & event_data->JetSDsubjet0mass                  ,    "event_data->JetSDsubjet0mass/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet0eta"                      , & event_data->JetSDsubjet0eta                   ,    "event_data->JetSDsubjet0eta/F"                        );
+  TreeHad->Branch("event_data->JetSDsubjet0phi"                      , & event_data->JetSDsubjet0phi                   ,    "event_data->JetSDsubjet0phi/F"                        );
+  TreeHad->Branch("event_data->JetSDsubjet0area"                     , & event_data->JetSDsubjet0area                  ,    "event_data->JetSDsubjet0area/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet0flavHadron"               , & event_data->JetSDsubjet0flavHadron            ,    "event_data->JetSDsubjet0flavHadron/F"                 );
+  TreeHad->Branch("event_data->JetSDsubjet0flavParton"               , & event_data->JetSDsubjet0flavParton            ,    "event_data->JetSDsubjet0flavParton/F"                 );
+  TreeHad->Branch("event_data->JetSDsubjet0matchedgenjetpt"          , & event_data->JetSDsubjet0matchedgenjetpt       ,    "event_data->JetSDsubjet0matchedgenjetpt/F"            ); 
+  TreeHad->Branch("event_data->JetSDsubjet0tau1"                     , & event_data->JetSDsubjet0tau1                  ,    "event_data->JetSDsubjet0tau1/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet0tau2"                     , & event_data->JetSDsubjet0tau2                  ,    "event_data->JetSDsubjet0tau2/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet0tau3"                     , & event_data->JetSDsubjet0tau3                  ,    "event_data->JetSDsubjet0tau3/F"                       ); 
+  TreeHad->Branch("event_data->JetSDsubjet0bdisc"                    , & event_data->JetSDsubjet0bdisc                 ,    "event_data->JetSDsubjet0bdisc/F"                      );                                          
+  TreeHad->Branch("event_data->JetSDsubjet1pt"                       , & event_data->JetSDsubjet1pt                    ,    "event_data->JetSDsubjet1pt/F"                         );    
+  TreeHad->Branch("event_data->JetSDsubjet1mass"                     , & event_data->JetSDsubjet1mass                  ,    "event_data->JetSDsubjet1mass/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet1eta"                      , & event_data->JetSDsubjet1eta                   ,    "event_data->JetSDsubjet1eta/F"                        );
+  TreeHad->Branch("event_data->JetSDsubjet1phi"                      , & event_data->JetSDsubjet1phi                   ,    "event_data->JetSDsubjet1phi/F"                        );  
+  TreeHad->Branch("event_data->JetSDsubjet1area"                     , & event_data->JetSDsubjet1area                  ,    "event_data->JetSDsubjet1area/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet1flavHadron"               , & event_data->JetSDsubjet1flavHadron            ,    "event_data->JetSDsubjet1flavHadron/F"                 );
+  TreeHad->Branch("event_data->JetSDsubjet1flavParton"               , & event_data->JetSDsubjet1flavParton            ,    "event_data->JetSDsubjet1flavParton/F"                 );
+  TreeHad->Branch("event_data->JetSDsubjet1matchedgenjetpt"          , & event_data->JetSDsubjet1matchedgenjetpt       ,    "event_data->JetSDsubjet1matchedgenjetpt/F"            ); 
+  TreeHad->Branch("event_data->JetSDsubjet1tau1"                     , & event_data->JetSDsubjet1tau1                  ,    "event_data->JetSDsubjet1tau1/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet1tau2"                     , & event_data->JetSDsubjet1tau2                  ,    "event_data->JetSDsubjet1tau2/F"                       );
+  TreeHad->Branch("event_data->JetSDsubjet1tau3"                     , & event_data->JetSDsubjet1tau3                  ,    "event_data->JetSDsubjet1tau3/F"                       );                                           
+  TreeHad->Branch("event_data->JetSDsubjet1bdisc"                    , & event_data->JetSDsubjet1bdisc                 ,    "event_data->JetSDsubjet1bdisc/F"                      );                                     
 
-  TreeHad->Branch("JetPuppiPtRaw"                           , & JetPuppiPtRaw                        ,    "JetPuppiPtRaw/F"                             );                                    
-  TreeHad->Branch("JetPuppiEtaRaw"                          , & JetPuppiEtaRaw                       ,    "JetPuppiEtaRaw/F"                            );                                     
-  TreeHad->Branch("JetPuppiPhiRaw"                          , & JetPuppiPhiRaw                       ,    "JetPuppiPhiRaw/F"                            );                                     
-  TreeHad->Branch("JetPuppiMassRaw"                         , & JetPuppiMassRaw                      ,    "JetPuppiMassRaw/F"                           );                                      
-  TreeHad->Branch("JetPuppiArea"                         , & JetPuppiArea                      ,    "JetPuppiArea/F"                           );                                      
+  TreeHad->Branch("event_data->JetPuppiPtRaw"                           , & event_data->JetPuppiPtRaw                        ,    "event_data->JetPuppiPtRaw/F"                             );                                    
+  TreeHad->Branch("event_data->JetPuppiEtaRaw"                          , & event_data->JetPuppiEtaRaw                       ,    "event_data->JetPuppiEtaRaw/F"                            );                                     
+  TreeHad->Branch("event_data->JetPuppiPhiRaw"                          , & event_data->JetPuppiPhiRaw                       ,    "event_data->JetPuppiPhiRaw/F"                            );                                     
+  TreeHad->Branch("event_data->JetPuppiMassRaw"                         , & event_data->JetPuppiMassRaw                      ,    "event_data->JetPuppiMassRaw/F"                           );                                      
+  TreeHad->Branch("event_data->JetPuppiArea"                         , & event_data->JetPuppiArea                      ,    "event_data->JetPuppiArea/F"                           );                                      
 
-  TreeHad->Branch("JetPuppiMassPruned"                    , & JetPuppiMassPruned               ,   "JetPuppiMassPruned/F"                          );
-  TreeHad->Branch("JetPuppiMassTrimmed"                   , & JetPuppiMassTrimmed              ,   "JetPuppiMassTrimmed/F"                         );
+  TreeHad->Branch("event_data->JetPuppiMassPruned"                    , & event_data->JetPuppiMassPruned               ,   "event_data->JetPuppiMassPruned/F"                          );
+  TreeHad->Branch("event_data->JetPuppiMassTrimmed"                   , & event_data->JetPuppiMassTrimmed              ,   "event_data->JetPuppiMassTrimmed/F"                         );
 
 
   
-  TreeHad->Branch("JetPuppiSDmassRaw"                         , & JetPuppiSDmassRaw                    ,    "JetPuppiSDmassRaw/F"                          );
-  TreeHad->Branch("JetPuppiSDmassSubjetCorr"                     , & JetPuppiSDmassSubjetCorr                ,    "JetPuppiSDmassSubjetCorr/F"                      );
-  TreeHad->Branch("JetPuppiSDptRaw"                           , & JetPuppiSDptRaw                      ,    "JetPuppiSDptRaw/F"                            );
-  TreeHad->Branch("JetPuppiSDetaRaw"                          , & JetPuppiSDetaRaw                     ,    "JetPuppiSDetaRaw/F"                           );
-  TreeHad->Branch("JetPuppiSDphiRaw"                          , & JetPuppiSDphiRaw                     ,    "JetPuppiSDphiRaw/F"                           );
+  TreeHad->Branch("event_data->JetPuppiSDmassRaw"                         , & event_data->JetPuppiSDmassRaw                    ,    "event_data->JetPuppiSDmassRaw/F"                          );
+  TreeHad->Branch("event_data->JetPuppiSDmassSubjetCorr"                     , & event_data->JetPuppiSDmassSubjetCorr                ,    "event_data->JetPuppiSDmassSubjetCorr/F"                      );
+  TreeHad->Branch("event_data->JetPuppiSDptRaw"                           , & event_data->JetPuppiSDptRaw                      ,    "event_data->JetPuppiSDptRaw/F"                            );
+  TreeHad->Branch("event_data->JetPuppiSDetaRaw"                          , & event_data->JetPuppiSDetaRaw                     ,    "event_data->JetPuppiSDetaRaw/F"                           );
+  TreeHad->Branch("event_data->JetPuppiSDphiRaw"                          , & event_data->JetPuppiSDphiRaw                     ,    "event_data->JetPuppiSDphiRaw/F"                           );
                          
 
-  TreeHad->Branch("JetPuppiTau1"                         , & JetPuppiTau1                      ,    "JetPuppiTau1/F"                           );                                      
-  TreeHad->Branch("JetPuppiTau2"                         , & JetPuppiTau2                      ,    "JetPuppiTau2/F"                           );                                      
-  TreeHad->Branch("JetPuppiTau3"                         , & JetPuppiTau3                      ,    "JetPuppiTau3/F"                           );                                      
-  TreeHad->Branch("JetPuppiTau4"                         , & JetPuppiTau4                      ,    "JetPuppiTau4/F"                           );                                      
-  TreeHad->Branch("JetPuppiTau32"                        , & JetPuppiTau32                     ,    "JetPuppiTau32/F"                          );                                       
-  TreeHad->Branch("JetPuppiTau21"                        , & JetPuppiTau21                     ,    "JetPuppiTau21/F"                          );                                       
+  TreeHad->Branch("event_data->JetPuppiTau1"                         , & event_data->JetPuppiTau1                      ,    "event_data->JetPuppiTau1/F"                           );                                      
+  TreeHad->Branch("event_data->JetPuppiTau2"                         , & event_data->JetPuppiTau2                      ,    "event_data->JetPuppiTau2/F"                           );                                      
+  TreeHad->Branch("event_data->JetPuppiTau3"                         , & event_data->JetPuppiTau3                      ,    "event_data->JetPuppiTau3/F"                           );                                      
+  TreeHad->Branch("event_data->JetPuppiTau4"                         , & event_data->JetPuppiTau4                      ,    "event_data->JetPuppiTau4/F"                           );                                      
+  TreeHad->Branch("event_data->JetPuppiTau32"                        , & event_data->JetPuppiTau32                     ,    "event_data->JetPuppiTau32/F"                          );                                       
+  TreeHad->Branch("event_data->JetPuppiTau21"                        , & event_data->JetPuppiTau21                     ,    "event_data->JetPuppiTau21/F"                          );                                       
 
-  TreeHad->Branch("JetPuppiSDmaxbdisc"                   , & JetPuppiSDmaxbdisc                ,    "JetPuppiSDmaxbdisc/F"                     );                                            
-  TreeHad->Branch("JetPuppiSDmaxbdiscflavHadron"         , & JetPuppiSDmaxbdiscflavHadron      ,    "JetPuppiSDmaxbdiscflavHadron/F"           );                                                
-  TreeHad->Branch("JetPuppiSDmaxbdiscflavParton"         , & JetPuppiSDmaxbdiscflavParton      ,    "JetPuppiSDmaxbdiscflavParton/F"           );                                                
-  TreeHad->Branch("JetPuppiSDsubjet0pt"                  , & JetPuppiSDsubjet0pt               ,    "JetPuppiSDsubjet0pt/F"                    );    
-  TreeHad->Branch("JetPuppiSDsubjet0mass"                , & JetPuppiSDsubjet0mass             ,    "JetPuppiSDsubjet0mass/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet0eta"                 , & JetPuppiSDsubjet0eta              ,    "JetPuppiSDsubjet0eta/F"                   );
-  TreeHad->Branch("JetPuppiSDsubjet0phi"                 , & JetPuppiSDsubjet0phi              ,    "JetPuppiSDsubjet0phi/F"                   );
-  TreeHad->Branch("JetPuppiSDsubjet0area"                , & JetPuppiSDsubjet0area             ,    "JetPuppiSDsubjet0area/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet0flavHadron"          , & JetPuppiSDsubjet0flavHadron       ,    "JetPuppiSDsubjet0flavHadron/F"            );
-  TreeHad->Branch("JetPuppiSDsubjet0flavParton"          , & JetPuppiSDsubjet0flavParton       ,    "JetPuppiSDsubjet0flavParton/F"            );
-  TreeHad->Branch("JetPuppiSDsubjet0matchedgenjetpt"     , & JetPuppiSDsubjet0matchedgenjetpt  ,    "JetPuppiSDsubjet0matchedgenjetpt/F"       );
-  TreeHad->Branch("JetPuppiSDsubjet0tau1"                , & JetPuppiSDsubjet0tau1             ,    "JetPuppiSDsubjet0tau1/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet0tau2"                , & JetPuppiSDsubjet0tau2             ,    "JetPuppiSDsubjet0tau2/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet0tau3"                , & JetPuppiSDsubjet0tau3             ,    "JetPuppiSDsubjet0tau3/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet0bdisc"               , & JetPuppiSDsubjet0bdisc            ,    "JetPuppiSDsubjet0bdisc/F"                 );                                                
-  TreeHad->Branch("JetPuppiSDsubjet1pt"                  , & JetPuppiSDsubjet1pt               ,    "JetPuppiSDsubjet1pt/F"                    );    
-  TreeHad->Branch("JetPuppiSDsubjet1mass"                , & JetPuppiSDsubjet1mass             ,    "JetPuppiSDsubjet1mass/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet1eta"                 , & JetPuppiSDsubjet1eta              ,    "JetPuppiSDsubjet1eta/F"                   );
-  TreeHad->Branch("JetPuppiSDsubjet1phi"                 , & JetPuppiSDsubjet1phi              ,    "JetPuppiSDsubjet1phi/F"                   );  
-  TreeHad->Branch("JetPuppiSDsubjet1area"                , & JetPuppiSDsubjet1area             ,    "JetPuppiSDsubjet1area/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet1flavHadron"          , & JetPuppiSDsubjet1flavHadron       ,    "JetPuppiSDsubjet1flavHadron/F"            );
-  TreeHad->Branch("JetPuppiSDsubjet1flavParton"          , & JetPuppiSDsubjet1flavParton       ,    "JetPuppiSDsubjet1flavParton/F"            );
-  TreeHad->Branch("JetPuppiSDsubjet1matchedgenjetpt"     , & JetPuppiSDsubjet1matchedgenjetpt  ,    "JetPuppiSDsubjet1matchedgenjetpt/F"       );
-  TreeHad->Branch("JetPuppiSDsubjet1tau1"                , & JetPuppiSDsubjet1tau1             ,    "JetPuppiSDsubjet1tau1/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet1tau2"                , & JetPuppiSDsubjet1tau2             ,    "JetPuppiSDsubjet1tau2/F"                  );
-  TreeHad->Branch("JetPuppiSDsubjet1tau3"                , & JetPuppiSDsubjet1tau3             ,    "JetPuppiSDsubjet1tau3/F"                  );  
-  TreeHad->Branch("JetPuppiSDECF1"                       , & JetPuppiSDECF1                    ,    "JetPuppiSDECF1/F"                         );
-  TreeHad->Branch("JetPuppiSDECF2"                       , & JetPuppiSDECF2                    ,    "JetPuppiSDECF2/F"                         );
-  TreeHad->Branch("JetPuppiSDECF3"                       , & JetPuppiSDECF3                    ,    "JetPuppiSDECF3/F"                         );
-  TreeHad->Branch("JetPuppiSDECF4"                       , & JetPuppiSDECF4                    ,    "JetPuppiSDECF4/F"                         );
-  TreeHad->Branch("JetPuppiSDECF5"                       , & JetPuppiSDECF5                    ,    "JetPuppiSDECF5/F"                         );
-  TreeHad->Branch("JetPuppiSDC_2"                       , & JetPuppiSDC_2                    ,    "JetPuppiSDC_2/F"                         );
-  TreeHad->Branch("JetPuppiSDD_2"                       , & JetPuppiSDD_2                    ,    "JetPuppiSDD_2/F"                         );
-  TreeHad->Branch("JetPuppiSDC_3"                       , & JetPuppiSDC_3                    ,    "JetPuppiSDC_3/F"                         );
-  TreeHad->Branch("JetPuppiSDD_3"                       , & JetPuppiSDD_3                    ,    "JetPuppiSDD_3/F"                         );
-  TreeHad->Branch("JetPuppiSDsubjet1bdisc"               , & JetPuppiSDsubjet1bdisc            ,    "JetPuppiSDsubjet1bdisc/F"                 );                                                                                                                        
+  TreeHad->Branch("event_data->JetPuppiSDmaxbdisc"                   , & event_data->JetPuppiSDmaxbdisc                ,    "event_data->JetPuppiSDmaxbdisc/F"                     );                                            
+  TreeHad->Branch("event_data->JetPuppiSDmaxbdiscflavHadron"         , & event_data->JetPuppiSDmaxbdiscflavHadron      ,    "event_data->JetPuppiSDmaxbdiscflavHadron/F"           );                                                
+  TreeHad->Branch("event_data->JetPuppiSDmaxbdiscflavParton"         , & event_data->JetPuppiSDmaxbdiscflavParton      ,    "event_data->JetPuppiSDmaxbdiscflavParton/F"           );                                                
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0pt"                  , & event_data->JetPuppiSDsubjet0pt               ,    "event_data->JetPuppiSDsubjet0pt/F"                    );    
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0mass"                , & event_data->JetPuppiSDsubjet0mass             ,    "event_data->JetPuppiSDsubjet0mass/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0eta"                 , & event_data->JetPuppiSDsubjet0eta              ,    "event_data->JetPuppiSDsubjet0eta/F"                   );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0phi"                 , & event_data->JetPuppiSDsubjet0phi              ,    "event_data->JetPuppiSDsubjet0phi/F"                   );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0area"                , & event_data->JetPuppiSDsubjet0area             ,    "event_data->JetPuppiSDsubjet0area/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0flavHadron"          , & event_data->JetPuppiSDsubjet0flavHadron       ,    "event_data->JetPuppiSDsubjet0flavHadron/F"            );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0flavParton"          , & event_data->JetPuppiSDsubjet0flavParton       ,    "event_data->JetPuppiSDsubjet0flavParton/F"            );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0matchedgenjetpt"     , & event_data->JetPuppiSDsubjet0matchedgenjetpt  ,    "event_data->JetPuppiSDsubjet0matchedgenjetpt/F"       );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0tau1"                , & event_data->JetPuppiSDsubjet0tau1             ,    "event_data->JetPuppiSDsubjet0tau1/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0tau2"                , & event_data->JetPuppiSDsubjet0tau2             ,    "event_data->JetPuppiSDsubjet0tau2/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0tau3"                , & event_data->JetPuppiSDsubjet0tau3             ,    "event_data->JetPuppiSDsubjet0tau3/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet0bdisc"               , & event_data->JetPuppiSDsubjet0bdisc            ,    "event_data->JetPuppiSDsubjet0bdisc/F"                 );                                                
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1pt"                  , & event_data->JetPuppiSDsubjet1pt               ,    "event_data->JetPuppiSDsubjet1pt/F"                    );    
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1mass"                , & event_data->JetPuppiSDsubjet1mass             ,    "event_data->JetPuppiSDsubjet1mass/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1eta"                 , & event_data->JetPuppiSDsubjet1eta              ,    "event_data->JetPuppiSDsubjet1eta/F"                   );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1phi"                 , & event_data->JetPuppiSDsubjet1phi              ,    "event_data->JetPuppiSDsubjet1phi/F"                   );  
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1area"                , & event_data->JetPuppiSDsubjet1area             ,    "event_data->JetPuppiSDsubjet1area/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1flavHadron"          , & event_data->JetPuppiSDsubjet1flavHadron       ,    "event_data->JetPuppiSDsubjet1flavHadron/F"            );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1flavParton"          , & event_data->JetPuppiSDsubjet1flavParton       ,    "event_data->JetPuppiSDsubjet1flavParton/F"            );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1matchedgenjetpt"     , & event_data->JetPuppiSDsubjet1matchedgenjetpt  ,    "event_data->JetPuppiSDsubjet1matchedgenjetpt/F"       );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1tau1"                , & event_data->JetPuppiSDsubjet1tau1             ,    "event_data->JetPuppiSDsubjet1tau1/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1tau2"                , & event_data->JetPuppiSDsubjet1tau2             ,    "event_data->JetPuppiSDsubjet1tau2/F"                  );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1tau3"                , & event_data->JetPuppiSDsubjet1tau3             ,    "event_data->JetPuppiSDsubjet1tau3/F"                  );  
+  TreeHad->Branch("event_data->JetPuppiSDECF1"                       , & event_data->JetPuppiSDECF1                    ,    "event_data->JetPuppiSDECF1/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDECF2"                       , & event_data->JetPuppiSDECF2                    ,    "event_data->JetPuppiSDECF2/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDECF3"                       , & event_data->JetPuppiSDECF3                    ,    "event_data->JetPuppiSDECF3/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDECF4"                       , & event_data->JetPuppiSDECF4                    ,    "event_data->JetPuppiSDECF4/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDECF5"                       , & event_data->JetPuppiSDECF5                    ,    "event_data->JetPuppiSDECF5/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDC_2"                       , & event_data->JetPuppiSDC_2                    ,    "event_data->JetPuppiSDC_2/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDD_2"                       , & event_data->JetPuppiSDD_2                    ,    "event_data->JetPuppiSDD_2/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDC_3"                       , & event_data->JetPuppiSDC_3                    ,    "event_data->JetPuppiSDC_3/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDD_3"                       , & event_data->JetPuppiSDD_3                    ,    "event_data->JetPuppiSDD_3/F"                         );
+  TreeHad->Branch("event_data->JetPuppiSDsubjet1bdisc"               , & event_data->JetPuppiSDsubjet1bdisc            ,    "event_data->JetPuppiSDsubjet1bdisc/F"                 );                                                                                                                        
 
 
-  TreeHad->Branch("JetCHF"                               , & JetCHF                            ,    "JetCHF/F"                                 );                                
-  TreeHad->Branch("JetNHF"                               , & JetNHF                            ,    "JetNHF/F"                                 );                                
-  TreeHad->Branch("JetCM"                                , & JetCM                             ,    "JetCM/F"                                  );                               
-  TreeHad->Branch("JetNM"                                , & JetNM                             ,    "JetNM/F"                                  );                               
-  TreeHad->Branch("JetNEF"                               , & JetNEF                            ,    "JetNEF/F"                                 );                                
-  TreeHad->Branch("JetCEF"                               , & JetCEF                            ,    "JetCEF/F"                                 );                                
-  TreeHad->Branch("JetMF"                                , & JetMF                             ,    "JetMF/F"                                  );                               
-  TreeHad->Branch("JetMult"                              , & JetMult                           ,    "JetMult/F"                                );
-  TreeHad->Branch("JetPuppiCHF"                          , & JetPuppiCHF                       ,    "JetPuppiCHF/F"                            );                                
-  TreeHad->Branch("JetPuppiNHF"                          , & JetPuppiNHF                       ,    "JetPuppiNHF/F"                            );                                
-  TreeHad->Branch("JetPuppiCM"                           , & JetPuppiCM                        ,    "JetPuppiCM/F"                             );                               
-  TreeHad->Branch("JetPuppiNM"                           , & JetPuppiNM                        ,    "JetPuppiNM/F"                             );                               
-  TreeHad->Branch("JetPuppiNEF"                          , & JetPuppiNEF                       ,    "JetPuppiNEF/F"                            );                                
-  TreeHad->Branch("JetPuppiCEF"                          , & JetPuppiCEF                       ,    "JetPuppiCEF/F"                            );                                
-  TreeHad->Branch("JetPuppiMF"                           , & JetPuppiMF                        ,    "JetPuppiMF/F"                             );                               
-  TreeHad->Branch("JetPuppiMult"                         , & JetPuppiMult                      ,    "JetPuppiMult/F"                           );                                  
-  TreeHad->Branch("JetMassCorrFactor"                    , & JetMassCorrFactor                 ,    "JetMassCorrFactor/F"                      );                                           
-  TreeHad->Branch("JetMassCorrFactorUp"                  , & JetMassCorrFactorUp               ,    "JetMassCorrFactorUp/F"                    );                                             
-  TreeHad->Branch("JetMassCorrFactorDn"                  , & JetMassCorrFactorDn               ,    "JetMassCorrFactorDn/F"                    );                                             
-  TreeHad->Branch("JetCorrFactor"                        , & JetCorrFactor                     ,    "JetCorrFactor/F"                          );                                       
-  TreeHad->Branch("JetCorrFactorUp"                      , & JetCorrFactorUp                   ,    "JetCorrFactorUp/F"                        );                                         
-  TreeHad->Branch("JetCorrFactorDn"                      , & JetCorrFactorDn                   ,    "JetCorrFactorDn/F"                        );                                         
-  TreeHad->Branch("JetPtSmearFactor"                     , & JetPtSmearFactor                  ,    "JetPtSmearFactor/F"                       );                                          
-  TreeHad->Branch("JetPtSmearFactorUp"                   , & JetPtSmearFactorUp                ,    "JetPtSmearFactorUp/F"                     );                                            
-  TreeHad->Branch("JetPtSmearFactorDn"                   , & JetPtSmearFactorDn                ,    "JetPtSmearFactorDn/F"                     );                                            
-  TreeHad->Branch("JetPuppiMassCorrFactor"               , & JetPuppiMassCorrFactor            ,    "JetPuppiMassCorrFactor/F"                 );                                                
-  TreeHad->Branch("JetPuppiMassCorrFactorUp"             , & JetPuppiMassCorrFactorUp          ,    "JetPuppiMassCorrFactorUp/F"               );                                                  
-  TreeHad->Branch("JetPuppiMassCorrFactorDn"             , & JetPuppiMassCorrFactorDn          ,    "JetPuppiMassCorrFactorDn/F"               );                                                  
-  TreeHad->Branch("JetPuppiCorrFactor"                   , & JetPuppiCorrFactor                ,    "JetPuppiCorrFactor/F"                     );                                            
-  TreeHad->Branch("JetPuppiCorrFactorUp"                 , & JetPuppiCorrFactorUp              ,    "JetPuppiCorrFactorUp/F"                   );                                              
-  TreeHad->Branch("JetPuppiCorrFactorDn"                 , & JetPuppiCorrFactorDn              ,    "JetPuppiCorrFactorDn/F"                   );                                              
-  TreeHad->Branch("JetPuppiPtSmearFactor"                , & JetPuppiPtSmearFactor             ,    "JetPuppiPtSmearFactor/F"                  );                                               
-  TreeHad->Branch("JetPuppiPtSmearFactorUp"              , & JetPuppiPtSmearFactorUp           ,    "JetPuppiPtSmearFactorUp/F"                );                                                 
-  TreeHad->Branch("JetPuppiPtSmearFactorDn"              , & JetPuppiPtSmearFactorDn           ,    "JetPuppiPtSmearFactorDn/F"                );                                                 
-  TreeHad->Branch("JetMatchedGenJetPt"                   , & JetMatchedGenJetPt                ,    "JetMatchedGenJetPt/F"                     );                                            
-  TreeHad->Branch("JetMatchedGenJetMass"                 , & JetMatchedGenJetMass              ,    "JetMatchedGenJetMass/F"                   ); 
-  TreeHad->Branch("JetPuppiMatchedGenJetPt"              , & JetPuppiMatchedGenJetPt           ,    "JetPuppiMatchedGenJetPt/F"                );                                            
-  TreeHad->Branch("JetPuppiMatchedGenJetMass"            , & JetPuppiMatchedGenJetMass         ,    "JetPuppiMatchedGenJetMass/F"              ); 
+  TreeHad->Branch("event_data->JetCHF"                               , & event_data->JetCHF                            ,    "event_data->JetCHF/F"                                 );                                
+  TreeHad->Branch("event_data->JetNHF"                               , & event_data->JetNHF                            ,    "event_data->JetNHF/F"                                 );                                
+  TreeHad->Branch("event_data->JetCM"                                , & event_data->JetCM                             ,    "event_data->JetCM/F"                                  );                               
+  TreeHad->Branch("event_data->JetNM"                                , & event_data->JetNM                             ,    "event_data->JetNM/F"                                  );                               
+  TreeHad->Branch("event_data->JetNEF"                               , & event_data->JetNEF                            ,    "event_data->JetNEF/F"                                 );                                
+  TreeHad->Branch("event_data->JetCEF"                               , & event_data->JetCEF                            ,    "event_data->JetCEF/F"                                 );                                
+  TreeHad->Branch("event_data->JetMF"                                , & event_data->JetMF                             ,    "event_data->JetMF/F"                                  );                               
+  TreeHad->Branch("event_data->JetMult"                              , & event_data->JetMult                           ,    "event_data->JetMult/F"                                );
+  TreeHad->Branch("event_data->JetPuppiCHF"                          , & event_data->JetPuppiCHF                       ,    "event_data->JetPuppiCHF/F"                            );                                
+  TreeHad->Branch("event_data->JetPuppiNHF"                          , & event_data->JetPuppiNHF                       ,    "event_data->JetPuppiNHF/F"                            );                                
+  TreeHad->Branch("event_data->JetPuppiCM"                           , & event_data->JetPuppiCM                        ,    "event_data->JetPuppiCM/F"                             );                               
+  TreeHad->Branch("event_data->JetPuppiNM"                           , & event_data->JetPuppiNM                        ,    "event_data->JetPuppiNM/F"                             );                               
+  TreeHad->Branch("event_data->JetPuppiNEF"                          , & event_data->JetPuppiNEF                       ,    "event_data->JetPuppiNEF/F"                            );                                
+  TreeHad->Branch("event_data->JetPuppiCEF"                          , & event_data->JetPuppiCEF                       ,    "event_data->JetPuppiCEF/F"                            );                                
+  TreeHad->Branch("event_data->JetPuppiMF"                           , & event_data->JetPuppiMF                        ,    "event_data->JetPuppiMF/F"                             );                               
+  TreeHad->Branch("event_data->JetPuppiMult"                         , & event_data->JetPuppiMult                      ,    "event_data->JetPuppiMult/F"                           );                                  
+  TreeHad->Branch("event_data->JetMassCorrFactor"                    , & event_data->JetMassCorrFactor                 ,    "event_data->JetMassCorrFactor/F"                      );                                           
+  TreeHad->Branch("event_data->JetMassCorrFactorUp"                  , & event_data->JetMassCorrFactorUp               ,    "event_data->JetMassCorrFactorUp/F"                    );                                             
+  TreeHad->Branch("event_data->JetMassCorrFactorDn"                  , & event_data->JetMassCorrFactorDn               ,    "event_data->JetMassCorrFactorDn/F"                    );                                             
+  TreeHad->Branch("event_data->JetCorrFactor"                        , & event_data->JetCorrFactor                     ,    "event_data->JetCorrFactor/F"                          );                                       
+  TreeHad->Branch("event_data->JetCorrFactorUp"                      , & event_data->JetCorrFactorUp                   ,    "event_data->JetCorrFactorUp/F"                        );                                         
+  TreeHad->Branch("event_data->JetCorrFactorDn"                      , & event_data->JetCorrFactorDn                   ,    "event_data->JetCorrFactorDn/F"                        );                                         
+  TreeHad->Branch("event_data->JetPtSmearFactor"                     , & event_data->JetPtSmearFactor                  ,    "event_data->JetPtSmearFactor/F"                       );                                          
+  TreeHad->Branch("event_data->JetPtSmearFactorUp"                   , & event_data->JetPtSmearFactorUp                ,    "event_data->JetPtSmearFactorUp/F"                     );                                            
+  TreeHad->Branch("event_data->JetPtSmearFactorDn"                   , & event_data->JetPtSmearFactorDn                ,    "event_data->JetPtSmearFactorDn/F"                     );                                            
+  TreeHad->Branch("event_data->JetPuppiMassCorrFactor"               , & event_data->JetPuppiMassCorrFactor            ,    "event_data->JetPuppiMassCorrFactor/F"                 );                                                
+  TreeHad->Branch("event_data->JetPuppiMassCorrFactorUp"             , & event_data->JetPuppiMassCorrFactorUp          ,    "event_data->JetPuppiMassCorrFactorUp/F"               );                                                  
+  TreeHad->Branch("event_data->JetPuppiMassCorrFactorDn"             , & event_data->JetPuppiMassCorrFactorDn          ,    "event_data->JetPuppiMassCorrFactorDn/F"               );                                                  
+  TreeHad->Branch("event_data->JetPuppiCorrFactor"                   , & event_data->JetPuppiCorrFactor                ,    "event_data->JetPuppiCorrFactor/F"                     );                                            
+  TreeHad->Branch("event_data->JetPuppiCorrFactorUp"                 , & event_data->JetPuppiCorrFactorUp              ,    "event_data->JetPuppiCorrFactorUp/F"                   );                                              
+  TreeHad->Branch("event_data->JetPuppiCorrFactorDn"                 , & event_data->JetPuppiCorrFactorDn              ,    "event_data->JetPuppiCorrFactorDn/F"                   );                                              
+  TreeHad->Branch("event_data->JetPuppiPtSmearFactor"                , & event_data->JetPuppiPtSmearFactor             ,    "event_data->JetPuppiPtSmearFactor/F"                  );                                               
+  TreeHad->Branch("event_data->JetPuppiPtSmearFactorUp"              , & event_data->JetPuppiPtSmearFactorUp           ,    "event_data->JetPuppiPtSmearFactorUp/F"                );                                                 
+  TreeHad->Branch("event_data->JetPuppiPtSmearFactorDn"              , & event_data->JetPuppiPtSmearFactorDn           ,    "event_data->JetPuppiPtSmearFactorDn/F"                );                                                 
+  TreeHad->Branch("event_data->JetMatchedGenJetPt"                   , & event_data->JetMatchedGenJetPt                ,    "event_data->JetMatchedGenJetPt/F"                     );                                            
+  TreeHad->Branch("event_data->JetMatchedGenJetMass"                 , & event_data->JetMatchedGenJetMass              ,    "event_data->JetMatchedGenJetMass/F"                   ); 
+  TreeHad->Branch("event_data->JetPuppiMatchedGenJetPt"              , & event_data->JetPuppiMatchedGenJetPt           ,    "event_data->JetPuppiMatchedGenJetPt/F"                );                                            
+  TreeHad->Branch("event_data->JetPuppiMatchedGenJetMass"            , & event_data->JetPuppiMatchedGenJetMass         ,    "event_data->JetPuppiMatchedGenJetMass/F"              ); 
                            
-  TreeHad->Branch("JetGenMatched_TopHadronic"            , & JetGenMatched_TopHadronic         ,    "JetGenMatched_TopHadronic/I"              );      
-  TreeHad->Branch("JetGenMatched_TopPt"                  , & JetGenMatched_TopPt               ,    "JetGenMatched_TopPt/F"                    );      
-  TreeHad->Branch("JetGenMatched_TopEta"                 , & JetGenMatched_TopEta              ,    "JetGenMatched_TopEta/F"                   );      
-  TreeHad->Branch("JetGenMatched_TopPhi"                 , & JetGenMatched_TopPhi              ,    "JetGenMatched_TopPhi/F"                   );      
-  TreeHad->Branch("JetGenMatched_TopMass"                , & JetGenMatched_TopMass             ,    "JetGenMatched_TopMass/F"                  );      
-  TreeHad->Branch("JetGenMatched_bPt"                    , & JetGenMatched_bPt                 ,    "JetGenMatched_bPt/F"                      );      
-  TreeHad->Branch("JetGenMatched_WPt"                    , & JetGenMatched_WPt                 ,    "JetGenMatched_WPt/F"                      );      
-  TreeHad->Branch("JetGenMatched_Wd1Pt"                  , & JetGenMatched_Wd1Pt               ,    "JetGenMatched_Wd1Pt/F"                    );      
-  TreeHad->Branch("JetGenMatched_Wd2Pt"                  , & JetGenMatched_Wd2Pt               ,    "JetGenMatched_Wd2Pt/F"                    );      
-  TreeHad->Branch("JetGenMatched_Wd1ID"                  , & JetGenMatched_Wd1ID               ,    "JetGenMatched_Wd1ID/F"                    );      
-  TreeHad->Branch("JetGenMatched_Wd2ID"                  , & JetGenMatched_Wd2ID               ,    "JetGenMatched_Wd2ID/F"                    );      
-  TreeHad->Branch("JetGenMatched_MaxDeltaRPartonTop"     , & JetGenMatched_MaxDeltaRPartonTop  ,    "JetGenMatched_MaxDeltaRPartonTop/F"       );      
-  TreeHad->Branch("JetGenMatched_MaxDeltaRWPartonTop"    , & JetGenMatched_MaxDeltaRWPartonTop ,    "JetGenMatched_MaxDeltaRWPartonTop/F"      );      
-  TreeHad->Branch("JetGenMatched_MaxDeltaRWPartonW"      , & JetGenMatched_MaxDeltaRWPartonW   ,    "JetGenMatched_MaxDeltaRWPartonW/F"        );      
-  TreeHad->Branch("JetGenMatched_DeltaR_t_b"             , & JetGenMatched_DeltaR_t_b          ,    "JetGenMatched_DeltaR_t_b/F"               );      
-  TreeHad->Branch("JetGenMatched_DeltaR_t_W"             , & JetGenMatched_DeltaR_t_W          ,    "JetGenMatched_DeltaR_t_W/F"               );      
-  TreeHad->Branch("JetGenMatched_DeltaR_t_Wd1"           , & JetGenMatched_DeltaR_t_Wd1        ,    "JetGenMatched_DeltaR_t_Wd1/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_t_Wd2"           , & JetGenMatched_DeltaR_t_Wd2        ,    "JetGenMatched_DeltaR_t_Wd2/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_W_b1"            , & JetGenMatched_DeltaR_W_b1         ,    "JetGenMatched_DeltaR_W_b1/F"              );      
-  TreeHad->Branch("JetGenMatched_DeltaR_W_Wd1"           , & JetGenMatched_DeltaR_W_Wd1        ,    "JetGenMatched_DeltaR_W_Wd1/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_W_Wd2"           , & JetGenMatched_DeltaR_W_Wd2        ,    "JetGenMatched_DeltaR_W_Wd2/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_Wd1_Wd2"         , & JetGenMatched_DeltaR_Wd1_Wd2      ,    "JetGenMatched_DeltaR_Wd1_Wd2/F"           );      
-  TreeHad->Branch("JetGenMatched_DeltaR_Wd1_b"           , & JetGenMatched_DeltaR_Wd1_b        ,    "JetGenMatched_DeltaR_Wd1_b/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_Wd2_b"           , & JetGenMatched_DeltaR_Wd2_b        ,    "JetGenMatched_DeltaR_Wd2_b/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_jet_t"           , & JetGenMatched_DeltaR_jet_t        ,    "JetGenMatched_DeltaR_jet_t/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_jet_W"           , & JetGenMatched_DeltaR_jet_W        ,    "JetGenMatched_DeltaR_jet_W/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_jet_b"           , & JetGenMatched_DeltaR_jet_b        ,    "JetGenMatched_DeltaR_jet_b/F"             );      
-  TreeHad->Branch("JetGenMatched_DeltaR_jet_Wd1"         , & JetGenMatched_DeltaR_jet_Wd1      ,    "JetGenMatched_DeltaR_jet_Wd1/F"           );      
-  TreeHad->Branch("JetGenMatched_DeltaR_jet_Wd2"         , & JetGenMatched_DeltaR_jet_Wd2      ,    "JetGenMatched_DeltaR_jet_Wd2/F"           );      
-  TreeHad->Branch("JetGenMatched_DeltaR_pup0_b"          , & JetGenMatched_DeltaR_pup0_b       ,    "JetGenMatched_DeltaR_pup0_b/F"            );      
-  TreeHad->Branch("JetGenMatched_DeltaR_pup0_Wd1"        , & JetGenMatched_DeltaR_pup0_Wd1     ,    "JetGenMatched_DeltaR_pup0_Wd1/F"          );      
-  TreeHad->Branch("JetGenMatched_DeltaR_pup0_Wd2"        , & JetGenMatched_DeltaR_pup0_Wd2     ,    "JetGenMatched_DeltaR_pup0_Wd2/F"          );      
-  TreeHad->Branch("JetGenMatched_DeltaR_pup1_b"          , & JetGenMatched_DeltaR_pup1_b       ,    "JetGenMatched_DeltaR_pup1_b/F"            );      
-  TreeHad->Branch("JetGenMatched_DeltaR_pup1_Wd1"        , & JetGenMatched_DeltaR_pup1_Wd1     ,    "JetGenMatched_DeltaR_pup1_Wd1/F"          );      
-  TreeHad->Branch("JetGenMatched_DeltaR_pup1_Wd2"        , & JetGenMatched_DeltaR_pup1_Wd2     ,    "JetGenMatched_DeltaR_pup1_Wd2/F"          );               
-  TreeHad->Branch("JetGenMatched_partonPt"               , & JetGenMatched_partonPt            ,    "JetGenMatched_partonPt/F"                 );      
-  TreeHad->Branch("JetGenMatched_partonEta"              , & JetGenMatched_partonEta           ,    "JetGenMatched_partonEta/F"                );      
-  TreeHad->Branch("JetGenMatched_partonPhi"              , & JetGenMatched_partonPhi           ,    "JetGenMatched_partonPhi/F"                );      
-  TreeHad->Branch("JetGenMatched_partonMass"             , & JetGenMatched_partonMass          ,    "JetGenMatched_partonMass/F"               );      
-  TreeHad->Branch("JetGenMatched_partonID"               , & JetGenMatched_partonID            ,    "JetGenMatched_partonID/F"                 );      
-  TreeHad->Branch("JetGenMatched_DeltaRjetParton"        , & JetGenMatched_DeltaRjetParton     ,    "JetGenMatched_DeltaRjetParton/F"          );      
+  TreeHad->Branch("event_data->JetGenMatched_TopHadronic"            , & event_data->JetGenMatched_TopHadronic         ,    "event_data->JetGenMatched_TopHadronic/I"              );      
+  TreeHad->Branch("event_data->JetGenMatched_TopPt"                  , & event_data->JetGenMatched_TopPt               ,    "event_data->JetGenMatched_TopPt/F"                    );      
+  TreeHad->Branch("event_data->JetGenMatched_TopEta"                 , & event_data->JetGenMatched_TopEta              ,    "event_data->JetGenMatched_TopEta/F"                   );      
+  TreeHad->Branch("event_data->JetGenMatched_TopPhi"                 , & event_data->JetGenMatched_TopPhi              ,    "event_data->JetGenMatched_TopPhi/F"                   );      
+  TreeHad->Branch("event_data->JetGenMatched_TopMass"                , & event_data->JetGenMatched_TopMass             ,    "event_data->JetGenMatched_TopMass/F"                  );      
+  TreeHad->Branch("event_data->JetGenMatched_bPt"                    , & event_data->JetGenMatched_bPt                 ,    "event_data->JetGenMatched_bPt/F"                      );      
+  TreeHad->Branch("event_data->JetGenMatched_WPt"                    , & event_data->JetGenMatched_WPt                 ,    "event_data->JetGenMatched_WPt/F"                      );      
+  TreeHad->Branch("event_data->JetGenMatched_Wd1Pt"                  , & event_data->JetGenMatched_Wd1Pt               ,    "event_data->JetGenMatched_Wd1Pt/F"                    );      
+  TreeHad->Branch("event_data->JetGenMatched_Wd2Pt"                  , & event_data->JetGenMatched_Wd2Pt               ,    "event_data->JetGenMatched_Wd2Pt/F"                    );      
+  TreeHad->Branch("event_data->JetGenMatched_Wd1ID"                  , & event_data->JetGenMatched_Wd1ID               ,    "event_data->JetGenMatched_Wd1ID/F"                    );      
+  TreeHad->Branch("event_data->JetGenMatched_Wd2ID"                  , & event_data->JetGenMatched_Wd2ID               ,    "event_data->JetGenMatched_Wd2ID/F"                    );      
+  TreeHad->Branch("event_data->JetGenMatched_MaxDeltaRPartonTop"     , & event_data->JetGenMatched_MaxDeltaRPartonTop  ,    "event_data->JetGenMatched_MaxDeltaRPartonTop/F"       );      
+  TreeHad->Branch("event_data->JetGenMatched_MaxDeltaRWPartonTop"    , & event_data->JetGenMatched_MaxDeltaRWPartonTop ,    "event_data->JetGenMatched_MaxDeltaRWPartonTop/F"      );      
+  TreeHad->Branch("event_data->JetGenMatched_MaxDeltaRWPartonW"      , & event_data->JetGenMatched_MaxDeltaRWPartonW   ,    "event_data->JetGenMatched_MaxDeltaRWPartonW/F"        );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_t_b"             , & event_data->JetGenMatched_DeltaR_t_b          ,    "event_data->JetGenMatched_DeltaR_t_b/F"               );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_t_W"             , & event_data->JetGenMatched_DeltaR_t_W          ,    "event_data->JetGenMatched_DeltaR_t_W/F"               );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_t_Wd1"           , & event_data->JetGenMatched_DeltaR_t_Wd1        ,    "event_data->JetGenMatched_DeltaR_t_Wd1/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_t_Wd2"           , & event_data->JetGenMatched_DeltaR_t_Wd2        ,    "event_data->JetGenMatched_DeltaR_t_Wd2/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_W_b1"            , & event_data->JetGenMatched_DeltaR_W_b1         ,    "event_data->JetGenMatched_DeltaR_W_b1/F"              );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_W_Wd1"           , & event_data->JetGenMatched_DeltaR_W_Wd1        ,    "event_data->JetGenMatched_DeltaR_W_Wd1/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_W_Wd2"           , & event_data->JetGenMatched_DeltaR_W_Wd2        ,    "event_data->JetGenMatched_DeltaR_W_Wd2/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_Wd1_Wd2"         , & event_data->JetGenMatched_DeltaR_Wd1_Wd2      ,    "event_data->JetGenMatched_DeltaR_Wd1_Wd2/F"           );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_Wd1_b"           , & event_data->JetGenMatched_DeltaR_Wd1_b        ,    "event_data->JetGenMatched_DeltaR_Wd1_b/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_Wd2_b"           , & event_data->JetGenMatched_DeltaR_Wd2_b        ,    "event_data->JetGenMatched_DeltaR_Wd2_b/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_jet_t"           , & event_data->JetGenMatched_DeltaR_jet_t        ,    "event_data->JetGenMatched_DeltaR_jet_t/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_jet_W"           , & event_data->JetGenMatched_DeltaR_jet_W        ,    "event_data->JetGenMatched_DeltaR_jet_W/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_jet_b"           , & event_data->JetGenMatched_DeltaR_jet_b        ,    "event_data->JetGenMatched_DeltaR_jet_b/F"             );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_jet_Wd1"         , & event_data->JetGenMatched_DeltaR_jet_Wd1      ,    "event_data->JetGenMatched_DeltaR_jet_Wd1/F"           );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_jet_Wd2"         , & event_data->JetGenMatched_DeltaR_jet_Wd2      ,    "event_data->JetGenMatched_DeltaR_jet_Wd2/F"           );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_pup0_b"          , & event_data->JetGenMatched_DeltaR_pup0_b       ,    "event_data->JetGenMatched_DeltaR_pup0_b/F"            );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_pup0_Wd1"        , & event_data->JetGenMatched_DeltaR_pup0_Wd1     ,    "event_data->JetGenMatched_DeltaR_pup0_Wd1/F"          );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_pup0_Wd2"        , & event_data->JetGenMatched_DeltaR_pup0_Wd2     ,    "event_data->JetGenMatched_DeltaR_pup0_Wd2/F"          );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_pup1_b"          , & event_data->JetGenMatched_DeltaR_pup1_b       ,    "event_data->JetGenMatched_DeltaR_pup1_b/F"            );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_pup1_Wd1"        , & event_data->JetGenMatched_DeltaR_pup1_Wd1     ,    "event_data->JetGenMatched_DeltaR_pup1_Wd1/F"          );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaR_pup1_Wd2"        , & event_data->JetGenMatched_DeltaR_pup1_Wd2     ,    "event_data->JetGenMatched_DeltaR_pup1_Wd2/F"          );               
+  TreeHad->Branch("event_data->JetGenMatched_partonPt"               , & event_data->JetGenMatched_partonPt            ,    "event_data->JetGenMatched_partonPt/F"                 );      
+  TreeHad->Branch("event_data->JetGenMatched_partonEta"              , & event_data->JetGenMatched_partonEta           ,    "event_data->JetGenMatched_partonEta/F"                );      
+  TreeHad->Branch("event_data->JetGenMatched_partonPhi"              , & event_data->JetGenMatched_partonPhi           ,    "event_data->JetGenMatched_partonPhi/F"                );      
+  TreeHad->Branch("event_data->JetGenMatched_partonMass"             , & event_data->JetGenMatched_partonMass          ,    "event_data->JetGenMatched_partonMass/F"               );      
+  TreeHad->Branch("event_data->JetGenMatched_partonID"               , & event_data->JetGenMatched_partonID            ,    "event_data->JetGenMatched_partonID/F"                 );      
+  TreeHad->Branch("event_data->JetGenMatched_DeltaRjetParton"        , & event_data->JetGenMatched_DeltaRjetParton     ,    "event_data->JetGenMatched_DeltaRjetParton/F"          );      
   std::cout<<"Setup semi-lept jets in tree"<<std::endl;
 
 
-  TreeHad->Branch("HadMETpx"                        , & HadMETpx                     , "HadMETpx/F"                  );
-  TreeHad->Branch("HadMETpy"                        , & HadMETpy                     , "HadMETpy/F"                  );
-  TreeHad->Branch("HadMETpt"                        , & HadMETpt                     , "HadMETpt/F"                  );
-  TreeHad->Branch("HadMETphi"                       , & HadMETphi                    , "HadMETphi/F"                 );
-  TreeHad->Branch("HadMETsumET"                     , & HadMETsumET                  , "HadMETsumET/F"               );
-  TreeHad->Branch("HadMETgenMET"                    , & HadMETgenMET                 , "HadMETgenMET/F"              );
-  TreeHad->Branch("HadMETuncorPt"                   , & HadMETuncorPt                , "HadMETuncorPt/F"             );
+  TreeHad->Branch("event_data->HadMETpx"                        , & event_data->HadMETpx                     , "event_data->HadMETpx/F"                  );
+  TreeHad->Branch("event_data->HadMETpy"                        , & event_data->HadMETpy                     , "event_data->HadMETpy/F"                  );
+  TreeHad->Branch("event_data->HadMETpt"                        , & event_data->HadMETpt                     , "event_data->HadMETpt/F"                  );
+  TreeHad->Branch("event_data->HadMETphi"                       , & event_data->HadMETphi                    , "event_data->HadMETphi/F"                 );
+  TreeHad->Branch("event_data->HadMETsumET"                     , & event_data->HadMETsumET                  , "event_data->HadMETsumET/F"               );
+  TreeHad->Branch("event_data->HadMETgenMET"                    , & event_data->HadMETgenMET                 , "event_data->HadMETgenMET/F"              );
+  TreeHad->Branch("event_data->HadMETuncorPt"                   , & event_data->HadMETuncorPt                , "event_data->HadMETuncorPt/F"             );
 
-  TreeHad->Branch("HadMETshiftedPtJetEnUp"      , & HadMETshiftedPtJetEnUp   , "HadMETshiftedPtJetEnUp/F"     );
-  TreeHad->Branch("HadMETshiftedPtJetEnDn"      , & HadMETshiftedPtJetEnDn   , "HadMETshiftedPtJetEnDn/F"     );
-  TreeHad->Branch("HadMETshiftedPtElEnUp"       , & HadMETshiftedPtElEnUp    , "HadMETshiftedPtElEnUp/F"      );
-  TreeHad->Branch("HadMETshiftedPtElEnDn"       , & HadMETshiftedPtElEnDn    , "HadMETshiftedPtElEnDn/F"      );
-  TreeHad->Branch("HadMETshiftedPtMuEnUp"       , & HadMETshiftedPtMuEnUp    , "HadMETshiftedPtMuEnUp/F"      );
-  TreeHad->Branch("HadMETshiftedPtMuEnDn"       , & HadMETshiftedPtMuEnDn    , "HadMETshiftedPtMuEnDn/F"      );
-  TreeHad->Branch("HadMETshiftedPtJetResUp"     , & HadMETshiftedPtJetResUp  , "HadMETshiftedPtJetResUp/F"    );
-  TreeHad->Branch("HadMETshiftedPtJetResDn"     , & HadMETshiftedPtJetResDn  , "HadMETshiftedPtJetResDn/F"    );
-  TreeHad->Branch("HadMETshiftedPtUnclEnUp"     , & HadMETshiftedPtUnclEnUp  , "HadMETshiftedPtUnclEnUp/F"    );
-  TreeHad->Branch("HadMETshiftedPtUnclEnDn"     , & HadMETshiftedPtUnclEnDn  , "HadMETshiftedPtUnclEnDn/F"    );
+  TreeHad->Branch("event_data->HadMETshiftedPtJetEnUp"      , & event_data->HadMETshiftedPtJetEnUp   , "event_data->HadMETshiftedPtJetEnUp/F"     );
+  TreeHad->Branch("event_data->HadMETshiftedPtJetEnDn"      , & event_data->HadMETshiftedPtJetEnDn   , "event_data->HadMETshiftedPtJetEnDn/F"     );
+  TreeHad->Branch("event_data->HadMETshiftedPtElEnUp"       , & event_data->HadMETshiftedPtElEnUp    , "event_data->HadMETshiftedPtElEnUp/F"      );
+  TreeHad->Branch("event_data->HadMETshiftedPtElEnDn"       , & event_data->HadMETshiftedPtElEnDn    , "event_data->HadMETshiftedPtElEnDn/F"      );
+  TreeHad->Branch("event_data->HadMETshiftedPtMuEnUp"       , & event_data->HadMETshiftedPtMuEnUp    , "event_data->HadMETshiftedPtMuEnUp/F"      );
+  TreeHad->Branch("event_data->HadMETshiftedPtMuEnDn"       , & event_data->HadMETshiftedPtMuEnDn    , "event_data->HadMETshiftedPtMuEnDn/F"      );
+  TreeHad->Branch("event_data->HadMETshiftedPtJetResUp"     , & event_data->HadMETshiftedPtJetResUp  , "event_data->HadMETshiftedPtJetResUp/F"    );
+  TreeHad->Branch("event_data->HadMETshiftedPtJetResDn"     , & event_data->HadMETshiftedPtJetResDn  , "event_data->HadMETshiftedPtJetResDn/F"    );
+  TreeHad->Branch("event_data->HadMETshiftedPtUnclEnUp"     , & event_data->HadMETshiftedPtUnclEnUp  , "event_data->HadMETshiftedPtUnclEnUp/F"    );
+  TreeHad->Branch("event_data->HadMETshiftedPtUnclEnDn"     , & event_data->HadMETshiftedPtUnclEnDn  , "event_data->HadMETshiftedPtUnclEnDn/F"    );
 
-  TreeHad->Branch("HadNvtx"                         , & HadNvtx                      , "HadNvtx/F"                   );
-  TreeHad->Branch("HadNvtxGood"                     , & HadNvtxGood                  , "HadNvtxGood/F"               );
-  TreeHad->Branch("HadRho"                          , & HadRho                       , "HadRho/F"                    );
-  TreeHad->Branch("HadEventWeight"                  , & HadEventWeight               , "HadEventWeight/F"            );
-  TreeHad->Branch("HadPUweight"                     , & HadPUweight                  , "HadPUweight/F"            );
-  TreeHad->Branch("HadPUweight_MBup"                , & HadPUweight_MBup             , "HadPUweight_MBup/F"            );
-  TreeHad->Branch("HadPUweight_MBdn"                , & HadPUweight_MBdn             , "HadPUweight_MBdn/F"            );
+  TreeHad->Branch("event_data->HadNvtx"                         , & event_data->HadNvtx                      , "event_data->HadNvtx/F"                   );
+  TreeHad->Branch("event_data->HadNvtxGood"                     , & event_data->HadNvtxGood                  , "event_data->HadNvtxGood/F"               );
+  TreeHad->Branch("event_data->HadRho"                          , & event_data->HadRho                       , "event_data->HadRho/F"                    );
+  TreeHad->Branch("event_data->HadEventWeight"                  , & event_data->HadEventWeight               , "event_data->HadEventWeight/F"            );
+  TreeHad->Branch("event_data->HadPUweight"                     , & event_data->HadPUweight                  , "event_data->HadPUweight/F"            );
+  TreeHad->Branch("event_data->HadPUweight_MBup"                , & event_data->HadPUweight_MBup             , "event_data->HadPUweight_MBup/F"            );
+  TreeHad->Branch("event_data->HadPUweight_MBdn"                , & event_data->HadPUweight_MBdn             , "event_data->HadPUweight_MBdn/F"            );
        
   
 
-  TreeHad->Branch("HadGenTTmass"                    , & HadGenTTmass                 , "HadGenTTmass/F"              );
-  TreeHad->Branch("HadGenCountHadTop"               , & HadGenCountHadTop            , "HadGenCountHadTop/I"         );
+  TreeHad->Branch("event_data->HadGenTTmass"                    , & event_data->HadGenTTmass                 , "event_data->HadGenTTmass/F"              );
+  TreeHad->Branch("event_data->HadGenCountHadTop"               , & event_data->HadGenCountHadTop            , "event_data->HadGenCountHadTop/I"         );
   
-  TreeHad->Branch("HTlep"                                , & HTlep                             , "HTlep/F"                  );
-  TreeHad->Branch("ST"                                   , & ST                                , "ST/F"                     );
-  TreeHad->Branch("ST_CorrDn"                            , & ST_CorrDn                         , "ST_CorrDn/F"              );
-  TreeHad->Branch("ST_CorrUp"                            , & ST_CorrUp                         , "ST_CorrUp/F"              );
-  TreeHad->Branch("ST_PtSmearNom"                        , & ST_PtSmearNom                     , "ST_PtSmearNom/F"          );
-  TreeHad->Branch("ST_PtSmearUp"                         , & ST_PtSmearUp                      , "ST_PtSmearUp/F"           );
-  TreeHad->Branch("ST_PtSmearDn"                         , & ST_PtSmearDn                      , "ST_PtSmearDn/F"           );
+  TreeHad->Branch("event_data->HTlep"                                , & event_data->HTlep                             , "event_data->HTlep/F"                  );
+  TreeHad->Branch("event_data->ST"                                   , & event_data->ST                                , "event_data->ST/F"                     );
+  TreeHad->Branch("event_data->ST_CorrDn"                            , & event_data->ST_CorrDn                         , "event_data->ST_CorrDn/F"              );
+  TreeHad->Branch("event_data->ST_CorrUp"                            , & event_data->ST_CorrUp                         , "event_data->ST_CorrUp/F"              );
+  TreeHad->Branch("event_data->ST_PtSmearNom"                        , & event_data->ST_PtSmearNom                     , "event_data->ST_PtSmearNom/F"          );
+  TreeHad->Branch("event_data->ST_PtSmearUp"                         , & event_data->ST_PtSmearUp                      , "event_data->ST_PtSmearUp/F"           );
+  TreeHad->Branch("event_data->ST_PtSmearDn"                         , & event_data->ST_PtSmearDn                      , "event_data->ST_PtSmearDn/F"           );
   
-  TreeHad->Branch("HadQ2weight_CorrDn"              , & HadQ2weight_CorrDn           , "HadQ2weight_CorrDn/F"        );
-  TreeHad->Branch("HadQ2weight_CorrUp"              , & HadQ2weight_CorrUp           , "HadQ2weight_CorrUp/F"        );
-  TreeHad->Branch("HadNNPDF3weight_CorrDn"          , & HadNNPDF3weight_CorrDn       , "HadNNPDF3weight_CorrDn/F"    );
-  TreeHad->Branch("HadNNPDF3weight_CorrUp"          , & HadNNPDF3weight_CorrUp       , "HadNNPDF3weight_CorrUp/F"    );
-  TreeHad->Branch("HadRunNum"                       , & HadRunNum                    , "HadRunNum/I"                 );
-  TreeHad->Branch("HadLumiBlock"                    , & HadLumiBlock                 , "HadLumiBlock/I"              );
-  TreeHad->Branch("HadEventNum"                     , & HadEventNum                  , "HadEventNum/I"               );
-  TreeHad->Branch("HadPassMETFilters"               , & HadPassMETFilters            , "HadPassMETFilters/I"         );
+  TreeHad->Branch("event_data->HadQ2weight_CorrDn"              , & event_data->HadQ2weight_CorrDn           , "event_data->HadQ2weight_CorrDn/F"        );
+  TreeHad->Branch("event_data->HadQ2weight_CorrUp"              , & event_data->HadQ2weight_CorrUp           , "event_data->HadQ2weight_CorrUp/F"        );
+  TreeHad->Branch("event_data->HadNNPDF3weight_CorrDn"          , & event_data->HadNNPDF3weight_CorrDn       , "event_data->HadNNPDF3weight_CorrDn/F"    );
+  TreeHad->Branch("event_data->HadNNPDF3weight_CorrUp"          , & event_data->HadNNPDF3weight_CorrUp       , "event_data->HadNNPDF3weight_CorrUp/F"    );
+  TreeHad->Branch("event_data->HadRunNum"                       , & event_data->HadRunNum                    , "event_data->HadRunNum/I"                 );
+  TreeHad->Branch("event_data->HadLumiBlock"                    , & event_data->HadLumiBlock                 , "event_data->HadLumiBlock/I"              );
+  TreeHad->Branch("event_data->HadEventNum"                     , & event_data->HadEventNum                  , "event_data->HadEventNum/I"               );
+  TreeHad->Branch("event_data->HadPassMETFilters"               , & event_data->HadPassMETFilters            , "event_data->HadPassMETFilters/I"         );
 
 
-  TreeHad->Branch("AK4_uncorr_pt",          & AK4_uncorr_pt               , "AK4_uncorr_pt/F");      
-  TreeHad->Branch("AK4_corr_pt",          & AK4_corr_pt               , "AK4_corr_pt/F");  
+  TreeHad->Branch("event_data->AK4_uncorr_pt",          & event_data->AK4_uncorr_pt               , "event_data->AK4_uncorr_pt/F");      
+  TreeHad->Branch("event_data->AK4_corr_pt",          & event_data->AK4_corr_pt               , "event_data->AK4_corr_pt/F");  
 
-  TreeHad->Branch("CA12JetPtRaw",          & CA12JetPtRaw               , "CA12JetPtRaw/F");                
-  TreeHad->Branch("CA12JetEtaRaw",          & CA12JetEtaRaw               , "CA12JetEtaRaw/F");                 
-  TreeHad->Branch("CA12JetPhiRaw",          & CA12JetPhiRaw               , "CA12JetPhiRaw/F");                 
-  TreeHad->Branch("CA12JetMassRaw",          & CA12JetMassRaw               , "CA12JetMassRaw/F");                
+  TreeHad->Branch("event_data->CA12JetPtRaw",          & event_data->CA12JetPtRaw               , "event_data->CA12JetPtRaw/F");                
+  TreeHad->Branch("event_data->CA12JetEtaRaw",          & event_data->CA12JetEtaRaw               , "event_data->CA12JetEtaRaw/F");                 
+  TreeHad->Branch("event_data->CA12JetPhiRaw",          & event_data->CA12JetPhiRaw               , "event_data->CA12JetPhiRaw/F");                 
+  TreeHad->Branch("event_data->CA12JetMassRaw",          & event_data->CA12JetMassRaw               , "event_data->CA12JetMassRaw/F");                
 
-  TreeHad->Branch("CA12JetTau1",          & CA12JetTau1               , "CA12JetTau1/F");                   
-  TreeHad->Branch("CA12JetTau2",          & CA12JetTau2               , "CA12JetTau2/F");                   
-  TreeHad->Branch("CA12JetTau3",          & CA12JetTau3               , "CA12JetTau3/F");                   
-  TreeHad->Branch("CA12JetTau4",          & CA12JetTau4               , "CA12JetTau4/F");                   
-  TreeHad->Branch("CA12JetTau32",          & CA12JetTau32               , "CA12JetTau32/F");                  
-  TreeHad->Branch("CA12JetTau21",          & CA12JetTau21               , "CA12JetTau21/F");                  
+  TreeHad->Branch("event_data->CA12JetTau1",          & event_data->CA12JetTau1               , "event_data->CA12JetTau1/F");                   
+  TreeHad->Branch("event_data->CA12JetTau2",          & event_data->CA12JetTau2               , "event_data->CA12JetTau2/F");                   
+  TreeHad->Branch("event_data->CA12JetTau3",          & event_data->CA12JetTau3               , "event_data->CA12JetTau3/F");                   
+  TreeHad->Branch("event_data->CA12JetTau4",          & event_data->CA12JetTau4               , "event_data->CA12JetTau4/F");                   
+  TreeHad->Branch("event_data->CA12JetTau32",          & event_data->CA12JetTau32               , "event_data->CA12JetTau32/F");                  
+  TreeHad->Branch("event_data->CA12JetTau21",          & event_data->CA12JetTau21               , "event_data->CA12JetTau21/F");                  
 
-  TreeHad->Branch("CA12Jetsubjet0bdisc",          & CA12Jetsubjet0bdisc               , "CA12Jetsubjet0bdisc/F");           
-  TreeHad->Branch("CA12Jetsubjet1bdisc",          & CA12Jetsubjet1bdisc               , "CA12Jetsubjet1bdisc/F");           
-  TreeHad->Branch("CA12Jetmaxbdisc",          & CA12Jetmaxbdisc               , "CA12Jetmaxbdisc/F");               
+  TreeHad->Branch("event_data->CA12Jetsubjet0bdisc",          & event_data->CA12Jetsubjet0bdisc               , "event_data->CA12Jetsubjet0bdisc/F");           
+  TreeHad->Branch("event_data->CA12Jetsubjet1bdisc",          & event_data->CA12Jetsubjet1bdisc               , "event_data->CA12Jetsubjet1bdisc/F");           
+  TreeHad->Branch("event_data->CA12Jetmaxbdisc",          & event_data->CA12Jetmaxbdisc               , "event_data->CA12Jetmaxbdisc/F");               
 
-  TreeHad->Branch("CA12Jetsubjet0pt",          & CA12Jetsubjet0pt               , "CA12Jetsubjet0pt/F");              
-  TreeHad->Branch("CA12Jetsubjet0mass",          & CA12Jetsubjet0mass               , "CA12Jetsubjet0mass/F");            
-  TreeHad->Branch("CA12Jetsubjet0eta",          & CA12Jetsubjet0eta               , "CA12Jetsubjet0eta/F");             
-  TreeHad->Branch("CA12Jetsubjet0phi",          & CA12Jetsubjet0phi               , "CA12Jetsubjet0phi/F");             
-  TreeHad->Branch("CA12Jetsubjet0area",          & CA12Jetsubjet0area               , "CA12Jetsubjet0area/F");            
+  TreeHad->Branch("event_data->CA12Jetsubjet0pt",          & event_data->CA12Jetsubjet0pt               , "event_data->CA12Jetsubjet0pt/F");              
+  TreeHad->Branch("event_data->CA12Jetsubjet0mass",          & event_data->CA12Jetsubjet0mass               , "event_data->CA12Jetsubjet0mass/F");            
+  TreeHad->Branch("event_data->CA12Jetsubjet0eta",          & event_data->CA12Jetsubjet0eta               , "event_data->CA12Jetsubjet0eta/F");             
+  TreeHad->Branch("event_data->CA12Jetsubjet0phi",          & event_data->CA12Jetsubjet0phi               , "event_data->CA12Jetsubjet0phi/F");             
+  TreeHad->Branch("event_data->CA12Jetsubjet0area",          & event_data->CA12Jetsubjet0area               , "event_data->CA12Jetsubjet0area/F");            
 
-  TreeHad->Branch("CA12Jetsubjet1pt",          & CA12Jetsubjet1pt               , "CA12Jetsubjet1pt/F");              
-  TreeHad->Branch("CA12Jetsubjet1mass",          & CA12Jetsubjet1mass               , "CA12Jetsubjet1mass/F");            
-  TreeHad->Branch("CA12Jetsubjet1eta",          & CA12Jetsubjet1eta               , "CA12Jetsubjet1eta/F");             
-  TreeHad->Branch("CA12Jetsubjet1phi",          & CA12Jetsubjet1phi               , "CA12Jetsubjet1phi/F");             
-  TreeHad->Branch("CA12Jetsubjet1area",          & CA12Jetsubjet1area               , "CA12Jetsubjet1area/F");            
-
-
-
-  TreeHad->Branch("AK4ReconstructedJetPt",          & AK4ReconstructedJetPt               , "AK4ReconstructedJetPt/F");         
-  TreeHad->Branch("AK4ReconstructedJetEta",          & AK4ReconstructedJetEta               , "AK4ReconstructedJetEta/F");        
-  TreeHad->Branch("AK4ReconstructedJetPhi",          & AK4ReconstructedJetPhi               , "AK4ReconstructedJetPhi/F");        
-  TreeHad->Branch("AK4ReconstructedJetMass",          & AK4ReconstructedJetMass               , "AK4ReconstructedJetMass/F");       
-
-
-  TreeHad->Branch("AK4bJetPtRaw",      & AK4bJetPtRaw ,             "AK4bJetPtRaw/F");       
-  TreeHad->Branch("AK4bJetEtaRaw",      & AK4bJetEtaRaw ,             "AK4bJetEtaRaw/F");      
-  TreeHad->Branch("AK4bJetPhiRaw",      & AK4bJetPhiRaw ,             "AK4bJetPhiRaw/F");      
-  TreeHad->Branch("AK4bJetMassRaw",      & AK4bJetMassRaw ,             "AK4bJetMassRaw/F");     
-
-  TreeHad->Branch("AK4bJet_PtSmear",      & AK4bJet_PtSmear ,             "AK4bJet_PtSmear/F");      
-  TreeHad->Branch("AK4bJet_PtSmearUp",      & AK4bJet_PtSmearUp ,             "AK4bJet_PtSmearUp/F");    
-  TreeHad->Branch("AK4bJet_PtSmearDn",      & AK4bJet_PtSmearDn ,             "AK4bJet_PtSmearDn/F");    
-  TreeHad->Branch("AK4bJet_PtUncorr",      & AK4bJet_PtUncorr ,             "AK4bJet_PtUncorr/F");   
-  TreeHad->Branch("AK4bJet_Corr",      & AK4bJet_Corr ,             "AK4bJet_Corr/F");       
-  TreeHad->Branch("AK4bJet_CorrUp",      & AK4bJet_CorrUp ,             "AK4bJet_CorrUp/F");     
-  TreeHad->Branch("AK4bJet_CorrDn",      & AK4bJet_CorrDn ,             "AK4bJet_CorrDn/F");     
-  TreeHad->Branch("AK4bJet_bDisc",      & AK4bJet_bDisc ,             "AK4bJet_bDisc/F");   
-
-  TreeHad->Branch("AK4WJetPtRaw",      & AK4WJetPtRaw ,             "AK4WJetPtRaw/F");       
-  TreeHad->Branch("AK4WJetEtaRaw",      & AK4WJetEtaRaw ,             "AK4WJetEtaRaw/F");      
-  TreeHad->Branch("AK4WJetPhiRaw",      & AK4WJetPhiRaw ,             "AK4WJetPhiRaw/F");      
-  TreeHad->Branch("AK4WJetMassRaw",      & AK4WJetMassRaw ,             "AK4WJetMassRaw/F");     
-
-  TreeHad->Branch("AK4WJet_PtSmear",      & AK4WJet_PtSmear ,             "AK4WJet_PtSmear/F");      
-  TreeHad->Branch("AK4WJet_PtSmearUp",      & AK4WJet_PtSmearUp ,             "AK4WJet_PtSmearUp/F");    
-  TreeHad->Branch("AK4WJet_PtSmearDn",      & AK4WJet_PtSmearDn ,             "AK4WJet_PtSmearDn/F");    
-  TreeHad->Branch("AK4WJet_PtUncorr",      & AK4WJet_PtUncorr ,             "AK4WJet_PtUncorr/F");   
-  TreeHad->Branch("AK4WJet_Corr",      & AK4WJet_Corr ,             "AK4WJet_Corr/F");       
-  TreeHad->Branch("AK4WJet_CorrUp",      & AK4WJet_CorrUp ,             "AK4WJet_CorrUp/F");     
-  TreeHad->Branch("AK4WJet_CorrDn",      & AK4WJet_CorrDn ,             "AK4WJet_CorrDn/F");     
-  TreeHad->Branch("AK4WJet_bDisc",      & AK4WJet_bDisc ,             "AK4WJet_bDisc/F");      
-
-
-  TreeHad->Branch("AK4W2JetPtRaw",      & AK4W2JetPtRaw ,             "AK4W2JetPtRaw/F");       
-  TreeHad->Branch("AK4W2JetEtaRaw",      & AK4W2JetEtaRaw ,             "AK4W2JetEtaRaw/F");      
-  TreeHad->Branch("AK4W2JetPhiRaw",      & AK4W2JetPhiRaw ,             "AK4W2JetPhiRaw/F");      
-  TreeHad->Branch("AK4W2JetMassRaw",      & AK4W2JetMassRaw ,             "AK4W2JetMassRaw/F");     
-
-  TreeHad->Branch("AK4W2Jet_PtSmear",      & AK4W2Jet_PtSmear ,             "AK4W2Jet_PtSmear/F");      
-  TreeHad->Branch("AK4W2Jet_PtSmearUp",      & AK4W2Jet_PtSmearUp ,             "AK4W2Jet_PtSmearUp/F");    
-  TreeHad->Branch("AK4W2Jet_PtSmearDn",      & AK4W2Jet_PtSmearDn ,             "AK4W2Jet_PtSmearDn/F");    
-  TreeHad->Branch("AK4W2Jet_PtUncorr",      & AK4W2Jet_PtUncorr ,             "AK4W2Jet_PtUncorr/F");   
-  TreeHad->Branch("AK4W2Jet_Corr",      & AK4W2Jet_Corr ,             "AK4W2Jet_Corr/F");       
-  TreeHad->Branch("AK4W2Jet_CorrUp",      & AK4W2Jet_CorrUp ,             "AK4W2Jet_CorrUp/F");     
-  TreeHad->Branch("AK4W2Jet_CorrDn",      & AK4W2Jet_CorrDn ,             "AK4W2Jet_CorrDn/F");     
-  TreeHad->Branch("AK4W2Jet_bDisc",      & AK4W2Jet_bDisc ,             "AK4W2Jet_bDisc/F");      
-
-  TreeHad->Branch("MuPhi", "vector<float>",&MuPhi);
-  TreeHad->Branch("MuPt", "vector<float>",&MuPt);
-  TreeHad->Branch("MuEta", "vector<float>",&MuEta);
-  TreeHad->Branch("MuMass", "vector<float>",&MuMass);
-  TreeHad->Branch("MuIso", "vector<float>",&MuIso);
-  TreeHad->Branch("MuIsoTrk", "vector<float>",&MuIsoTrk);
-  TreeHad->Branch("MuMedium", "vector<int>", &MuMedium);
-  TreeHad->Branch("MuTight", "vector<int>", &MuTight);
-
-  TreeHad->Branch("Electron_Phi", "vector<float>",&Electron_Phi);
-  TreeHad->Branch("Electron_Pt", "vector<float>",&Electron_Pt);
-  TreeHad->Branch("Electron_Eta", "vector<float>",&Electron_Eta);
-  TreeHad->Branch("Electron_Mass", "vector<float>",&Electron_Mass);
-  TreeHad->Branch("Elecron_absiso", "vector<float>",&Elecron_absiso);
-  TreeHad->Branch("Elecron_relIsoWithDBeta", "vector<float>",&Elecron_relIsoWithDBeta);
-  TreeHad->Branch("Elecron_absiso_EA", "vector<float>",&Elecron_absiso_EA);
-  TreeHad->Branch("Elecron_relIsoWithEA", "vector<float>",&Elecron_relIsoWithEA);
+  TreeHad->Branch("event_data->CA12Jetsubjet1pt",          & event_data->CA12Jetsubjet1pt               , "event_data->CA12Jetsubjet1pt/F");              
+  TreeHad->Branch("event_data->CA12Jetsubjet1mass",          & event_data->CA12Jetsubjet1mass               , "event_data->CA12Jetsubjet1mass/F");            
+  TreeHad->Branch("event_data->CA12Jetsubjet1eta",          & event_data->CA12Jetsubjet1eta               , "event_data->CA12Jetsubjet1eta/F");             
+  TreeHad->Branch("event_data->CA12Jetsubjet1phi",          & event_data->CA12Jetsubjet1phi               , "event_data->CA12Jetsubjet1phi/F");             
+  TreeHad->Branch("event_data->CA12Jetsubjet1area",          & event_data->CA12Jetsubjet1area               , "event_data->CA12Jetsubjet1area/F");            
 
 
 
-TreeHad->Branch("Electron_iso_passHLTpre", "vector<int>", &Electron_iso_passHLTpre);
-TreeHad->Branch("Electron_iso_passLoose", "vector<int>", &Electron_iso_passLoose);
-TreeHad->Branch("Electron_iso_passMedium", "vector<int>", &Electron_iso_passMedium);
-TreeHad->Branch("Electron_iso_passTight", "vector<int>", &Electron_iso_passTight);
-TreeHad->Branch("Electron_iso_passHEEP", "vector<int>", &Electron_iso_passHEEP);
-TreeHad->Branch("Electron_noiso_passLoose", "vector<int>", &Electron_noiso_passLoose);
-TreeHad->Branch("Electron_noiso_passMedium", "vector<int>", &Electron_noiso_passMedium);
-TreeHad->Branch("Electron_noiso_passTight", "vector<int>", &Electron_noiso_passTight);
-TreeHad->Branch("Electron_noiso_passHEEP", "vector<int>", &Electron_noiso_passHEEP);
+  TreeHad->Branch("event_data->AK4ReconstructedJetPt",          & event_data->AK4ReconstructedJetPt               , "event_data->AK4ReconstructedJetPt/F");         
+  TreeHad->Branch("event_data->AK4ReconstructedJetEta",          & event_data->AK4ReconstructedJetEta               , "event_data->AK4ReconstructedJetEta/F");        
+  TreeHad->Branch("event_data->AK4ReconstructedJetPhi",          & event_data->AK4ReconstructedJetPhi               , "event_data->AK4ReconstructedJetPhi/F");        
+  TreeHad->Branch("event_data->AK4ReconstructedJetMass",          & event_data->AK4ReconstructedJetMass               , "event_data->AK4ReconstructedJetMass/F");       
+
+
+  TreeHad->Branch("event_data->AK4bJetPtRaw",      & event_data->AK4bJetPtRaw ,             "event_data->AK4bJetPtRaw/F");       
+  TreeHad->Branch("event_data->AK4bJetEtaRaw",      & event_data->AK4bJetEtaRaw ,             "event_data->AK4bJetEtaRaw/F");      
+  TreeHad->Branch("event_data->AK4bJetPhiRaw",      & event_data->AK4bJetPhiRaw ,             "event_data->AK4bJetPhiRaw/F");      
+  TreeHad->Branch("event_data->AK4bJetMassRaw",      & event_data->AK4bJetMassRaw ,             "event_data->AK4bJetMassRaw/F");     
+
+  TreeHad->Branch("event_data->AK4bJet_PtSmear",      & event_data->AK4bJet_PtSmear ,             "event_data->AK4bJet_PtSmear/F");      
+  TreeHad->Branch("event_data->AK4bJet_PtSmearUp",      & event_data->AK4bJet_PtSmearUp ,             "event_data->AK4bJet_PtSmearUp/F");    
+  TreeHad->Branch("event_data->AK4bJet_PtSmearDn",      & event_data->AK4bJet_PtSmearDn ,             "event_data->AK4bJet_PtSmearDn/F");    
+  TreeHad->Branch("event_data->AK4bJet_PtUncorr",      & event_data->AK4bJet_PtUncorr ,             "event_data->AK4bJet_PtUncorr/F");   
+  TreeHad->Branch("event_data->AK4bJet_Corr",      & event_data->AK4bJet_Corr ,             "event_data->AK4bJet_Corr/F");       
+  TreeHad->Branch("event_data->AK4bJet_CorrUp",      & event_data->AK4bJet_CorrUp ,             "event_data->AK4bJet_CorrUp/F");     
+  TreeHad->Branch("event_data->AK4bJet_CorrDn",      & event_data->AK4bJet_CorrDn ,             "event_data->AK4bJet_CorrDn/F");     
+  TreeHad->Branch("event_data->AK4bJet_bDisc",      & event_data->AK4bJet_bDisc ,             "event_data->AK4bJet_bDisc/F");   
+
+  TreeHad->Branch("event_data->AK4WJetPtRaw",      & event_data->AK4WJetPtRaw ,             "event_data->AK4WJetPtRaw/F");       
+  TreeHad->Branch("event_data->AK4WJetEtaRaw",      & event_data->AK4WJetEtaRaw ,             "event_data->AK4WJetEtaRaw/F");      
+  TreeHad->Branch("event_data->AK4WJetPhiRaw",      & event_data->AK4WJetPhiRaw ,             "event_data->AK4WJetPhiRaw/F");      
+  TreeHad->Branch("event_data->AK4WJetMassRaw",      & event_data->AK4WJetMassRaw ,             "event_data->AK4WJetMassRaw/F");     
+
+  TreeHad->Branch("event_data->AK4WJet_PtSmear",      & event_data->AK4WJet_PtSmear ,             "event_data->AK4WJet_PtSmear/F");      
+  TreeHad->Branch("event_data->AK4WJet_PtSmearUp",      & event_data->AK4WJet_PtSmearUp ,             "event_data->AK4WJet_PtSmearUp/F");    
+  TreeHad->Branch("event_data->AK4WJet_PtSmearDn",      & event_data->AK4WJet_PtSmearDn ,             "event_data->AK4WJet_PtSmearDn/F");    
+  TreeHad->Branch("event_data->AK4WJet_PtUncorr",      & event_data->AK4WJet_PtUncorr ,             "event_data->AK4WJet_PtUncorr/F");   
+  TreeHad->Branch("event_data->AK4WJet_Corr",      & event_data->AK4WJet_Corr ,             "event_data->AK4WJet_Corr/F");       
+  TreeHad->Branch("event_data->AK4WJet_CorrUp",      & event_data->AK4WJet_CorrUp ,             "event_data->AK4WJet_CorrUp/F");     
+  TreeHad->Branch("event_data->AK4WJet_CorrDn",      & event_data->AK4WJet_CorrDn ,             "event_data->AK4WJet_CorrDn/F");     
+  TreeHad->Branch("event_data->AK4WJet_bDisc",      & event_data->AK4WJet_bDisc ,             "event_data->AK4WJet_bDisc/F");      
+
+
+  TreeHad->Branch("event_data->AK4W2JetPtRaw",      & event_data->AK4W2JetPtRaw ,             "event_data->AK4W2JetPtRaw/F");       
+  TreeHad->Branch("event_data->AK4W2JetEtaRaw",      & event_data->AK4W2JetEtaRaw ,             "event_data->AK4W2JetEtaRaw/F");      
+  TreeHad->Branch("event_data->AK4W2JetPhiRaw",      & event_data->AK4W2JetPhiRaw ,             "event_data->AK4W2JetPhiRaw/F");      
+  TreeHad->Branch("event_data->AK4W2JetMassRaw",      & event_data->AK4W2JetMassRaw ,             "event_data->AK4W2JetMassRaw/F");     
+
+  TreeHad->Branch("event_data->AK4W2Jet_PtSmear",      & event_data->AK4W2Jet_PtSmear ,             "event_data->AK4W2Jet_PtSmear/F");      
+  TreeHad->Branch("event_data->AK4W2Jet_PtSmearUp",      & event_data->AK4W2Jet_PtSmearUp ,             "event_data->AK4W2Jet_PtSmearUp/F");    
+  TreeHad->Branch("event_data->AK4W2Jet_PtSmearDn",      & event_data->AK4W2Jet_PtSmearDn ,             "event_data->AK4W2Jet_PtSmearDn/F");    
+  TreeHad->Branch("event_data->AK4W2Jet_PtUncorr",      & event_data->AK4W2Jet_PtUncorr ,             "event_data->AK4W2Jet_PtUncorr/F");   
+  TreeHad->Branch("event_data->AK4W2Jet_Corr",      & event_data->AK4W2Jet_Corr ,             "event_data->AK4W2Jet_Corr/F");       
+  TreeHad->Branch("event_data->AK4W2Jet_CorrUp",      & event_data->AK4W2Jet_CorrUp ,             "event_data->AK4W2Jet_CorrUp/F");     
+  TreeHad->Branch("event_data->AK4W2Jet_CorrDn",      & event_data->AK4W2Jet_CorrDn ,             "event_data->AK4W2Jet_CorrDn/F");     
+  TreeHad->Branch("event_data->AK4W2Jet_bDisc",      & event_data->AK4W2Jet_bDisc ,             "event_data->AK4W2Jet_bDisc/F");      
+
+  TreeHad->Branch("event_data->MuPhi", "vector<float>",&event_data->MuPhi);
+  TreeHad->Branch("event_data->MuPt", "vector<float>",&event_data->MuPt);
+  TreeHad->Branch("event_data->MuEta", "vector<float>",&event_data->MuEta);
+  TreeHad->Branch("event_data->MuMass", "vector<float>",&event_data->MuMass);
+  TreeHad->Branch("event_data->MuIso", "vector<float>",&event_data->MuIso);
+  TreeHad->Branch("event_data->MuIsoTrk", "vector<float>",&event_data->MuIsoTrk);
+  TreeHad->Branch("event_data->MuMedium", "vector<int>", &event_data->MuMedium);
+  TreeHad->Branch("event_data->MuTight", "vector<int>", &event_data->MuTight);
+
+  TreeHad->Branch("event_data->Electron_Phi", "vector<float>",&event_data->Electron_Phi);
+  TreeHad->Branch("event_data->Electron_Pt", "vector<float>",&event_data->Electron_Pt);
+  TreeHad->Branch("event_data->Electron_Eta", "vector<float>",&event_data->Electron_Eta);
+  TreeHad->Branch("event_data->Electron_Mass", "vector<float>",&event_data->Electron_Mass);
+  TreeHad->Branch("event_data->Elecron_absiso", "vector<float>",&event_data->Elecron_absiso);
+  TreeHad->Branch("event_data->Elecron_relIsoWithDBeta", "vector<float>",&event_data->Elecron_relIsoWithDBeta);
+  TreeHad->Branch("event_data->Elecron_absiso_EA", "vector<float>",&event_data->Elecron_absiso_EA);
+  TreeHad->Branch("event_data->Elecron_relIsoWithEA", "vector<float>",&event_data->Elecron_relIsoWithEA);
+
+
+
+TreeHad->Branch("event_data->Electron_iso_passHLTpre", "vector<int>", &event_data->Electron_iso_passHLTpre);
+TreeHad->Branch("event_data->Electron_iso_passLoose", "vector<int>", &event_data->Electron_iso_passLoose);
+TreeHad->Branch("event_data->Electron_iso_passMedium", "vector<int>", &event_data->Electron_iso_passMedium);
+TreeHad->Branch("event_data->Electron_iso_passTight", "vector<int>", &event_data->Electron_iso_passTight);
+TreeHad->Branch("event_data->Electron_iso_passHEEP", "vector<int>", &event_data->Electron_iso_passHEEP);
+TreeHad->Branch("event_data->Electron_noiso_passLoose", "vector<int>", &event_data->Electron_noiso_passLoose);
+TreeHad->Branch("event_data->Electron_noiso_passMedium", "vector<int>", &event_data->Electron_noiso_passMedium);
+TreeHad->Branch("event_data->Electron_noiso_passTight", "vector<int>", &event_data->Electron_noiso_passTight);
+TreeHad->Branch("event_data->Electron_noiso_passHEEP", "vector<int>", &event_data->Electron_noiso_passHEEP);
+*/
 
 //  888                       888                     d8b               88888888888                       
 //  888                       888                     Y8P                   888                           
@@ -873,71 +876,71 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       HLT_PFMET120_PFMHT120_Trigger = false;
       HLT_PFMET170_Trigger =  false;
 
-       MuPhi->clear();
-       MuPt->clear();
-       MuEta->clear();
-       MuMass->clear();
-       MuIso->clear();
-       MuIsoTrk->clear();
-       MuTight->clear();
-       MuMedium->clear();
+       event_data->MuPhi->clear();
+       event_data->MuPt->clear();
+       event_data->MuEta->clear();
+       event_data->MuMass->clear();
+       event_data->MuIso->clear();
+       event_data->MuIsoTrk->clear();
+       event_data->MuTight->clear();
+       event_data->MuMedium->clear();
       
 
-       Electron_Phi->clear();
-       Electron_Pt->clear();
-       Electron_Eta->clear();
-       Electron_Mass->clear();
-       Elecron_absiso->clear();
-       Elecron_relIsoWithDBeta->clear();
-       Elecron_absiso_EA->clear();
-       Elecron_relIsoWithEA->clear();
+       event_data->Electron_Phi->clear();
+       event_data->Electron_Pt->clear();
+       event_data->Electron_Eta->clear();
+       event_data->Electron_Mass->clear();
+       event_data->Elecron_absiso->clear();
+       event_data->Elecron_relIsoWithDBeta->clear();
+       event_data->Elecron_absiso_EA->clear();
+       event_data->Elecron_relIsoWithEA->clear();
 
-       Electron_iso_passHLTpre->clear();
-       Electron_iso_passLoose->clear();
-       Electron_iso_passMedium->clear();
-       Electron_iso_passTight->clear();
-       Electron_iso_passHEEP->clear();
-       Electron_noiso_passLoose->clear();
-       Electron_noiso_passMedium->clear();
-       Electron_noiso_passTight->clear();
-       Electron_noiso_passHEEP->clear();
+       event_data->Electron_iso_passHLTpre->clear();
+       event_data->Electron_iso_passLoose->clear();
+       event_data->Electron_iso_passMedium->clear();
+       event_data->Electron_iso_passTight->clear();
+       event_data->Electron_iso_passHEEP->clear();
+       event_data->Electron_noiso_passLoose->clear();
+       event_data->Electron_noiso_passMedium->clear();
+       event_data->Electron_noiso_passTight->clear();
+       event_data->Electron_noiso_passHEEP->clear();
 
 
-  AK4JetLV_pt->clear();
-  AK4JetLV_eta->clear();
-  AK4JetLV_phi->clear();
-  AK4JetLV_mass->clear();
-  AK4JetLV_corr->clear();
-  AK4JetLV_corrUp->clear();
-  AK4JetLV_corrDn->clear();
-  AK4JetLV_SF->clear();
-  AK4JetLV_SFUp->clear();
-  AK4JetLV_SFDn->clear();
-  AK4JetLV_ptsmear->clear();
-  AK4JetLV_ptsmearUp->clear();
-  AK4JetLV_ptsmearDn->clear();
-  AK8JetLV_pt->clear();
-  AK8JetLV_eta->clear();
-  AK8JetLV_phi->clear();
-  AK8JetLV_mass->clear();
-  AK8JetLV_corr->clear();
-  AK8JetLV_corrUp->clear();
-  AK8JetLV_corrDn->clear();
-  AK8JetLV_SF->clear();
-  AK8JetLV_SFUp->clear();
-  AK8JetLV_SFDn->clear();
-  AK8JetLV_ptsmear->clear();
-  AK8JetLV_ptsmearUp->clear();
-  AK8JetLV_ptsmearDn->clear();
-  AK8SubjetLV_pt->clear();
-  AK8SubjetLV_eta->clear();
-  AK8SubjetLV_phi->clear();
-  AK8SubjetLV_mass->clear();
-  AK4JetBtag_p->clear();
-  AK8JetTau1_p->clear();
-  AK8JetTau2_p->clear();
-  AK8JetTau3_p->clear();
-  AK8JetSoftdropMass_p->clear();
+  event_data->AK4JetLV_pt->clear();
+  event_data->AK4JetLV_eta->clear();
+  event_data->AK4JetLV_phi->clear();
+  event_data->AK4JetLV_mass->clear();
+  event_data->AK4JetLV_corr->clear();
+  event_data->AK4JetLV_corrUp->clear();
+  event_data->AK4JetLV_corrDn->clear();
+  event_data->AK4JetLV_SF->clear();
+  event_data->AK4JetLV_SFUp->clear();
+  event_data->AK4JetLV_SFDn->clear();
+  event_data->AK4JetLV_ptsmear->clear();
+  event_data->AK4JetLV_ptsmearUp->clear();
+  event_data->AK4JetLV_ptsmearDn->clear();
+  event_data->AK8JetLV_pt->clear();
+  event_data->AK8JetLV_eta->clear();
+  event_data->AK8JetLV_phi->clear();
+  event_data->AK8JetLV_mass->clear();
+  event_data->AK8JetLV_corr->clear();
+  event_data->AK8JetLV_corrUp->clear();
+  event_data->AK8JetLV_corrDn->clear();
+  event_data->AK8JetLV_SF->clear();
+  event_data->AK8JetLV_SFUp->clear();
+  event_data->AK8JetLV_SFDn->clear();
+  event_data->AK8JetLV_ptsmear->clear();
+  event_data->AK8JetLV_ptsmearUp->clear();
+  event_data->AK8JetLV_ptsmearDn->clear();
+  event_data->AK8SubjetLV_pt->clear();
+  event_data->AK8SubjetLV_eta->clear();
+  event_data->AK8SubjetLV_phi->clear();
+  event_data->AK8SubjetLV_mass->clear();
+  event_data->AK4JetBtag_p->clear();
+  event_data->AK8JetTau1_p->clear();
+  event_data->AK8JetTau2_p->clear();
+  event_data->AK8JetTau3_p->clear();
+  event_data->AK8JetSoftdropMass_p->clear();
 
 
   if (verbose_) {
@@ -971,17 +974,17 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   TLorentzVector second_hardest_parton_hardScatterOutgoing_p4;
 
 
-  tophadronic=false;
-  topleptonic=false;
+  event_data->tophadronic=false;
+  event_data->topleptonic=false;
 
 
   int hardest_parton_hardScatterOutgoing_pt        = 0;
   int second_hardest_parton_hardScatterOutgoing_pt = 0;
 
-  parton1id = 0;
-  parton2id = 0;
-  Wd1_id = 0 ;
-  Wd2_id = 0 ;
+  event_data->parton1id = 0;
+  event_data->parton2id = 0;
+  event_data->Wd1_id = 0 ;
+  event_data->Wd2_id = 0 ;
 
   double counttop = 0;
   if (!iEvent.isRealData() and runGenLoop_) {
@@ -1019,22 +1022,22 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
           second_hardest_parton_hardScatterOutgoing_p4 = hardest_parton_hardScatterOutgoing_p4;
           hardest_parton_hardScatterOutgoing_pt = pt;
           hardest_parton_hardScatterOutgoing_p4.SetPxPyPzE( px, py, pz, e );
-          parton1id = id;
-          if (verboseGen_) cout<<"---------- pt>hardest_parton_hardScatterOutgoing_pt - parton1id = "<<parton1id<<endl;
+          event_data->parton1id = id;
+          if (verboseGen_) cout<<"---------- pt>hardest_parton_hardScatterOutgoing_pt - parton1id = "<<event_data->parton1id<<endl;
         }
         else if (pt>second_hardest_parton_hardScatterOutgoing_pt){
           second_hardest_parton_hardScatterOutgoing_pt = pt;
           second_hardest_parton_hardScatterOutgoing_p4.SetPxPyPzE( px, py, pz, e ); 
-          parton2id = id;
-          if (verboseGen_) cout<<"---------- pt>second_hardest_parton_hardScatterOutgoing_pt - parton2id = "<<parton2id<<endl;
+          event_data->parton2id = id;
+          if (verboseGen_) cout<<"---------- pt>second_hardest_parton_hardScatterOutgoing_pt - parton2id = "<<event_data->parton2id<<endl;
         }
       }
       
       // Get tops from hard subprocess (for MonoTop samples)
       if (fabs(id)==6 && status<30 && status>=20) {
         t_p4.SetPxPyPzE( px, py, pz, e ); 
-        parton1id = id;
-        if (verboseGen_) cout<<"..top (hard)"<< " " << id <<endl;//" with pt "<<pt<<" status "<<status<<" ndau "<< ndau <<" pt "<<pt<<" eta "<<eta<<" phi "<<phi<<" parton1id = "<<parton1id<<endl;
+        event_data->parton1id = id;
+        if (verboseGen_) cout<<"..top (hard)"<< " " << id <<endl;//" with pt "<<pt<<" status "<<status<<" ndau "<< ndau <<" pt "<<pt<<" eta "<<eta<<" phi "<<phi<<" event_data->parton1id = "<<event_data->parton1id<<endl;
       }
 
 
@@ -1057,10 +1060,10 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         if (verboseGen_) cout<<"......dd1 "<<(*genpart)[i].daughter( 1 )->pdgId()<<" ndau "<<(*genpart)[i].daughter( 1 )->numberOfDaughters()<<endl;
         Wd1_p4.SetPxPyPzE( (*genpart)[i].daughter( 0 )->px(), (*genpart)[i].daughter( 0 )->py(), (*genpart)[i].daughter( 0 )->pz(), (*genpart)[i].daughter( 0 )->energy() );
         Wd2_p4.SetPxPyPzE( (*genpart)[i].daughter( 1 )->px(), (*genpart)[i].daughter( 1 )->py(), (*genpart)[i].daughter( 1 )->pz(), (*genpart)[i].daughter( 1 )->energy() );
-        if ( fabs( (*genpart)[i].daughter( 0 )->pdgId() ) < 6 && fabs( (*genpart)[i].daughter( 1 )->pdgId() ) < 6) tophadronic = true;  
-        if ( fabs( (*genpart)[i].daughter( 0 )->pdgId() ) <= 18 && fabs( (*genpart)[i].daughter( 0 )->pdgId() ) >= 11) topleptonic = true;  
-        Wd1_id = (*genpart)[i].daughter( 0 )->pdgId();
-        Wd2_id = (*genpart)[i].daughter( 1 )->pdgId();
+        if ( fabs( (*genpart)[i].daughter( 0 )->pdgId() ) < 6 && fabs( (*genpart)[i].daughter( 1 )->pdgId() ) < 6) event_data->tophadronic = true;  
+        if ( fabs( (*genpart)[i].daughter( 0 )->pdgId() ) <= 18 && fabs( (*genpart)[i].daughter( 0 )->pdgId() ) >= 11) event_data->topleptonic = true;  
+        event_data->Wd1_id = (*genpart)[i].daughter( 0 )->pdgId();
+        event_data->Wd2_id = (*genpart)[i].daughter( 1 )->pdgId();
       }
 
     } // end genParticle loop
@@ -1074,20 +1077,20 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       cout<<"hardest_parton_hardScatterOutgoing_pt        "<<hardest_parton_hardScatterOutgoing_pt             <<endl;  
       cout<<"hardest_parton_hardScatterOutgoing_p4pt        "<<hardest_parton_hardScatterOutgoing_p4.Pt()        <<endl;       
       cout<<"hardest_parton_hardScatterOutgoing_eta        "<<hardest_parton_hardScatterOutgoing_p4.Eta()        <<endl;       
-      cout<<"parton1id = "<<parton1id<<endl;
-      cout<<"parton2id = "<<parton1id<<endl;
+      cout<<"event_data->parton1id = "<<event_data->parton1id<<endl;
+      cout<<"event_data->parton2id = "<<event_data->parton1id<<endl;
 
-      cout<<"tophadronic "<<tophadronic<<endl;
+      cout<<"event_data->tophadronic "<<event_data->tophadronic<<endl;
 
-      cout<<"topleptonic "<<topleptonic<<endl;
+      cout<<"event_data->topleptonic "<<event_data->topleptonic<<endl;
 
-      cout<<"Wd1_id "<<Wd1_id<<endl;
-      cout<<"Wd2_id "<<Wd2_id<<endl;
+      cout<<"event_data->Wd1_id "<<event_data->Wd1_id<<endl;
+      cout<<"event_data->Wd2_id "<<event_data->Wd2_id<<endl;
     
 
-      cout<<"tophadronic "<<tophadronic<<endl;
+      cout<<"event_data->tophadronic "<<event_data->tophadronic<<endl;
      
-      cout<<"topleptonic "<<topleptonic<<endl;
+      cout<<"event_data->topleptonic "<<event_data->topleptonic<<endl;
     
 
 
@@ -1136,19 +1139,19 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   std::bitset<38> hltbit;
   vector<bool> trigAccept;
 
-  HadTrigPrescales   ->clear();
+  event_data->HadTrigPrescales   ->clear();
   LeptTrigPrescales ->clear();
-  HadTrigPass        ->clear();
+  event_data->HadTrigPass        ->clear();
   LeptTrigPass      ->clear();
 
-  HadTrigPrescalesMu   ->clear();
-  HadTrigPassMu        ->clear();
+  event_data->HadTrigPrescalesMu   ->clear();
+  event_data->HadTrigPassMu        ->clear();
 
-  HadTrigPrescalesHad   ->clear();
-  HadTrigPassHad        ->clear();
-  HLTtriggers->clear();
-  HLTtriggersPass->clear();
-  HLTtriggersPrescales->clear();
+  event_data->HadTrigPrescalesHad   ->clear();
+  event_data->HadTrigPassHad        ->clear();
+  event_data->HLTtriggers->clear();
+  event_data->HLTtriggersPass->clear();
+  event_data->HLTtriggersPrescales->clear();
 
   const edm::TriggerNames &names = iEvent.triggerNames(*triggerBits);
   if (verbose_) std::cout << "\n === TRIGGER PATHS === " << std::endl;
@@ -1157,7 +1160,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   string name = "";
   for (unsigned int i = 0, n = triggerBits->size(); i < n; ++i) {
      name = names.triggerName(i);
-     HLTtriggers->push_back(name);
+     event_data->HLTtriggers->push_back(name);
 
     bool pass = false;
     int accept = triggerBits->accept(i) ;
@@ -1179,12 +1182,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       
     }
 
-    HLTtriggersPass->push_back(pass);
-    HLTtriggersPrescales->push_back(prescale);
+    event_data->HLTtriggersPass->push_back(pass);
+    event_data->HLTtriggersPrescales->push_back(prescale);
   }
 
 
-  // Loop over the list of triggers to save
+  // Loop over the liest of triggers to save
   for (unsigned int j=0; j<trigsToRun.size(); j++){ 
     if (verbose_) cout<<"try to find "<<setw(50)<< trigsToRun[j];
     
@@ -1212,9 +1215,9 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if (verbose_ && !foundtrig) cout<<"  -> did not find "<< trigsToRun[j]<<endl;
 
       trigAccept.push_back(pass);
-      HadTrigPrescales   ->push_back(prescale);
+      event_data->HadTrigPrescales   ->push_back(prescale);
       LeptTrigPrescales ->push_back(prescale);
-      HadTrigPass        ->push_back(pass);
+      event_data->HadTrigPass        ->push_back(pass);
       LeptTrigPass      ->push_back(pass);
       if (pass)  hltbit[counttrigs]=1;  
       counttrigs++;
@@ -1247,8 +1250,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if (verbose_ && foundtrig)  cout<<"  -> found. pass = "<<pass << ", prescale = " << prescale<<", name = "<< name  << std::endl; 
     if (verbose_ && !foundtrig) cout<<"  -> did not find "<< trigsToRunMu[j]<<endl;
 
-      HadTrigPrescalesMu   ->push_back(prescale);
-      HadTrigPassMu        ->push_back(pass);
+      event_data->HadTrigPrescalesMu   ->push_back(prescale);
+      event_data->HadTrigPassMu        ->push_back(pass);
       if (pass)  hltbit[counttrigs]=1;  
       counttrigs++; 
   }
@@ -1279,8 +1282,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     if (verbose_ && foundtrig)  cout<<"  -> found. pass = "<<pass << ", prescale = " << prescale<<", name = "<< name  << std::endl; 
     if (verbose_ && !foundtrig) cout<<"  -> did not find "<< trigsToRunHad[j]<<endl;
 
-      HadTrigPrescalesHad   ->push_back(prescale);
-      HadTrigPassHad        ->push_back(pass);
+      event_data->HadTrigPrescalesHad   ->push_back(prescale);
+      event_data->HadTrigPassHad        ->push_back(pass);
       if (pass)  hltbit[counttrigs]=1;  
       counttrigs++; 
   }
@@ -1297,7 +1300,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     cout<<hltbit.to_string()<<endl;
   }
 
-  HadTrigAcceptBits   = hltbit.to_string();
+  event_data->HadTrigAcceptBits   = hltbit.to_string();
   LeptTrigAcceptBits = hltbit.to_string();
   
 
@@ -1638,10 +1641,10 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       if (count_mu< 2){
         mu0_p4.SetPtEtaPhiM( mu.pt(), mu.eta(), mu.phi(), mu.mass() );
 
-        MuPhi->push_back(mu.phi());
-        MuPt->push_back(mu.pt());
-        MuEta->push_back(mu.eta());
-        MuMass->push_back(mu.mass());
+        event_data->MuPhi->push_back(mu.phi());
+        event_data->MuPt->push_back(mu.pt());
+        event_data->MuEta->push_back(mu.eta());
+        event_data->MuMass->push_back(mu.mass());
 
 
         // Moriond 2017 short term instructions for medium muon ID
@@ -1676,10 +1679,10 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         double iso04 = (sumChargedHadronPt+TMath::Max(0.,sumNeutralHadronPt+sumPhotonPt-0.5*sumPUPt))/pt;
         double isoForTrk03 = mu.isolationR03().sumPt/mu.pt();
 
-        MuIso->push_back(iso04);
-        MuIsoTrk->push_back(isoForTrk03);
-        MuTight->push_back( (int) mu0_isTight);
-        MuMedium->push_back( (int) mu0_isMedium);
+        event_data->MuIso->push_back(iso04);
+        event_data->MuIsoTrk->push_back(isoForTrk03);
+        event_data->MuTight->push_back( (int) mu0_isTight);
+        event_data->MuMedium->push_back( (int) mu0_isMedium);
 
         if (verbose_) cout<<"Muon pT "<<mu.pt()<<" iso04 "<<iso04<<" isMedium "<<mu0_isTight<<" isTight "<<mu0_isTight<<" isHighPt "<<mu0_isHighPt<<endl;
       } 
@@ -1819,24 +1822,24 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         el0_noiso_passHEEP    = (int) noiso_passHEEP   ;
 
 
-        Electron_Phi->push_back(el->phi());
-        Electron_Pt->push_back(el->pt());
-        Electron_Eta->push_back(el->eta());
-        Electron_Mass->push_back(el->mass());
+        event_data->Electron_Phi->push_back(el->phi());
+        event_data->Electron_Pt->push_back(el->pt());
+        event_data->Electron_Eta->push_back(el->eta());
+        event_data->Electron_Mass->push_back(el->mass());
 
-        Elecron_absiso->push_back(absiso);
-        Elecron_relIsoWithDBeta->push_back(relIsoWithDBeta);
-        Elecron_absiso_EA->push_back(absiso_EA);
-        Elecron_relIsoWithEA->push_back(relIsoWithEA);
-        Electron_iso_passHLTpre->push_back(el0_iso_passHLTpre);
-        Electron_iso_passLoose->push_back(el0_iso_passLoose);
-        Electron_iso_passMedium->push_back(el0_iso_passMedium);
-        Electron_iso_passTight->push_back(el0_iso_passTight);
-        Electron_iso_passHEEP->push_back(el0_iso_passHEEP);
-        Electron_noiso_passLoose->push_back(el0_noiso_passLoose);
-        Electron_noiso_passMedium->push_back(el0_noiso_passMedium);
-        Electron_noiso_passTight->push_back(el0_noiso_passTight);
-        Electron_noiso_passHEEP->push_back(el0_noiso_passHEEP);
+        event_data->Elecron_absiso->push_back(absiso);
+        event_data->Elecron_relIsoWithDBeta->push_back(relIsoWithDBeta);
+        event_data->Elecron_absiso_EA->push_back(absiso_EA);
+        event_data->Elecron_relIsoWithEA->push_back(relIsoWithEA);
+        event_data->Electron_iso_passHLTpre->push_back(el0_iso_passHLTpre);
+        event_data->Electron_iso_passLoose->push_back(el0_iso_passLoose);
+        event_data->Electron_iso_passMedium->push_back(el0_iso_passMedium);
+        event_data->Electron_iso_passTight->push_back(el0_iso_passTight);
+        event_data->Electron_iso_passHEEP->push_back(el0_iso_passHEEP);
+        event_data->Electron_noiso_passLoose->push_back(el0_noiso_passLoose);
+        event_data->Electron_noiso_passMedium->push_back(el0_noiso_passMedium);
+        event_data->Electron_noiso_passTight->push_back(el0_noiso_passTight);
+        event_data->Electron_noiso_passHEEP->push_back(el0_noiso_passHEEP);
 
       } 
       count_el++;
@@ -1845,19 +1848,19 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 
 
-Elecron_absiso = new std::vector<float>                         ;
-Elecron_relIsoWithDBeta = new std::vector<float>                ;
-Elecron_absiso_EA = new std::vector<float>                      ;
-Elecron_relIsoWithEA = new std::vector<float>                   ;
-Electron_iso_passHLTpre = new std::vector<int>                  ;
-Electron_iso_passLoose = new std::vector<int>                   ;
-Electron_iso_passMedium = new std::vector<int>                  ;
-Electron_iso_passTight = new std::vector<int>                   ;
-Electron_iso_passHEEP = new std::vector<int>                    ;
-Electron_noiso_passLoose = new std::vector<int>                 ;
-Electron_noiso_passMedium = new std::vector<int>                ;
-Electron_noiso_passTight = new std::vector<int>                 ;
-Electron_noiso_passHEEP = new std::vector<int>                  ;
+event_data->Elecron_absiso = new std::vector<float>                         ;
+event_data->Elecron_relIsoWithDBeta = new std::vector<float>                ;
+event_data->Elecron_absiso_EA = new std::vector<float>                      ;
+event_data->Elecron_relIsoWithEA = new std::vector<float>                   ;
+event_data->Electron_iso_passHLTpre = new std::vector<int>                  ;
+event_data->Electron_iso_passLoose = new std::vector<int>                   ;
+event_data->Electron_iso_passMedium = new std::vector<int>                  ;
+event_data->Electron_iso_passTight = new std::vector<int>                   ;
+event_data->Electron_iso_passHEEP = new std::vector<int>                    ;
+event_data->Electron_noiso_passLoose = new std::vector<int>                 ;
+event_data->Electron_noiso_passMedium = new std::vector<int>                ;
+event_data->Electron_noiso_passTight = new std::vector<int>                 ;
+event_data->Electron_noiso_passHEEP = new std::vector<int>                  ;
 
 
   //      
@@ -1922,22 +1925,22 @@ Electron_noiso_passHEEP = new std::vector<int>                  ;
   double closestAK8_to_Jet_dR=99;
   TLorentzVector closestAK8_to_Jet_P4;
 
-  CA12JetPtRaw = 0.0;
-  CA12JetEtaRaw = 0.0;
-  CA12JetPhiRaw = 0.0;
-  CA12JetMassRaw = 0.0;
-  CA12Jetsubjet0bdisc = 0.0;
-  CA12Jetsubjet1bdisc = 0.0;
-  CA12Jetsubjet0pt    = 0.0;
-  CA12Jetsubjet0mass  = 0.0;
-  CA12Jetsubjet0eta   = 0.0;
-  CA12Jetsubjet0phi   = 0.0;
-  CA12Jetsubjet0area = 0.0;
-  CA12Jetsubjet1pt    = 0.0;
-  CA12Jetsubjet1mass  = 0.0;
-  CA12Jetsubjet1eta   = 0.0;
-  CA12Jetsubjet1phi   = 0.0;
-  CA12Jetsubjet1area  = 0.0;
+  event_data->CA12JetPtRaw = 0.0;
+  event_data->CA12JetEtaRaw = 0.0;
+  event_data->CA12JetPhiRaw = 0.0;
+  event_data->CA12JetMassRaw = 0.0;
+  event_data->CA12Jetsubjet0bdisc = 0.0;
+  event_data->CA12Jetsubjet1bdisc = 0.0;
+  event_data->CA12Jetsubjet0pt    = 0.0;
+  event_data->CA12Jetsubjet0mass  = 0.0;
+  event_data->CA12Jetsubjet0eta   = 0.0;
+  event_data->CA12Jetsubjet0phi   = 0.0;
+  event_data->CA12Jetsubjet0area = 0.0;
+  event_data->CA12Jetsubjet1pt    = 0.0;
+  event_data->CA12Jetsubjet1mass  = 0.0;
+  event_data->CA12Jetsubjet1eta   = 0.0;
+  event_data->CA12Jetsubjet1phi   = 0.0;
+  event_data->CA12Jetsubjet1area  = 0.0;
   int count_subjets = 0;
 
 
@@ -1956,14 +1959,14 @@ if (useToolbox_){
 
     reco::Candidate::LorentzVector uncorrJet = ipup.correctedP4(0);
 
-    AK8JetLV_pt->push_back(uncorrJet.pt());
-    AK8JetLV_eta->push_back(uncorrJet.eta());
-    AK8JetLV_phi->push_back(uncorrJet.phi());
-    AK8JetLV_mass->push_back(uncorrJet.mass());
-    AK8JetTau1_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau1"));
-    AK8JetTau2_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau2"));
-    AK8JetTau3_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau3"));
-    AK8JetSoftdropMass_p->push_back(ipup.userFloat("ak8PFJetsPuppiSoftDropMass"));
+    event_data->AK8JetLV_pt->push_back(uncorrJet.pt());
+    event_data->AK8JetLV_eta->push_back(uncorrJet.eta());
+    event_data->AK8JetLV_phi->push_back(uncorrJet.phi());
+    event_data->AK8JetLV_mass->push_back(uncorrJet.mass());
+    event_data->AK8JetTau1_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau1"));
+    event_data->AK8JetTau2_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau2"));
+    event_data->AK8JetTau3_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau3"));
+    event_data->AK8JetSoftdropMass_p->push_back(ipup.userFloat("ak8PFJetsPuppiSoftDropMass"));
 
     TLorentzVector AK8PUPPI_P4uncorr;
     AK8PUPPI_P4uncorr.SetPtEtaPhiM(uncorrJet.pt(),uncorrJet.eta(),uncorrJet.phi(),uncorrJet.mass());
@@ -2030,9 +2033,9 @@ if (useToolbox_){
       cout<<"    -> corr L2L3res " <<corr_factorAK8pup_L23res<<" corr_factorAK8pup_L1 "<<corr_factorAK8pup_L1<<" corrDn_pup_L23"<<corrDn_pup_L23<<" corrUp_pup_L23 "<<corrUp_pup_L23<<endl;
     }
 
-    AK8JetLV_corr->push_back(corr_factorAK8pup_L23res);
-    AK8JetLV_corrUp->push_back(corrUp_pup_L23);
-    AK8JetLV_corrDn->push_back(corrDn_pup_L23);
+    event_data->AK8JetLV_corr->push_back(corr_factorAK8pup_L23res);
+    event_data->AK8JetLV_corrUp->push_back(corrUp_pup_L23);
+    event_data->AK8JetLV_corrDn->push_back(corrDn_pup_L23);
 
 
    TLorentzVector GenJetMatched;
@@ -2075,13 +2078,13 @@ if (useToolbox_){
       pup_ptsmearUp = std::max((double)0.0, (recopt+deltaptUp)/recopt   );
       pup_ptsmearDn = std::max((double)0.0, (recopt+deltaptDn)/recopt   );
 
-      AK8JetLV_SF->push_back(jer_sf);
-      AK8JetLV_SFUp->push_back(jer_sf_up);
-      AK8JetLV_SFDn->push_back(jer_sf_dn);
+      event_data->AK8JetLV_SF->push_back(jer_sf);
+      event_data->AK8JetLV_SFUp->push_back(jer_sf_up);
+      event_data->AK8JetLV_SFDn->push_back(jer_sf_dn);
 
-      AK8JetLV_ptsmear->push_back(pup_ptsmear);
-      AK8JetLV_ptsmearUp->push_back(pup_ptsmearUp);
-      AK8JetLV_ptsmearDn->push_back(pup_ptsmearDn);
+      event_data->AK8JetLV_ptsmear->push_back(pup_ptsmear);
+      event_data->AK8JetLV_ptsmearUp->push_back(pup_ptsmearUp);
+      event_data->AK8JetLV_ptsmearDn->push_back(pup_ptsmearDn);
 
       if (verbose_){
         cout<<"    -> AK8PUPPI JER recopt  "<<recopt <<endl;  
@@ -2122,55 +2125,55 @@ TLorentzVector AK4_b;
 TLorentzVector AK4_W;
 TLorentzVector AK4_W2;
 
-AK4_uncorr_pt = 0.0;
-AK4_corr_pt = 0.0;
+event_data->AK4_uncorr_pt = 0.0;
+event_data->AK4_corr_pt = 0.0;
 
-AK4ReconstructedJetPt = 0.0;            
-AK4ReconstructedJetEta = 0.0;      
-AK4ReconstructedJetPhi = 0.0;      
-AK4ReconstructedJetMass = 0.0;      
+event_data->AK4ReconstructedJetPt = 0.0;            
+event_data->AK4ReconstructedJetEta = 0.0;      
+event_data->AK4ReconstructedJetPhi = 0.0;      
+event_data->AK4ReconstructedJetMass = 0.0;      
 
-AK4bJetPtRaw = 0.0;              
-AK4bJetEtaRaw = 0.0;       
-AK4bJetPhiRaw = 0.0;       
-AK4bJetMassRaw = 0.0;      
+event_data->AK4bJetPtRaw = 0.0;              
+event_data->AK4bJetEtaRaw = 0.0;       
+event_data->AK4bJetPhiRaw = 0.0;       
+event_data->AK4bJetMassRaw = 0.0;      
 
-AK4bJet_PtSmear = 0.0;                  
-AK4bJet_PtSmearUp = 0.0;                
-AK4bJet_PtSmearDn = 0.0;                
-AK4bJet_PtUncorr = 0.0;    
-AK4bJet_Corr = 0.0;        
-AK4bJet_CorrUp = 0.0;      
-AK4bJet_CorrDn = 0.0;     
-AK4bJet_bDisc = 0.0;     
+event_data->AK4bJet_PtSmear = 0.0;                  
+event_data->AK4bJet_PtSmearUp = 0.0;                
+event_data->AK4bJet_PtSmearDn = 0.0;                
+event_data->AK4bJet_PtUncorr = 0.0;    
+event_data->AK4bJet_Corr = 0.0;        
+event_data->AK4bJet_CorrUp = 0.0;      
+event_data->AK4bJet_CorrDn = 0.0;     
+event_data->AK4bJet_bDisc = 0.0;     
 
-AK4WJetPtRaw = 0.0;              
-AK4WJetEtaRaw = 0.0;       
-AK4WJetPhiRaw = 0.0;       
-AK4WJetMassRaw = 0.0;      
+event_data->AK4WJetPtRaw = 0.0;              
+event_data->AK4WJetEtaRaw = 0.0;       
+event_data->AK4WJetPhiRaw = 0.0;       
+event_data->AK4WJetMassRaw = 0.0;      
 
-AK4WJet_PtSmear = 0.0;                  
-AK4WJet_PtSmearUp = 0.0;                
-AK4WJet_PtSmearDn = 0.0;                
-AK4WJet_PtUncorr = 0.0;    
-AK4WJet_Corr = 0.0;        
-AK4WJet_CorrUp = 0.0;      
-AK4WJet_CorrDn = 0.0;     
-AK4WJet_bDisc = 0.0;     
+event_data->AK4WJet_PtSmear = 0.0;                  
+event_data->AK4WJet_PtSmearUp = 0.0;                
+event_data->AK4WJet_PtSmearDn = 0.0;                
+event_data->AK4WJet_PtUncorr = 0.0;    
+event_data->AK4WJet_Corr = 0.0;        
+event_data->AK4WJet_CorrUp = 0.0;      
+event_data->AK4WJet_CorrDn = 0.0;     
+event_data->AK4WJet_bDisc = 0.0;     
 
-AK4W2JetPtRaw = 0.0;              
-AK4W2JetEtaRaw = 0.0;       
-AK4W2JetPhiRaw = 0.0;       
-AK4W2JetMassRaw = 0.0;      
+event_data->AK4W2JetPtRaw = 0.0;              
+event_data->AK4W2JetEtaRaw = 0.0;       
+event_data->AK4W2JetPhiRaw = 0.0;       
+event_data->AK4W2JetMassRaw = 0.0;      
 
-AK4W2Jet_PtSmear = 0.0;                  
-AK4W2Jet_PtSmearUp = 0.0;                
-AK4W2Jet_PtSmearDn = 0.0;                
-AK4W2Jet_PtUncorr = 0.0;    
-AK4W2Jet_Corr = 0.0;        
-AK4W2Jet_CorrUp = 0.0;      
-AK4W2Jet_CorrDn = 0.0;     
-AK4W2Jet_bDisc = 0.0;     
+event_data->AK4W2Jet_PtSmear = 0.0;                  
+event_data->AK4W2Jet_PtSmearUp = 0.0;                
+event_data->AK4W2Jet_PtSmearDn = 0.0;                
+event_data->AK4W2Jet_PtUncorr = 0.0;    
+event_data->AK4W2Jet_Corr = 0.0;        
+event_data->AK4W2Jet_CorrUp = 0.0;      
+event_data->AK4W2Jet_CorrDn = 0.0;     
+event_data->AK4W2Jet_bDisc = 0.0;     
 
   if( abs(AK8jet_had_P4corr.M() -171) < abs(leading_CA12.M() -171) ){
     reconstructed_top = AK8jet_had_P4corr;
@@ -2185,12 +2188,12 @@ for (const pat::Jet &ijet : *AK4MINI) {
 
     if( AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
 
-      if (ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") >AK4bJet_bDisc &&  ijet.pt() > 30){
-         AK4bJetPtRaw = corrJet.pt();       
-         AK4bJetEtaRaw = corrJet.eta();      
-         AK4bJetPhiRaw = corrJet.phi();      
-         AK4bJetMassRaw = corrJet.mass();     
-         AK4bJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+      if (ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") >event_data->AK4bJet_bDisc &&  ijet.pt() > 30){
+         event_data->AK4bJetPtRaw = corrJet.pt();       
+         event_data->AK4bJetEtaRaw = corrJet.eta();      
+         event_data->AK4bJetPhiRaw = corrJet.phi();      
+         event_data->AK4bJetMassRaw = corrJet.mass();     
+         event_data->AK4bJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
          AK4_b.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
        } else {
          break;
@@ -2212,13 +2215,13 @@ for (const pat::Jet &ijet : *AK4MINI) {
     reco::Candidate::LorentzVector uncorrJet = ijet.correctedP4(0);
     //reco::Candidate::LorentzVector corrJet = ijet.correctedP4(3);
 
-    AK4JetLV_pt->push_back(uncorrJet.pt());
-    AK4JetLV_eta->push_back(uncorrJet.eta());
-    AK4JetLV_phi->push_back(uncorrJet.phi());
-    AK4JetLV_mass->push_back(uncorrJet.mass());
+    event_data->AK4JetLV_pt->push_back(uncorrJet.pt());
+    event_data->AK4JetLV_eta->push_back(uncorrJet.eta());
+    event_data->AK4JetLV_phi->push_back(uncorrJet.phi());
+    event_data->AK4JetLV_mass->push_back(uncorrJet.mass());
 
     double CSVv2 = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-    AK4JetBtag_p->push_back(CSVv2);
+    event_data->AK4JetBtag_p->push_back(CSVv2);
 
     //------------------------------------
     // AK4CHS JEC correction 
@@ -2232,7 +2235,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
     double corr = JetCorrectorAK4chs->getCorrection();
     reco::Candidate::LorentzVector corrJet = corr * uncorrJet;
 
-    AK4JetLV_corr->push_back(corr);
+    event_data->AK4JetLV_corr->push_back(corr);
 
     if (CSVv2 > CSVv2L && corrJet.pt() > 30 && fabs(corrJet.eta())<2.5){
           bJet_count++;
@@ -2256,8 +2259,8 @@ for (const pat::Jet &ijet : *AK4MINI) {
     JetCorrUncertAK4chs->setJetPt(   corrJet.pt()   );
     corrUp = corr + JetCorrUncertAK4chs->getUncertainty(1);
 
-    AK4JetLV_corrUp->push_back(corrUp);
-    AK4JetLV_corrDn->push_back(corrDn);
+    event_data->AK4JetLV_corrUp->push_back(corrUp);
+    event_data->AK4JetLV_corrDn->push_back(corrDn);
 
 
     if (verbose_) cout<<"   -> corr "<<corr<<" corrDn "<<corrDn<<" corrUp "<< corrUp<<endl;
@@ -2286,8 +2289,8 @@ for (const pat::Jet &ijet : *AK4MINI) {
 
        if(verbose_) cout << "cor vs un corr " << corrJet.pt() - GenJetMatched.Pt() << " " << uncorrJet.pt() - GenJetMatched.Pt() << endl;
 
-        AK4_uncorr_pt = uncorrJet.pt() - GenJetMatched.Pt();
-        AK4_corr_pt = corrJet.pt() - GenJetMatched.Pt();
+        event_data->AK4_uncorr_pt = uncorrJet.pt() - GenJetMatched.Pt();
+        event_data->AK4_corr_pt = corrJet.pt() - GenJetMatched.Pt();
 
         if (verbose_) cout<<"      -> Found ak4 genJet pt "<<genJet->pt()<<" mass "<<genJet->mass()<<endl;
       }
@@ -2308,9 +2311,9 @@ for (const pat::Jet &ijet : *AK4MINI) {
       double jer_sf_dn = jer_scaler.getScaleFactor(jer_parameters , Variation::DOWN );
       if (verbose_) std::cout << "      -> JER Scale factors (Nominal / Up / Down) : " << jer_sf << " / " << jer_sf_up << " / " << jer_sf_dn <<"    & Resolution :"<<res<< std::endl;
 
-      AK4JetLV_SF->push_back(jer_sf);
-      AK4JetLV_SFUp->push_back(jer_sf_up);
-      AK4JetLV_SFDn->push_back(jer_sf_dn);
+      event_data->AK4JetLV_SF->push_back(jer_sf);
+      event_data->AK4JetLV_SFUp->push_back(jer_sf_up);
+      event_data->AK4JetLV_SFDn->push_back(jer_sf_dn);
      
       // Get Smearings  
       // --- If well matched, smear based on GenJet, If not well matched,  gaussian smear based on resolution
@@ -2350,9 +2353,9 @@ for (const pat::Jet &ijet : *AK4MINI) {
       }
     }
 
-    AK4JetLV_ptsmear->push_back(ptsmear);
-    AK4JetLV_ptsmearUp->push_back(ptsmearUp);
-    AK4JetLV_ptsmearDn->push_back(ptsmearDn);
+    event_data->AK4JetLV_ptsmear->push_back(ptsmear);
+    event_data->AK4JetLV_ptsmearUp->push_back(ptsmearUp);
+    event_data->AK4JetLV_ptsmearDn->push_back(ptsmearDn);
 
     if (verbose_) cout<<"   -> ptsmear "<<ptsmear<<" ptsmearUp "<<ptsmearUp<<" ptsmearDn "<< ptsmearDn<<endl;
  
@@ -2364,19 +2367,19 @@ for (const pat::Jet &ijet : *AK4MINI) {
    if(AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
 
 
-     if(corrJet.pt() > 30  && AK4WJetPtRaw == 0.0 && AK4bJetPtRaw!=corrJet.pt()){
-        AK4WJetPtRaw = corrJet.pt();       
-        AK4WJetEtaRaw = corrJet.eta();      
-        AK4WJetPhiRaw = corrJet.phi();      
-        AK4WJetMassRaw = corrJet.mass();     
-        AK4WJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+     if(corrJet.pt() > 30  && event_data->AK4WJetPtRaw == 0.0 && event_data->AK4bJetPtRaw!=corrJet.pt()){
+        event_data->AK4WJetPtRaw = corrJet.pt();       
+        event_data->AK4WJetEtaRaw = corrJet.eta();      
+        event_data->AK4WJetPhiRaw = corrJet.phi();      
+        event_data->AK4WJetMassRaw = corrJet.mass();     
+        event_data->AK4WJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
         AK4_W.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
-     } else if(corrJet.pt() > 30 &&  AK4W2JetPtRaw == 0.0 && AK4bJetPtRaw!=corrJet.pt()){
-        AK4W2JetPtRaw = corrJet.pt();       
-        AK4W2JetEtaRaw = corrJet.eta();      
-        AK4W2JetPhiRaw = corrJet.phi();      
-        AK4W2JetMassRaw = corrJet.mass();     
-        AK4W2Jet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+     } else if(corrJet.pt() > 30 &&  event_data->AK4W2JetPtRaw == 0.0 && event_data->AK4bJetPtRaw!=corrJet.pt()){
+        event_data->AK4W2JetPtRaw = corrJet.pt();       
+        event_data->AK4W2JetEtaRaw = corrJet.eta();      
+        event_data->AK4W2JetPhiRaw = corrJet.phi();      
+        event_data->AK4W2JetMassRaw = corrJet.mass();     
+        event_data->AK4W2Jet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
         AK4_W2.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
 
      }
@@ -2392,34 +2395,34 @@ if (count_AK4CHS > 0){
 
   reconstructed_top = (AK4_b+AK4_W+AK4_W2);
 
-  AK4ReconstructedJetPt = reconstructed_top.Pt();
-  AK4ReconstructedJetEta = reconstructed_top.Eta();
-  AK4ReconstructedJetPhi = reconstructed_top.Phi();
-  AK4ReconstructedJetMass = reconstructed_top.M();
+  event_data->AK4ReconstructedJetPt = reconstructed_top.Pt();
+  event_data->AK4ReconstructedJetEta = reconstructed_top.Eta();
+  event_data->AK4ReconstructedJetPhi = reconstructed_top.Phi();
+  event_data->AK4ReconstructedJetMass = reconstructed_top.M();
  
 }
 
-  setVector0(Gen_array_t_p4);
-  setVector0(Gen_array_t_p4);
-  setVector0(Gen_array_final_t_p4);
-  setVector0(Gen_array_b_p4);
-  setVector0(Gen_array_W_p4);
-  setVector0(Gen_array_Wd1_p4);
-  setVector0(Gen_array_Wd2_p4);
-  setVector0(Gen_array_hardest_parton_hardScatterOutgoing_p4);
-  setVector0(Gen_array_second_hardest_parton_hardScatterOutgoing_p4);
+  setVector0(event_data->Gen_array_t_p4);
+  setVector0(event_data->Gen_array_t_p4);
+  setVector0(event_data->Gen_array_final_t_p4);
+  setVector0(event_data->Gen_array_b_p4);
+  setVector0(event_data->Gen_array_W_p4);
+  setVector0(event_data->Gen_array_Wd1_p4);
+  setVector0(event_data->Gen_array_Wd2_p4);
+  setVector0(event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4);
+  setVector0(event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4);
 
   if(runHadTree_){
     if(runGenLoop_){
-      setVectorTL(Gen_array_t_p4, t_p4);
-      setVectorTL(Gen_array_t_p4, t_p4);
-      setVectorTL(Gen_array_final_t_p4, final_t_p4);
-      setVectorTL(Gen_array_b_p4, b_p4);
-      setVectorTL(Gen_array_W_p4, W_p4);
-      setVectorTL(Gen_array_Wd1_p4, Wd1_p4);
-      setVectorTL(Gen_array_Wd2_p4, Wd2_p4);
-      setVectorTL(Gen_array_hardest_parton_hardScatterOutgoing_p4, hardest_parton_hardScatterOutgoing_p4);
-      setVectorTL(Gen_array_second_hardest_parton_hardScatterOutgoing_p4, second_hardest_parton_hardScatterOutgoing_p4);
+      setVectorTL(event_data->Gen_array_t_p4, t_p4);
+      setVectorTL(event_data->Gen_array_t_p4, t_p4);
+      setVectorTL(event_data->Gen_array_final_t_p4, final_t_p4);
+      setVectorTL(event_data->Gen_array_b_p4, b_p4);
+      setVectorTL(event_data->Gen_array_W_p4, W_p4);
+      setVectorTL(event_data->Gen_array_Wd1_p4, Wd1_p4);
+      setVectorTL(event_data->Gen_array_Wd2_p4, Wd2_p4);
+      setVectorTL(event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4, hardest_parton_hardScatterOutgoing_p4);
+      setVectorTL(event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4, second_hardest_parton_hardScatterOutgoing_p4);
 
     }
 
@@ -2427,7 +2430,7 @@ if (count_AK4CHS > 0){
 
     if ( !iEvent.isRealData() ){
 
-      Gen_MET_pT = met.genMET()->pt();
+      event_data->Gen_MET_pT = met.genMET()->pt();
 
       if(PFMET120_BTagCSV_Mu5_Trigger){
         h_trigger_efficency_1->Fill(met.pt());
@@ -2478,65 +2481,65 @@ if (count_AK4CHS > 0){
 
 
         if (!iEvent.isRealData() )  {
-          Gen_MET_pT = met.genMET()->pt();
-          Gen_MET_phi = met.genMET()->phi();
-          Gen_MET_eta = met.genMET()->eta();
+          event_data->Gen_MET_pT = met.genMET()->pt();
+          event_data->Gen_MET_phi = met.genMET()->phi();
+          event_data->Gen_MET_eta = met.genMET()->eta();
         }
 
-        HadMETpx                = met.px();                   
-        HadMETpy                = met.py();                   
-        HadMETpt                = met.pt();                   
-        HadMETphi               = met.phi();                   
-        HadMETsumET             = met.sumEt();   
+        event_data->HadMETpx                = met.px();                   
+        event_data->HadMETpy                = met.py();                   
+        event_data->HadMETpt                = met.pt();                   
+        event_data->HadMETphi               = met.phi();                   
+        event_data->HadMETsumET             = met.sumEt();   
     
-        if ( !iEvent.isRealData() )  HadMETgenMET            = met.genMET()->pt();                   
-        HadMETuncorPt           = met.uncorPt();                    
+        if ( !iEvent.isRealData() )  event_data->HadMETgenMET            = met.genMET()->pt();                   
+        event_data->HadMETuncorPt           = met.uncorPt();                    
            
-        HadMETshiftedPtJetEnUp  = met.shiftedPt(pat::MET::JetEnUp            ) ;                    
-        HadMETshiftedPtJetEnDn  = met.shiftedPt(pat::MET::JetEnDown          ) ;                    
-        HadMETshiftedPtElEnUp   = met.shiftedPt(pat::MET::ElectronEnUp       ) ;                    
-        HadMETshiftedPtElEnDn   = met.shiftedPt(pat::MET::ElectronEnDown     ) ;                    
-        HadMETshiftedPtMuEnUp   = met.shiftedPt(pat::MET::MuonEnUp           ) ;                    
-        HadMETshiftedPtMuEnDn   = met.shiftedPt(pat::MET::MuonEnDown         ) ;                    
-        HadMETshiftedPtJetResUp = met.shiftedPt(pat::MET::JetResUp           ) ;                    
-        HadMETshiftedPtJetResDn = met.shiftedPt(pat::MET::JetResDown         ) ;                    
-        HadMETshiftedPtUnclEnUp = met.shiftedPt(pat::MET::UnclusteredEnUp    ) ;                    
-        HadMETshiftedPtUnclEnDn = met.shiftedPt(pat::MET::UnclusteredEnDown  ) ;                    
-        HadNvtx                 = nvtx;     
-        HadNvtxGood             = nvtxgood;     
+        event_data->HadMETshiftedPtJetEnUp  = met.shiftedPt(pat::MET::JetEnUp            ) ;                    
+        event_data->HadMETshiftedPtJetEnDn  = met.shiftedPt(pat::MET::JetEnDown          ) ;                    
+        event_data->HadMETshiftedPtElEnUp   = met.shiftedPt(pat::MET::ElectronEnUp       ) ;                    
+        event_data->HadMETshiftedPtElEnDn   = met.shiftedPt(pat::MET::ElectronEnDown     ) ;                    
+        event_data->HadMETshiftedPtMuEnUp   = met.shiftedPt(pat::MET::MuonEnUp           ) ;                    
+        event_data->HadMETshiftedPtMuEnDn   = met.shiftedPt(pat::MET::MuonEnDown         ) ;                    
+        event_data->HadMETshiftedPtJetResUp = met.shiftedPt(pat::MET::JetResUp           ) ;                    
+        event_data->HadMETshiftedPtJetResDn = met.shiftedPt(pat::MET::JetResDown         ) ;                    
+        event_data->HadMETshiftedPtUnclEnUp = met.shiftedPt(pat::MET::UnclusteredEnUp    ) ;                    
+        event_data->HadMETshiftedPtUnclEnDn = met.shiftedPt(pat::MET::UnclusteredEnDown  ) ;                    
+        event_data->HadNvtx                 = nvtx;     
+        event_data->HadNvtxGood             = nvtxgood;     
         HadNPUtrue              = nPU;     
-        HadRho                  = rho ;               
+        event_data->HadRho                  = rho ;               
         if ( !iEvent.isRealData() ){
-          HadEventWeight          = evWeight ;              
-          HadPUweight             = puweight  ; 
-          HadPUweight_MBup        = puweightUp ;
-          HadPUweight_MBdn        = puweightDn  ;
+          event_data->HadEventWeight          = evWeight ;              
+          event_data->HadPUweight             = puweight  ; 
+          event_data->HadPUweight_MBup        = puweightUp ;
+          event_data->HadPUweight_MBdn        = puweightDn  ;
          
-          HadQ2weight_CorrDn      = Q2wgt_down ;              
-          HadQ2weight_CorrUp      = Q2wgt_up ;              
-          HadNNPDF3weight_CorrDn  = NNPDF3wgt_down ;              
-          HadNNPDF3weight_CorrUp  = NNPDF3wgt_up ;   
+          event_data->HadQ2weight_CorrDn      = Q2wgt_down ;              
+          event_data->HadQ2weight_CorrUp      = Q2wgt_up ;              
+          event_data->HadNNPDF3weight_CorrDn  = NNPDF3wgt_down ;              
+          event_data->HadNNPDF3weight_CorrUp  = NNPDF3wgt_up ;   
           
         }  
         else{ 
-          HadEventWeight          = 1;    
-          HadPUweight             = 1;
-          HadPUweight_MBup        = 1;
-          HadPUweight_MBdn        = 1;
-          HadGenTTmass            = 0;
-          HadGenCountHadTop       = 0;            
-          HadQ2weight_CorrDn      = 1;       
-          HadQ2weight_CorrUp      = 1;     
-          HadNNPDF3weight_CorrDn  = 1;           
-          HadNNPDF3weight_CorrUp  = 1;
+          event_data->HadEventWeight          = 1;    
+          event_data->HadPUweight             = 1;
+          event_data->HadPUweight_MBup        = 1;
+          event_data->HadPUweight_MBdn        = 1;
+          event_data->HadGenTTmass            = 0;
+          event_data->HadGenCountHadTop       = 0;            
+          event_data->HadQ2weight_CorrDn      = 1;       
+          event_data->HadQ2weight_CorrUp      = 1;     
+          event_data->HadNNPDF3weight_CorrDn  = 1;           
+          event_data->HadNNPDF3weight_CorrUp  = 1;
         }
        
 
               
-        HadRunNum               = iEvent.id().run() ;              
-        HadLumiBlock            = iEvent.id().luminosityBlock() ;              
-        HadEventNum             = iEvent.id().event() ; 
-        HadPassMETFilters       = (int) passMETfilters;              
+        event_data->HadRunNum               = iEvent.id().run() ;              
+        event_data->HadLumiBlock            = iEvent.id().luminosityBlock() ;              
+        event_data->HadEventNum             = iEvent.id().event() ; 
+        event_data->HadPassMETFilters       = (int) passMETfilters;              
 
         TreeHad -> Fill();
       }// end met selection

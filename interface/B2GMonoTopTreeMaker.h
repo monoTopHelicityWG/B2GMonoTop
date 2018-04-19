@@ -76,7 +76,7 @@
 #include "TLorentzVector.h"
 #include <TRandom3.h>
 
-//#include "Analysis/B2GMonoTop/interface/eventDataStruct.h"
+#include "Analysis/B2GMonoTop/interface/eventDataStruct.h"
 //#include "Analysis/B2GMonoTop/interface/eventTTree.h"
 
 #ifdef __CINT__
@@ -243,6 +243,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
                  
 
       TTree *TreeHad; 
+      eventDataStruct * event_data;
 
       std::vector<int>  *HadTrigPrescalesMu = new std::vector<int>  ;
       std::vector<bool> *HadTrigPassMu      = new std::vector<bool> ;
