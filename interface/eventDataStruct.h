@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <string>
+#include "Rtypes.h"
 
 typedef struct eventDataStruct {
 
