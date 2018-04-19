@@ -18,7 +18,7 @@ git clone git@github.com:cms-jet/JRDatabase.git JMEAnalysis/JRDatabase
 git clone git@github.com:thaarres/PuppiSoftdropMassCorr.git JMEAnalysis/PuppiSoftdropMassCorr
 git cms-merge-topic Sam-Harper:HEEPV70VID_8010_ReducedCheckout 
 scramv1 b -j 16
-cd Analysis/B2GTTbar/test/
+cd Analysis/B2GMonoTop/test/
 cmsRun run_B2GTTbarTreeMaker_MonoTopNew_Toolbox.py
 ```
 Based on:
