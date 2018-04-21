@@ -389,77 +389,9 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
       if (nEvents%100==0) std::cout << "nEvents: " << nEvents << std::endl;
       nEvents = nEvents +1;
-      
-      PFMET120_BTagCSV_Mu5_Trigger = false;
-      PFMET300_Trigger = false;
-      HLT_PFMET120_PFMHT120_Trigger = false;
-      HLT_PFMET170_Trigger =  false;
 
-       event_data->MuPhi->clear();
-       event_data->MuPt->clear();
-       event_data->MuEta->clear();
-       event_data->MuMass->clear();
-       event_data->MuIso->clear();
-       event_data->MuIsoTrk->clear();
-       event_data->MuTight->clear();
-       event_data->MuMedium->clear();
-      
-
-       event_data->Electron_Phi->clear();
-       event_data->Electron_Pt->clear();
-       event_data->Electron_Eta->clear();
-       event_data->Electron_Mass->clear();
-       event_data->Elecron_absiso->clear();
-       event_data->Elecron_relIsoWithDBeta->clear();
-       event_data->Elecron_absiso_EA->clear();
-       event_data->Elecron_relIsoWithEA->clear();
-
-       event_data->Electron_iso_passHLTpre->clear();
-       event_data->Electron_iso_passLoose->clear();
-       event_data->Electron_iso_passMedium->clear();
-       event_data->Electron_iso_passTight->clear();
-       event_data->Electron_iso_passHEEP->clear();
-       event_data->Electron_noiso_passLoose->clear();
-       event_data->Electron_noiso_passMedium->clear();
-       event_data->Electron_noiso_passTight->clear();
-       event_data->Electron_noiso_passHEEP->clear();
-
-
-  event_data->AK4JetLV_pt->clear();
-  event_data->AK4JetLV_eta->clear();
-  event_data->AK4JetLV_phi->clear();
-  event_data->AK4JetLV_mass->clear();
-  event_data->AK4JetLV_corr->clear();
-  event_data->AK4JetLV_corrUp->clear();
-  event_data->AK4JetLV_corrDn->clear();
-  event_data->AK4JetLV_SF->clear();
-  event_data->AK4JetLV_SFUp->clear();
-  event_data->AK4JetLV_SFDn->clear();
-  event_data->AK4JetLV_ptsmear->clear();
-  event_data->AK4JetLV_ptsmearUp->clear();
-  event_data->AK4JetLV_ptsmearDn->clear();
-  event_data->AK8JetLV_pt->clear();
-  event_data->AK8JetLV_eta->clear();
-  event_data->AK8JetLV_phi->clear();
-  event_data->AK8JetLV_mass->clear();
-  event_data->AK8JetLV_corr->clear();
-  event_data->AK8JetLV_corrUp->clear();
-  event_data->AK8JetLV_corrDn->clear();
-  event_data->AK8JetLV_SF->clear();
-  event_data->AK8JetLV_SFUp->clear();
-  event_data->AK8JetLV_SFDn->clear();
-  event_data->AK8JetLV_ptsmear->clear();
-  event_data->AK8JetLV_ptsmearUp->clear();
-  event_data->AK8JetLV_ptsmearDn->clear();
-  event_data->AK8SubjetLV_pt->clear();
-  event_data->AK8SubjetLV_eta->clear();
-  event_data->AK8SubjetLV_phi->clear();
-  event_data->AK8SubjetLV_mass->clear();
-  event_data->AK4JetBtag_p->clear();
-  event_data->AK8JetTau1_p->clear();
-  event_data->AK8JetTau2_p->clear();
-  event_data->AK8JetTau3_p->clear();
-  event_data->AK8JetSoftdropMass_p->clear();
+      //clears vectors and resets variables
+      event_data->resetStruct();
 
 
   if (verbose_) {
@@ -686,16 +618,16 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     prescale = triggerPrescales->getPrescaleForIndex(i)  ;
 
     if(pass && (name.find("HLT_PFMET120_BTagCSV_p067_v") !=std::string::npos or name.find("HLT_PFMET120_Mu5_v") !=std::string::npos )  ) {
-      PFMET120_BTagCSV_Mu5_Trigger = true;
+      event_data->PFMET120_BTagCSV_Mu5_Trigger = true;
       
     } else if(pass && (name.find("HLT_PFMET120_PFMHT120_IDTight_v") !=std::string::npos)  ) {
-      HLT_PFMET120_PFMHT120_Trigger = true;
+      event_data->HLT_PFMET120_PFMHT120_Trigger = true;
       
     } else if(pass && (name.find("HLT_PFMET300_v") !=std::string::npos)  ) {
-      PFMET300_Trigger = true;
+      event_data->PFMET300_Trigger = true;
       
     }else if(pass && ( name.find("HLT_PFMET170_NoiseCleaned_v") !=std::string::npos or name.find("HLT_PFMET170_HBHECleaned_v") !=std::string::npos or name.find("HLT_PFMET170_JetIdCleaned_v") !=std::string::npos or name.find("HLT_PFMET170_BeamHaloCleaned_v") !=std::string::npos )  ) {
-      HLT_PFMET170_Trigger = true;
+      event_data->HLT_PFMET170_Trigger = true;
       
     }
 
@@ -1946,7 +1878,7 @@ if (count_AK4CHS > 0){
 
       event_data->Gen_MET_pT = met.genMET()->pt();
 
-      if(PFMET120_BTagCSV_Mu5_Trigger){
+      if(event_data->PFMET120_BTagCSV_Mu5_Trigger){
         h_trigger_efficency_1->Fill(met.pt());
         h_trigger_accept_1->Fill(met.pt());
         h_trigger_efficency_1_topPt->Fill(t_p4.Pt());
@@ -1955,7 +1887,7 @@ if (count_AK4CHS > 0){
         h_trigger_reject_1->Fill(met.pt());
         h_trigger_reject_1_topPt->Fill(t_p4.Pt());
       }
-      if(PFMET300_Trigger){
+      if(event_data->PFMET300_Trigger){
         h_trigger_efficency_2->Fill(met.pt());
         h_trigger_accept_2->Fill(met.pt());
         h_trigger_efficency_2_topPt->Fill(t_p4.Pt());
@@ -1964,7 +1896,7 @@ if (count_AK4CHS > 0){
         h_trigger_reject_2->Fill(met.pt());
         h_trigger_reject_2_topPt->Fill(t_p4.Pt());
       }
-      if(HLT_PFMET120_PFMHT120_Trigger){
+      if(event_data->HLT_PFMET120_PFMHT120_Trigger){
         h_trigger_efficency_3->Fill(met.pt());
         h_trigger_accept_3->Fill(met.pt());
         h_trigger_efficency_3_topPt->Fill(t_p4.Pt());
@@ -1973,7 +1905,7 @@ if (count_AK4CHS > 0){
         h_trigger_reject_3->Fill(met.pt());
         h_trigger_reject_3_topPt->Fill(t_p4.Pt());
       } 
-      if(HLT_PFMET170_Trigger){
+      if(event_data->HLT_PFMET170_Trigger){
         h_trigger_efficency_4->Fill(met.pt());
         h_trigger_accept_4->Fill(met.pt());
         h_trigger_efficency_4_topPt->Fill(t_p4.Pt());
