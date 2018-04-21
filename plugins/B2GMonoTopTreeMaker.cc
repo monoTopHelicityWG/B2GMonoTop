@@ -392,6 +392,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
       //clears vectors and resets variables
       event_data->resetStruct();
+      event_data->nEvents = event_data->nEvents + 1;
 
 
   if (verbose_) {
@@ -399,7 +400,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     cout<<"Analyze event "<<iEvent.id().event()<<" run "<<iEvent.id().run()<<" lumiblock "<<iEvent.id().luminosityBlock()<<endl;
   }
 
-  h_cutflow_had   ->Fill(0.5);
+  h_cutflow_had  ->Fill(0.5);
   h_cutflow_lept ->Fill(0.5);
 
   //
@@ -1987,7 +1988,9 @@ if (count_AK4CHS > 0){
         event_data->HadEventNum             = iEvent.id().event() ; 
         event_data->HadPassMETFilters       = (int) passMETfilters;              
 
+        event_data->nEventSaved = event_data->nEventSaved + 1;
         EventTTree -> Fill();
+
       }// end met selection
     }// end bjet selection
 

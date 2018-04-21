@@ -8,6 +8,10 @@
 
 typedef struct eventDataStruct {
 
+      //do not reset
+      int nEvents = 0;
+      int nEventSaved = 0;
+
       std::vector<int>  *HadTrigPrescalesMu = new std::vector<int>  ;
       std::vector<bool> *HadTrigPassMu      = new std::vector<bool> ;
       std::string HadTrigAcceptBitsMu;
