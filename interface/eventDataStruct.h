@@ -24,6 +24,10 @@ typedef struct eventDataStruct {
       std::vector<bool> *HLTtriggersPass      = new std::vector<bool> ;
       std::vector<int>  *HLTtriggersPrescales = new std::vector<int>  ;
 
+
+      bool mu_preselection = false;
+      bool had_preselection = false;
+
       bool PFMET120_BTagCSV_Mu5_Trigger = false;
       bool PFMET300_Trigger = false;
       bool HLT_PFMET120_PFMHT120_Trigger = false;
