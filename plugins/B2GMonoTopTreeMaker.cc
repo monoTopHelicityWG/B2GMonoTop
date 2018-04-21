@@ -659,9 +659,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   vector<bool> trigAccept;
 
   event_data->HadTrigPrescales   ->clear();
-  LeptTrigPrescales ->clear();
   event_data->HadTrigPass        ->clear();
-  LeptTrigPass      ->clear();
 
   event_data->HadTrigPrescalesMu   ->clear();
   event_data->HadTrigPassMu        ->clear();
@@ -735,9 +733,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
       trigAccept.push_back(pass);
       event_data->HadTrigPrescales   ->push_back(prescale);
-      LeptTrigPrescales ->push_back(prescale);
       event_data->HadTrigPass        ->push_back(pass);
-      LeptTrigPass      ->push_back(pass);
       if (pass)  hltbit[counttrigs]=1;  
       counttrigs++;
   
@@ -820,7 +816,6 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   }
 
   event_data->HadTrigAcceptBits   = hltbit.to_string();
-  LeptTrigAcceptBits = hltbit.to_string();
   
 
   // 
@@ -1757,7 +1752,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
     event_data->AK4JetLV_corr->push_back(corr);
 
     if (CSVv2 > CSVv2L && corrJet.pt() > 30 && fabs(corrJet.eta())<2.5){
-          bJet_count++;
+          event_data->bJet_count++;
     }
 
     if ( verbose_ ) cout << "   -> after JEC pt,eta,phi,m = " << corrJet.pt() << ", " << corrJet.eta() << ", " << corrJet.phi() << ", " << corrJet.mass() << endl;
@@ -1990,7 +1985,7 @@ if (count_AK4CHS > 0){
 
     }
 
-    if ( bJet_count > 0){ 
+    if ( event_data->bJet_count > 0){ 
       h_cutflow_had   ->Fill(2.5);
 
       if ( met.pt() > 75){ 
@@ -2026,7 +2021,7 @@ if (count_AK4CHS > 0){
         event_data->HadMETshiftedPtUnclEnDn = met.shiftedPt(pat::MET::UnclusteredEnDown  ) ;                    
         event_data->HadNvtx                 = nvtx;     
         event_data->HadNvtxGood             = nvtxgood;     
-        HadNPUtrue              = nPU;     
+        event_data->HadNPUtrue              = nPU;     
         event_data->HadRho                  = rho ;               
         if ( !iEvent.isRealData() ){
           event_data->HadEventWeight          = evWeight ;              
