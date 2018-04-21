@@ -16,8 +16,7 @@ process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(False) )
 process.options.allowUnscheduled = cms.untracked.bool(True)
 
-
-isMC   = False
+isMC   = True
 
 #----------------------------------------------------------------------------------------
 ### INPUT
@@ -28,18 +27,8 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
      # 'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_had_1tev_rh_miniaod.root'
       #'root://cmseos.fnal.gov//store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mu_v2/mt_mu_2tev_lh_miniaod002.root'
-      #'root://cms-xrd-global.cern.ch///store/mc/RunIISpring16MiniAODv2/ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/50000/000716A4-381E-E611-8601-00259073E41E.root'
-      #'file:000716A4-381E-E611-8601-00259073E41E.root'
-      #'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_mu_1tev_rh_miniaod001.root',
-      #'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_mu_3tev_rh_miniaod002.root',
-      #'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_mu_1tev_rh_miniaod.root'
-      #'root://cmsxrootd.fnal.gov///store/data/Run2016B/BTagMu/MINIAOD/03Feb2017_ver1-v1/100000/F6630EBE-53ED-E611-AE16-0025905C975E.root'
-      #'root://cmsxrootd.fnal.gov///store/data/Run2016B/MET/MINIAOD/PromptReco-v2/000/275/376/00000/08989655-B639-E611-93FE-02163E014518.root'
-      #'root://cmsxrootd.fnal.gov///store/data/Run2016B/MET/MINIAOD/03Feb2017_ver2-v2/100000/EEE5853E-40EE-E611-8881-0CC47A7C3410.root'
-      'root://cmsxrootd.fnal.gov//store/data/Run2016B/JetHT/MINIAOD/23Sep2016-v3/60000/483F2129-38B8-E611-BA23-0CC47A78A2F6.root'
-      #'root://cmsxrootd.fnal.gov///store/data/Run2016G/JetHT/MINIAOD/03Feb2017-v1/100000/4ABE700C-8CEC-E611-AB02-3417EBE65F65.root'
-	#'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/TTJets_HT-1200to2500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/60000/DA80FF7E-9DBE-E611-A2B1-0025905B8592.root'
-#	'root://cmsxrootd.fnal.gov//store/mc/RunIISummer16MiniAODv2/ZprimeToTT_M-1500_W-15_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/60000/CEC974B8-40BC-E611-B4E8-001E67DDC2CC.root'
+      #'root://cmsxrootd.fnal.gov///store/user/rymuelle/MonoTop/Youngdo_MT_Private_Samples/mt_mu_1tev_rh_miniaod001.root'
+	"file:000716A4-381E-E611-8601-00259073E41E.root"
     )
 )
 
@@ -56,7 +45,8 @@ process.BadPFMuonFilter.debug = cms.bool(False)
 
 
 #----------------------------------------------------------------------------------------
-### VID
+#
+## VID
 from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 dataFormat = DataFormat.MiniAOD
 switchOnVIDElectronIdProducer(process, dataFormat)
@@ -68,7 +58,6 @@ my_id_modules = [
 
 for idmod in my_id_modules:
     setupAllVIDIdsInModule(process,idmod,setupVIDElectronSelection)
-
 
 #----------------------------------------------------------------------------------------
 ### MET   //https://twiki.cern.ch/twiki/bin/view/CMS/MissingETUncertaintyPrescription
@@ -286,8 +275,8 @@ jetToolbox( process, 'ca12', 'ca12JetSubs', 'out',
 JECtxtlocation = '../../../JMEAnalysis/JECDatabase/textFiles/Summer16_23Sep2016V4_MC/'
 JERtxtlocation = '../../../JMEAnalysis/JRDatabase/textFiles/Spring16_25nsV10_MC/'
 # CRAB SUBMIT
-JECtxtlocation=''
-JERtxtlocation=''
+#JECtxtlocation=''
+#JERtxtlocation=''
 
 process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     
@@ -295,7 +284,7 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     verboseGen      = cms.bool(False),
     useToolbox      = cms.bool(True),
     
-    runGenLoop      = cms.bool(False),
+    runGenLoop      = cms.bool(True),
     runTTree   = cms.bool(True),
 
     isZprime        = cms.bool(False),
@@ -318,35 +307,34 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     eleIdFullInfoMapToken_Medium  = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-medium"),
     eleIdFullInfoMapToken_Tight   = cms.InputTag("egmGsfElectronIDs:cutBasedElectronID-Summer16-80X-V1-tight"),
     eleIdFullInfoMapToken_HEEP    = cms.InputTag("egmGsfElectronIDs:heepElectronID-HEEPV70"), 
-jecPayloadsAK8chs = cms.vstring([
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L1FastJet_AK8PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2Relative_AK8PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L3Absolute_AK8PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2L3Residual_AK8PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_Uncertainty_AK8PFchs.txt'
+    jecPayloadsAK8chs = cms.vstring([
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L1FastJet_AK8PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2Relative_AK8PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L3Absolute_AK8PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2L3Residual_AK8PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_Uncertainty_AK8PFchs.txt'
                                     ]),
     jecPayloadsAK4chs = cms.vstring([
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L1FastJet_AK4PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2Relative_AK4PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L3Absolute_AK4PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2L3Residual_AK4PFchs.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_Uncertainty_AK4PFchs.txt'
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L1FastJet_AK4PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2Relative_AK4PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L3Absolute_AK4PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2L3Residual_AK4PFchs.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_Uncertainty_AK4PFchs.txt'
                                     ]),
     jecPayloadsAK8pup = cms.vstring([
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L1FastJet_AK8PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2Relative_AK8PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L3Absolute_AK8PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2L3Residual_AK8PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_Uncertainty_AK8PFPuppi.txt'
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L1FastJet_AK8PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2Relative_AK8PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L3Absolute_AK8PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2L3Residual_AK8PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_Uncertainty_AK8PFPuppi.txt'
                                     ]),
     jecPayloadsAK4pup = cms.vstring([
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L1FastJet_AK4PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2Relative_AK4PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L3Absolute_AK4PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_L2L3Residual_AK4PFPuppi.txt',
-                                    JECtxtlocation+'Summer16_23Sep2016BCDV6_DATA_Uncertainty_AK4PFPuppi.txt'
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L1FastJet_AK4PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2Relative_AK4PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L3Absolute_AK4PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_L2L3Residual_AK4PFPuppi.txt',
+                                    JECtxtlocation + 'Summer16_23Sep2016V4_MC_Uncertainty_AK4PFPuppi.txt'
                                     ]),
-
     jecPayloadsAK8chsSecondary = cms.vstring([
                                     '',
                                     '',
@@ -375,10 +363,9 @@ jecPayloadsAK8chs = cms.vstring([
                                     '',
                                     ''
                                     ]),
-
-    jertextAK4        = cms.string(JERtxtlocation+'Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt'),  # no specific data txt for 25nsV10 but this will be updated soon               
-    jertextAK8        = cms.string(JERtxtlocation+'Spring16_25nsV10_MC_PtResolution_AK8PFchs.txt'),  # no specific data txt for 25nsV10 but this will be updated soon               
-    jerSFtext         = cms.string(JERtxtlocation+'Spring16_25nsV6_DATA_SF_AK8PFchs.txt')             # no specific data txt for 25nsV10 but this will be updated soon  
+    jertextAK4        = cms.string(JERtxtlocation+'Spring16_25nsV10_MC_PtResolution_AK4PFchs.txt'),
+    jertextAK8        = cms.string(JERtxtlocation+'Spring16_25nsV10_MC_PtResolution_AK8PFchs.txt'),
+    jerSFtext         = cms.string(JERtxtlocation+'Spring16_25nsV10_MC_SF_AK8PFchs.txt')
 )
 
 

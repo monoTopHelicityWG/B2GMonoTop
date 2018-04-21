@@ -147,8 +147,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       bool useToolbox_      ;
 
       bool runGenLoop_      ;
-      bool runHadTree_   ;
-      bool runLeptTree_ ;
+      bool runTTree_   ;
 
       bool isZprime_        ;
       bool isMonoTop_         ;
@@ -242,7 +241,7 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
                                                                  
                  
 
-      TTree *TreeHad; 
+      TTree *EventTTree; 
       eventDataStruct * event_data;
 
       std::vector<int>  *HadTrigPrescalesMu = new std::vector<int>  ;
@@ -260,6 +259,10 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<std::string>  *HLTtriggers = new std::vector<std::string>  ;
       std::vector<bool> *HLTtriggersPass      = new std::vector<bool> ;
       std::vector<int>  *HLTtriggersPrescales = new std::vector<int>  ;
+
+      std::vector<int> *LeptTrigPrescales = new std::vector<int>;
+      std::vector<bool> *LeptTrigPass    = new std::vector<bool>;     
+      std::string LeptTrigAcceptBits;
 
       bool PFMET120_BTagCSV_Mu5_Trigger = false;
       bool PFMET300_Trigger = false;
@@ -683,23 +686,5 @@ class B2GMonoTopTreeMaker : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<int>* Electron_noiso_passMedium = new std::vector<int>                ;
       std::vector<int>* Electron_noiso_passTight = new std::vector<int>                 ;
       std::vector<int>* Electron_noiso_passHEEP = new std::vector<int>                  ;
-
-
-//  888                       888                     d8b               88888888888                       
-//  888                       888                     Y8P                   888                           
-//  888                       888                                           888                           
-//  888      .d88b.  88888b.  888888 .d88b.  88888b.  888  .d8888b          888  888d888 .d88b.   .d88b.  
-//  888     d8P  Y8b 888 "88b 888   d88""88b 888 "88b 888 d88P"             888  888P"  d8P  Y8b d8P  Y8b 
-//  888     88888888 888  888 888   888  888 888  888 888 888               888  888    88888888 88888888 
-//  888     Y8b.     888 d88P Y88b. Y88..88P 888  888 888 Y88b.             888  888    Y8b.     Y8b.     
-//  88888888 "Y8888  88888P"   "Y888 "Y88P"  888  888 888  "Y8888P          888  888     "Y8888   "Y8888  
-//                   888                                                                                  
-//                   888                                                                                  
-//                   888          
-
-      TTree *TreeLept;
-      std::vector<int> *LeptTrigPrescales = new std::vector<int>;
-      std::vector<bool> *LeptTrigPass    = new std::vector<bool>;     
-      std::string LeptTrigAcceptBits;
 
 };

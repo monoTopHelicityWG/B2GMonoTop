@@ -284,8 +284,7 @@ process.ana = cms.EDAnalyzer('B2GMonoTopTreeMaker',
     useToolbox      = cms.bool(True),
     
     runGenLoop      = cms.bool(True),
-    runHadTree   = cms.bool(True),
-    runLeptTree = cms.bool(True),
+    runTTree   = cms.bool(True),
 
     isZprime        = cms.bool(False),
     isMonoTop         = cms.bool(True),
