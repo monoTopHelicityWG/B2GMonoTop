@@ -97,6 +97,8 @@
 #include "Analysis/B2GMonoTop/interface/eventDataStruct.h"
 #include "Analysis/B2GMonoTop/interface/eventTTree.h"
 
+//#include "Analysis/B2GMonoTop/interface/GenLoop.h"
+
 #ifdef __CINT__
 #pragma link C++ class std::vector<TLorentzVector>+;
 #endif
@@ -392,7 +394,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
       //clears vectors and resets variables
       event_data->resetStruct();
-      event_data->nEvents = event_data->nEvents + 1;
+      event_data->nEvents = nEvents;
 
 
   if (verbose_) {
@@ -414,41 +416,35 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   //    "Y8888P88 8888888888 888    Y888     888        "Y888888 888      "Y888 888  "Y8888P 888  "Y8888   88888P' 
   //                                                          
 
-  TLorentzVector t_p4;
-  TLorentzVector final_t_p4;
-  TLorentzVector b_p4;
-  TLorentzVector W_p4;
 
-  TLorentzVector Wd1_p4;
-  TLorentzVector Wd2_p4;
-
-  TLorentzVector hardest_parton_hardScatterOutgoing_p4;
-  TLorentzVector second_hardest_parton_hardScatterOutgoing_p4;
-
-
+  '''
   event_data->tophadronic=false;
   event_data->topleptonic=false;
 
 
-  int hardest_parton_hardScatterOutgoing_pt        = 0;
-  int second_hardest_parton_hardScatterOutgoing_pt = 0;
+  int event_data->hardest_parton_hardScatterOutgoing_pt        = 0;
+  int event_data->second_hardest_parton_hardScatterOutgoing_pt = 0;
 
   event_data->parton1id = 0;
   event_data->parton2id = 0;
   event_data->Wd1_id = 0 ;
   event_data->Wd2_id = 0 ;
+  
 
-  double counttop = 0;
+  double event_data->counttop = 0;
+  '''
   if (!iEvent.isRealData() and runGenLoop_) {
     Handle<edm::View<reco::GenParticle> > genpart;
     iEvent.getByToken(prunedGenToken_,genpart);  
 
 
+    ///GenLoop(genpart,event_data);
+    '''
     // Classify the event based on the number of top quarks
     for(size_t i=0; i<genpart->size();i++){
-      if (fabs((*genpart)[i].pdgId())==6 && (*genpart)[i].status()<30 && (*genpart)[i].status()>=20) counttop++;  // Z' events: status 22 = top from Z', status 52 with 2 daughters = the top that decays (after radiating a bunch of times)
+      if (fabs((*genpart)[i].pdgId())==6 && (*genpart)[i].status()<30 && (*genpart)[i].status()>=20) event_data->counttop++;  // Z' events: status 22 = top from Z', status 52 with 2 daughters = the top that decays (after radiating a bunch of times)
     }
-    if (verboseGen_) cout<<"counttop "<<counttop<<endl;
+    if (verboseGen_) cout<<"counttop "<<event_data->counttop<<endl;
    
     // Loop over all pruned gen particles and find the 4-vectors of the top, W, B, W duaghters
     double countW = 0;
@@ -468,26 +464,26 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       
 
       // Find the particles from the hard scatter (for QCD samples)
-      if (status==23 && counttop==0){
-        if (pt>hardest_parton_hardScatterOutgoing_pt){
-          second_hardest_parton_hardScatterOutgoing_pt = hardest_parton_hardScatterOutgoing_pt;
-          second_hardest_parton_hardScatterOutgoing_p4 = hardest_parton_hardScatterOutgoing_p4;
-          hardest_parton_hardScatterOutgoing_pt = pt;
-          hardest_parton_hardScatterOutgoing_p4.SetPxPyPzE( px, py, pz, e );
+      if (status==23 && event_data->counttop==0){
+        if (pt>event_data->hardest_parton_hardScatterOutgoing_pt){
+          event_data->second_hardest_parton_hardScatterOutgoing_pt = event_data->hardest_parton_hardScatterOutgoing_pt;
+          event_data->second_hardest_parton_hardScatterOutgoing_p4 = event_data->hardest_parton_hardScatterOutgoing_p4;
+          event_data->hardest_parton_hardScatterOutgoing_pt = pt;
+          event_data->hardest_parton_hardScatterOutgoing_p4.SetPxPyPzE( px, py, pz, e );
           event_data->parton1id = id;
-          if (verboseGen_) cout<<"---------- pt>hardest_parton_hardScatterOutgoing_pt - parton1id = "<<event_data->parton1id<<endl;
+          if (verboseGen_) cout<<"---------- pt>event_data->hardest_parton_hardScatterOutgoing_pt - parton1id = "<<event_data->parton1id<<endl;
         }
-        else if (pt>second_hardest_parton_hardScatterOutgoing_pt){
-          second_hardest_parton_hardScatterOutgoing_pt = pt;
-          second_hardest_parton_hardScatterOutgoing_p4.SetPxPyPzE( px, py, pz, e ); 
+        else if (pt>event_data->second_hardest_parton_hardScatterOutgoing_pt){
+          event_data->second_hardest_parton_hardScatterOutgoing_pt = pt;
+          event_data->second_hardest_parton_hardScatterOutgoing_p4.SetPxPyPzE( px, py, pz, e ); 
           event_data->parton2id = id;
-          if (verboseGen_) cout<<"---------- pt>second_hardest_parton_hardScatterOutgoing_pt - parton2id = "<<event_data->parton2id<<endl;
+          if (verboseGen_) cout<<"---------- pt>event_data->second_hardest_parton_hardScatterOutgoing_pt - parton2id = "<<event_data->parton2id<<endl;
         }
       }
       
       // Get tops from hard subprocess (for MonoTop samples)
       if (fabs(id)==6 && status<30 && status>=20) {
-        t_p4.SetPxPyPzE( px, py, pz, e ); 
+        event_data->t_p4.SetPxPyPzE( px, py, pz, e ); 
         event_data->parton1id = id;
         if (verboseGen_) cout<<"..top (hard)"<< " " << id <<endl;//" with pt "<<pt<<" status "<<status<<" ndau "<< ndau <<" pt "<<pt<<" eta "<<eta<<" phi "<<phi<<" event_data->parton1id = "<<event_data->parton1id<<endl;
       }
@@ -495,12 +491,12 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
       // Get the tops which decay - record b and W information
       if (ndau==2 && fabs(id)==6){
-        final_t_p4.SetPxPyPzE( px, py, pz, e ); 
+        event_data->final_t_p4.SetPxPyPzE( px, py, pz, e ); 
         if (verboseGen_) cout<<"....two daughters top pt "<<pt<<" status "<<status<<" ndau "<< ndau <<" pt "<<pt<<" eta "<<eta<<" phi "<<phi<<endl;
         for (int daught =0; daught<2; daught++)
         {
-          if ( fabs((*genpart)[i].daughter( daught )->pdgId())==5 )  b_p4.SetPxPyPzE( (*genpart)[i].daughter( daught )->px(), (*genpart)[i].daughter( daught )->py(), (*genpart)[i].daughter( daught )->pz(), (*genpart)[i].daughter( daught )->energy() );
-          if ( fabs((*genpart)[i].daughter( daught )->pdgId())==24 ) W_p4.SetPxPyPzE( (*genpart)[i].daughter( daught )->px(), (*genpart)[i].daughter( daught )->py(), (*genpart)[i].daughter( daught )->pz(), (*genpart)[i].daughter( daught )->energy() );
+          if ( fabs((*genpart)[i].daughter( daught )->pdgId())==5 )  event_data->b_p4.SetPxPyPzE( (*genpart)[i].daughter( daught )->px(), (*genpart)[i].daughter( daught )->py(), (*genpart)[i].daughter( daught )->pz(), (*genpart)[i].daughter( daught )->energy() );
+          if ( fabs((*genpart)[i].daughter( daught )->pdgId())==24 ) event_data->W_p4.SetPxPyPzE( (*genpart)[i].daughter( daught )->px(), (*genpart)[i].daughter( daught )->py(), (*genpart)[i].daughter( daught )->pz(), (*genpart)[i].daughter( daught )->energy() );
           if (verboseGen_) cout<<"......top daughter ID "<< (*genpart)[i].daughter( daught )->pdgId() <<" pt "<< (*genpart)[i].daughter( daught )->pt()  <<endl;
         }
       }
@@ -510,8 +506,8 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         if (verboseGen_) cout<<"....W+ with 2 daughters  id "<<id<<" status "<<status<<" ndau "<<ndau<<" pt "<<pt<<" eta "<<eta<<" phi "<<phi<<endl;
         if (verboseGen_) cout<<"......dd0 "<<(*genpart)[i].daughter( 0 )->pdgId()<<" ndau "<<(*genpart)[i].daughter( 0 )->numberOfDaughters()<<endl;
         if (verboseGen_) cout<<"......dd1 "<<(*genpart)[i].daughter( 1 )->pdgId()<<" ndau "<<(*genpart)[i].daughter( 1 )->numberOfDaughters()<<endl;
-        Wd1_p4.SetPxPyPzE( (*genpart)[i].daughter( 0 )->px(), (*genpart)[i].daughter( 0 )->py(), (*genpart)[i].daughter( 0 )->pz(), (*genpart)[i].daughter( 0 )->energy() );
-        Wd2_p4.SetPxPyPzE( (*genpart)[i].daughter( 1 )->px(), (*genpart)[i].daughter( 1 )->py(), (*genpart)[i].daughter( 1 )->pz(), (*genpart)[i].daughter( 1 )->energy() );
+        event_data->Wd1_p4.SetPxPyPzE( (*genpart)[i].daughter( 0 )->px(), (*genpart)[i].daughter( 0 )->py(), (*genpart)[i].daughter( 0 )->pz(), (*genpart)[i].daughter( 0 )->energy() );
+        event_data->Wd2_p4.SetPxPyPzE( (*genpart)[i].daughter( 1 )->px(), (*genpart)[i].daughter( 1 )->py(), (*genpart)[i].daughter( 1 )->pz(), (*genpart)[i].daughter( 1 )->energy() );
         if ( fabs( (*genpart)[i].daughter( 0 )->pdgId() ) < 6 && fabs( (*genpart)[i].daughter( 1 )->pdgId() ) < 6) event_data->tophadronic = true;  
         if ( fabs( (*genpart)[i].daughter( 0 )->pdgId() ) <= 18 && fabs( (*genpart)[i].daughter( 0 )->pdgId() ) >= 11) event_data->topleptonic = true;  
         event_data->Wd1_id = (*genpart)[i].daughter( 0 )->pdgId();
@@ -523,42 +519,43 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
     if (verboseGen_)
     {
-      cout<<"second_hardest_parton_hardScatterOutgoing_pt "<<second_hardest_parton_hardScatterOutgoing_pt      <<endl;                
-      cout<<"second_hardest_parton_hardScatterOutgoing_p4pt "<<second_hardest_parton_hardScatterOutgoing_p4.Pt() <<endl;                      
-      cout<<"second_hardest_parton_hardScatterOutgoing_eta "<<second_hardest_parton_hardScatterOutgoing_p4.Eta() <<endl;                      
-      cout<<"hardest_parton_hardScatterOutgoing_pt        "<<hardest_parton_hardScatterOutgoing_pt             <<endl;  
-      cout<<"hardest_parton_hardScatterOutgoing_p4pt        "<<hardest_parton_hardScatterOutgoing_p4.Pt()        <<endl;       
-      cout<<"hardest_parton_hardScatterOutgoing_eta        "<<hardest_parton_hardScatterOutgoing_p4.Eta()        <<endl;       
-      cout<<"event_data->parton1id = "<<event_data->parton1id<<endl;
-      cout<<"event_data->parton2id = "<<event_data->parton1id<<endl;
+      cout<<"second_hardest_parton_hardScatterOutgoing_pt "<<event_data->second_hardest_parton_hardScatterOutgoing_pt      <<endl;                
+      cout<<"second_hardest_parton_hardScatterOutgoing_p4pt "<<event_data->second_hardest_parton_hardScatterOutgoing_p4.Pt() <<endl;                      
+      cout<<"st_parton_hardScatterOutgoing_eta "<<event_data->second_hardest_parton_hardScatterOutgoing_p4.Eta() <<endl;                      
+      cout<<"hardest_parton_hardScatterOutgoing_pt        "<<event_data->hardest_parton_hardScatterOutgoing_pt             <<endl;  
+      cout<<"hardest_parton_hardScatterOutgoing_p4pt        "<<event_data->hardest_parton_hardScatterOutgoing_p4.Pt()        <<endl;       
+      cout<<"on_hardScatterOutgoing_eta        "<<event_data->hardest_parton_hardScatterOutgoing_p4.Eta()        <<endl;       
+      cout<<"parton1id = "<<event_data->parton1id<<endl;
+      cout<<"parton2id = "<<event_data->parton1id<<endl;
 
-      cout<<"event_data->tophadronic "<<event_data->tophadronic<<endl;
+      cout<<"tophadronic "<<event_data->tophadronic<<endl;
 
-      cout<<"event_data->topleptonic "<<event_data->topleptonic<<endl;
+      cout<<"topleptonic "<<event_data->topleptonic<<endl;
 
-      cout<<"event_data->Wd1_id "<<event_data->Wd1_id<<endl;
-      cout<<"event_data->Wd2_id "<<event_data->Wd2_id<<endl;
+      cout<<"Wd1_id "<<event_data->Wd1_id<<endl;
+      cout<<"Wd2_id "<<event_data->Wd2_id<<endl;
     
 
-      cout<<"event_data->tophadronic "<<event_data->tophadronic<<endl;
+      cout<<"tophadronic "<<event_data->tophadronic<<endl;
      
-      cout<<"event_data->topleptonic "<<event_data->topleptonic<<endl;
+      cout<<"topleptonic "<<event_data->topleptonic<<endl;
     
 
 
-      cout<<"t_p4   Pt "<<t_p4  .Pt()<<" Eta "<<t_p4  .Eta()<<" Phi "<<t_p4  .Phi()<<" M "<<t_p4  .M()<<endl;
+      cout<<"t_p4   Pt "<<event_data->t_p4  .Pt()<<" Eta "<<event_data->t_p4  .Eta()<<" Phi "<<event_data->t_p4  .Phi()<<" M "<<event_data->t_p4  .M()<<endl;
   
-      cout<<"b_p4   Pt "<<b_p4  .Pt()<<" Eta "<<b_p4  .Eta()<<" Phi "<<b_p4  .Phi()<<" M "<<b_p4  .M()<<endl;
+      cout<<"b_p4   Pt "<<event_data->b_p4  .Pt()<<" Eta "<<event_data->b_p4  .Eta()<<" Phi "<<event_data->b_p4  .Phi()<<" M "<<event_data->b_p4  .M()<<endl;
       
-      cout<<"W_p4   Pt "<<W_p4  .Pt()<<" Eta "<<W_p4  .Eta()<<" Phi "<<W_p4  .Phi()<<" M "<<W_p4  .M()<<endl;
+      cout<<"W_p4   Pt "<<event_data->W_p4  .Pt()<<" Eta "<<event_data->W_p4  .Eta()<<" Phi "<<event_data->W_p4  .Phi()<<" M "<<event_data->W_p4  .M()<<endl;
      
-      cout<<"Wd1_p4 Pt "<<Wd1_p4.Pt()<<" Eta "<<Wd1_p4.Eta()<<" Phi "<<Wd1_p4.Phi()<<" M "<<Wd1_p4.M()<<endl;
-      cout<<"Wd2_p4 Pt "<<Wd2_p4.Pt()<<" Eta "<<Wd2_p4.Eta()<<" Phi "<<Wd2_p4.Phi()<<" M "<<Wd2_p4.M()<<endl;
+      cout<<"Wd1_p4 Pt "<<event_data->Wd1_p4.Pt()<<" Eta "<<event_data->Wd1_p4.Eta()<<" Phi "<<event_data->Wd1_p4.Phi()<<" M "<<event_data->Wd1_p4.M()<<endl;
+      cout<<"Wd2_p4 Pt "<<event_data->Wd2_p4.Pt()<<" Eta "<<event_data->Wd2_p4.Eta()<<" Phi "<<event_data->Wd2_p4.Phi()<<" M "<<event_data->Wd2_p4.M()<<endl;
      
-      cout<<"counttop "<<counttop<<" countW "<<countW<<" countb "<<countb<<endl;
+      cout<<"counttop "<<event_data->counttop<<" countW "<<countW<<" countb "<<countb<<endl;
     }
 
   }
+  '''
 
 
 
@@ -1069,7 +1066,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
   edm::Handle<pat::MuonCollection> muons;
   iEvent.getByToken(muonToken_, muons);
 
-  TLorentzVector mu0_p4;
+  
   bool mu0_isTight=false;
   bool mu0_isMedium=false;
   bool mu0_isHighPt = false;
@@ -1086,7 +1083,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
       if (mu.pt() < 30 || !mu.isLooseMuon() || fabs( mu.eta() ) > 2.1) continue;
       // only look at 3 leading muons
       if (count_mu< 2){
-        mu0_p4.SetPtEtaPhiM( mu.pt(), mu.eta(), mu.phi(), mu.mass() );
+        event_data->mu0_p4.SetPtEtaPhiM( mu.pt(), mu.eta(), mu.phi(), mu.mass() );
 
         event_data->MuPhi->push_back(mu.phi());
         event_data->MuPt->push_back(mu.pt());
@@ -1171,7 +1168,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 
 
-  TLorentzVector el0_p4;
+  
   Float_t el0_absiso           =0;
   Float_t el0_relIsoWithDBeta  =0;
   Float_t el0_absiso_EA        =0;
@@ -1253,7 +1250,7 @@ B2GMonoTopTreeMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
         float absiso_EA = pfIso.sumChargedHadronPt + max(0.0 , pfIso.sumNeutralHadronEt + pfIso.sumPhotonEt - rho * effArea );
         float relIsoWithEA = absiso_EA/el->pt();
 
-       // el0_p4.SetPtEtaPhiM( el->pt(), el->eta(), el->phi(), el->mass() );
+       // event_data->el0_p4.SetPtEtaPhiM( el->pt(), el->eta(), el->phi(), el->mass() );
 
 
 
@@ -1351,26 +1348,26 @@ event_data->Electron_noiso_passHEEP = new std::vector<int>                  ;
   int count_hadAK8CHS = 0;
   int count_fill_hadTree =0;
 
-  TLorentzVector AK8jet_had_P4corr;
-  TLorentzVector AK8jet0_P4corr;
-  TLorentzVector AK8jet1_P4corr;
-  TLorentzVector PUPPIjet0_P4;
-  TLorentzVector PUPPIjet1_P4;
-  TLorentzVector PUPPIjet0_P4corr;
-  TLorentzVector PUPPIjet1_P4corr;
+  
+  
+  
+  
+  
+  
+  
 
-  TLorentzVector GenJetMatched0;
-  TLorentzVector GenJetMatched1;
-  TLorentzVector GenJetMatchedPuppi0;
-  TLorentzVector GenJetMatchedPuppi1;
+  
+  
+  
+  
 
-  TLorentzVector leading_CA12;
-  TLorentzVector leading_CA12_subjet;
+  
+  
 
 
 
   double closestAK8_to_Jet_dR=99;
-  TLorentzVector closestAK8_to_Jet_P4;
+  
 
   event_data->CA12JetPtRaw = 0.0;
   event_data->CA12JetEtaRaw = 0.0;
@@ -1415,8 +1412,8 @@ if (useToolbox_){
     event_data->AK8JetTau3_p->push_back(ipup.userFloat("NjettinessAK8Puppi:tau3"));
     event_data->AK8JetSoftdropMass_p->push_back(ipup.userFloat("ak8PFJetsPuppiSoftDropMass"));
 
-    TLorentzVector AK8PUPPI_P4uncorr;
-    AK8PUPPI_P4uncorr.SetPtEtaPhiM(uncorrJet.pt(),uncorrJet.eta(),uncorrJet.phi(),uncorrJet.mass());
+    
+    event_data->AK8PUPPI_P4uncorr.SetPtEtaPhiM(uncorrJet.pt(),uncorrJet.eta(),uncorrJet.phi(),uncorrJet.mass());
 
 
 
@@ -1445,16 +1442,16 @@ if (useToolbox_){
     //double corr_factor_L23 = corr_factor_L2*corr_factor_L3;
     double corr_factorAK8pup_L23res = corr_factorAK8pup_L2*corr_factorAK8pup_L3*corr_factorAK8pup_res;
 
-    TLorentzVector AK8PUPPI_P4corr;
-    AK8PUPPI_P4corr = corr_factorAK8pup_L23res *  AK8PUPPI_P4uncorr;
+    
+    event_data->AK8PUPPI_P4corr = corr_factorAK8pup_L23res *  event_data->AK8PUPPI_P4uncorr;
 
-    double puppi_pt = AK8PUPPI_P4corr.Pt();
-    double puppi_eta = AK8PUPPI_P4corr.Eta();
-    double puppi_phi = AK8PUPPI_P4corr.Phi();
-    double puppi_mass = AK8PUPPI_P4corr.M();
+    double puppi_pt = event_data->AK8PUPPI_P4corr.Pt();
+    double puppi_eta = event_data->AK8PUPPI_P4corr.Eta();
+    double puppi_phi = event_data->AK8PUPPI_P4corr.Phi();
+    double puppi_mass = event_data->AK8PUPPI_P4corr.M();
 
-    if(count_puppi_jet==0) PUPPIjet0_P4corr = AK8PUPPI_P4corr;
-    if(count_puppi_jet==1) PUPPIjet1_P4corr = AK8PUPPI_P4corr;
+    if(count_puppi_jet==0) event_data->PUPPIjet0_P4corr = event_data->AK8PUPPI_P4corr;
+    if(count_puppi_jet==1) event_data->PUPPIjet1_P4corr = event_data->AK8PUPPI_P4corr;
     count_puppi_jet++;
 
 
@@ -1476,7 +1473,7 @@ if (useToolbox_){
         corrUp_pup_L23   = corr_factorAK8pup_L23res + JetCorrUncertAK8pup->getUncertainty(1);;
     }
     if (verbose_){
-      cout<<"    -> puppi uncorr pt "<<AK8PUPPI_P4uncorr.Perp()<<" corr pt "<<AK8PUPPI_P4corr.Perp() <<endl;
+      cout<<"    -> puppi uncorr pt "<<event_data->AK8PUPPI_P4uncorr.Perp()<<" corr pt "<<event_data->AK8PUPPI_P4corr.Perp() <<endl;
       cout<<"    -> corr L2L3res " <<corr_factorAK8pup_L23res<<" corr_factorAK8pup_L1 "<<corr_factorAK8pup_L1<<" corrDn_pup_L23"<<corrDn_pup_L23<<" corrUp_pup_L23 "<<corrUp_pup_L23<<endl;
     }
 
@@ -1485,7 +1482,7 @@ if (useToolbox_){
     event_data->AK8JetLV_corrDn->push_back(corrDn_pup_L23);
 
 
-   TLorentzVector GenJetMatched;
+   
 
 
    if (!iEvent.isRealData()) {
@@ -1497,7 +1494,7 @@ if (useToolbox_){
      if (genJet) {
        //foundgenjet=true;
        //genpt = genJet->pt();
-       GenJetMatched.SetPtEtaPhiM( genJet->pt(), genJet->eta(), genJet->phi(), genJet->mass() );
+       event_data->GenJetMatched.SetPtEtaPhiM( genJet->pt(), genJet->eta(), genJet->phi(), genJet->mass() );
        if (verbose_) cout<<"     -> found ak8 genJet pt "<<genJet->pt()<<" mass "<<genJet->mass()<<endl;
      }
     }
@@ -1506,7 +1503,7 @@ if (useToolbox_){
     //------------------------------------
     // AK8PUPPI JER SF
     //------------------------------------
-    TLorentzVector GenJetMatched_Pup;
+    
 
     double pup_ptsmear   = 1;
     double pup_ptsmearUp = 1;
@@ -1516,8 +1513,8 @@ if (useToolbox_){
       double jer_sf_up = jer_scaler.getScaleFactor({{JME::Binning::JetEta, puppi_eta  }}, Variation::UP);
       double jer_sf_dn = jer_scaler.getScaleFactor({{JME::Binning::JetEta, puppi_eta  }}, Variation::DOWN);
       if (verbose_) std::cout << "   PUPPI JER Scale factors (Nominal / Up / Down) : " << jer_sf << " / " << jer_sf_up << " / " << jer_sf_dn << std::endl;
-      double recopt    = AK8PUPPI_P4corr.Perp();
-      double genpt     = GenJetMatched.Perp();
+      double recopt    = event_data->AK8PUPPI_P4corr.Perp();
+      double genpt     = event_data->GenJetMatched.Perp();
       double deltapt   = (recopt-genpt)*(jer_sf-1.0);
       double deltaptUp = (recopt-genpt)*(jer_sf_up-1.0);
       double deltaptDn = (recopt-genpt)*(jer_sf_dn-1.0);
@@ -1559,7 +1556,7 @@ if (useToolbox_){
   //                                                                                 888                          
   //                                                                                d88P                          
 
-TLorentzVector AK4_p4[5];
+
 
 edm::Handle<pat::JetCollection> AK4MINI;
 iEvent.getByToken(ak4jetToken_, AK4MINI);
@@ -1567,10 +1564,10 @@ iEvent.getByToken(ak4jetToken_, AK4MINI);
 edm::Handle<reco::GenJetCollection> AK4GENJET;  
 iEvent.getByToken(ak4genjetToken_, AK4GENJET);
 
-TLorentzVector reconstructed_top;
-TLorentzVector AK4_b;
-TLorentzVector AK4_W;
-TLorentzVector AK4_W2;
+
+
+
+
 
 event_data->AK4_uncorr_pt = 0.0;
 event_data->AK4_corr_pt = 0.0;
@@ -1622,10 +1619,10 @@ event_data->AK4W2Jet_CorrUp = 0.0;
 event_data->AK4W2Jet_CorrDn = 0.0;     
 event_data->AK4W2Jet_bDisc = 0.0;     
 
-  if( abs(AK8jet_had_P4corr.M() -171) < abs(leading_CA12.M() -171) ){
-    reconstructed_top = AK8jet_had_P4corr;
+  if( abs(event_data->AK8jet_had_P4corr.M() -171) < abs(event_data->leading_CA12.M() -171) ){
+    event_data->reconstructed_top = event_data->AK8jet_had_P4corr;
   } else {
-    reconstructed_top = leading_CA12;
+    event_data->reconstructed_top = event_data->leading_CA12;
   }
 int count_AK4CHS = 0;
 for (const pat::Jet &ijet : *AK4MINI) { 
@@ -1633,7 +1630,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
 
   reco::Candidate::LorentzVector corrJet = ijet.correctedP4(2);
 
-    if( AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
+    if( event_data->AK4_p4[count_AK4CHS].DeltaR(event_data->reconstructed_top) < 2*174/event_data->leading_CA12.Pt()){
 
       if (ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags") >event_data->AK4bJet_bDisc &&  ijet.pt() > 30){
          event_data->AK4bJetPtRaw = corrJet.pt();       
@@ -1641,7 +1638,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
          event_data->AK4bJetPhiRaw = corrJet.phi();      
          event_data->AK4bJetMassRaw = corrJet.mass();     
          event_data->AK4bJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-         AK4_b.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
+         event_data->AK4_b.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
        } else {
          break;
        }
@@ -1725,19 +1722,19 @@ for (const pat::Jet &ijet : *AK4MINI) {
 
       // get genjet
       double genpt = 0;
-      TLorentzVector GenJetMatched;
+      
       const reco::GenJet* genJet = ijet.genJet();
       bool foundgenjet = false;
       if (genJet) {
         foundgenjet=true;
         genpt = genJet->pt();
-        GenJetMatched.SetPtEtaPhiM( genJet->pt(), genJet->eta(), genJet->phi(), genJet->mass() );
+        event_data->GenJetMatched.SetPtEtaPhiM( genJet->pt(), genJet->eta(), genJet->phi(), genJet->mass() );
         reco::Candidate::LorentzVector corrJet = ijet.correctedP4(2);
 
-       if(verbose_) cout << "cor vs un corr " << corrJet.pt() - GenJetMatched.Pt() << " " << uncorrJet.pt() - GenJetMatched.Pt() << endl;
+       if(verbose_) cout << "cor vs un corr " << corrJet.pt() - event_data->GenJetMatched.Pt() << " " << uncorrJet.pt() - event_data->GenJetMatched.Pt() << endl;
 
-        event_data->AK4_uncorr_pt = uncorrJet.pt() - GenJetMatched.Pt();
-        event_data->AK4_corr_pt = corrJet.pt() - GenJetMatched.Pt();
+        event_data->AK4_uncorr_pt = uncorrJet.pt() - event_data->GenJetMatched.Pt();
+        event_data->AK4_corr_pt = corrJet.pt() - event_data->GenJetMatched.Pt();
 
         if (verbose_) cout<<"      -> Found ak4 genJet pt "<<genJet->pt()<<" mass "<<genJet->mass()<<endl;
       }
@@ -1764,17 +1761,17 @@ for (const pat::Jet &ijet : *AK4MINI) {
      
       // Get Smearings  
       // --- If well matched, smear based on GenJet, If not well matched,  gaussian smear based on resolution
-      TLorentzVector AK4JetP4;
-      AK4JetP4.SetPtEtaPhiM( corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
-      double DeltaR_gen_reco  = AK4JetP4.DeltaR( GenJetMatched );
-      double DeltaPt_gen_reco = AK4JetP4.Pt() - GenJetMatched.Pt()  ;
+      
+      event_data->AK4JetP4.SetPtEtaPhiM( corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
+      double DeltaR_gen_reco  = event_data->AK4JetP4.DeltaR( event_data->GenJetMatched );
+      double DeltaPt_gen_reco = event_data->AK4JetP4.Pt() - event_data->GenJetMatched.Pt()  ;
       double jet_distance_param = 0.4; 
-      if (verbose_) cout<<"      -> gen pt "<<GenJetMatched.Pt()<<" reco pt "<<AK4JetP4.Pt()<<"  delta "<<DeltaPt_gen_reco<<endl;
+      if (verbose_) cout<<"      -> gen pt "<<event_data->GenJetMatched.Pt()<<" reco pt "<<event_data->AK4JetP4.Pt()<<"  delta "<<DeltaPt_gen_reco<<endl;
 
-      if (genJet && (DeltaR_gen_reco<jet_distance_param/2.0) && (std::abs(DeltaPt_gen_reco)<(3*res*AK4JetP4.Pt())) ) {
+      if (genJet && (DeltaR_gen_reco<jet_distance_param/2.0) && (std::abs(DeltaPt_gen_reco)<(3*res*event_data->AK4JetP4.Pt())) ) {
         if (verbose_) cout<<"      -> Well matched (recojet,genjet)"<<endl;
         double recopt    = corrJet.pt();
-        // double genpt     = GenJetMatched.Perp();
+        // double genpt     = event_data->GenJetMatched.Perp();
         double deltapt   = (recopt-genpt)*(jer_sf-1.0);
         double deltaptUp = (recopt-genpt)*(jer_sf_up-1.0);
         double deltaptDn = (recopt-genpt)*(jer_sf_dn-1.0);
@@ -1785,7 +1782,7 @@ for (const pat::Jet &ijet : *AK4MINI) {
       }
       else{
         if (verbose_){
-          cout<<"      -> Not well matched. DeltaR_gen_reco "<<DeltaR_gen_reco<<" DeltaPt_gen_reco "<<DeltaPt_gen_reco<<" 3*res*AK4JetP4.Pt()) "<<3*res*AK4JetP4.Pt();
+          cout<<"      -> Not well matched. DeltaR_gen_reco "<<DeltaR_gen_reco<<" DeltaPt_gen_reco "<<DeltaPt_gen_reco<<" 3*res*event_data->AK4JetP4.Pt()) "<<3*res*event_data->AK4JetP4.Pt();
           if (!foundgenjet) cout<<". Did not find genjet"<<endl;
           else cout<<endl;
         }
@@ -1808,10 +1805,10 @@ for (const pat::Jet &ijet : *AK4MINI) {
  
   if(count_AK4CHS < 5){
     reco::Candidate::LorentzVector corrJet = ijet.correctedP4(2);
-    AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
+    event_data->AK4_p4[count_AK4CHS].SetPtEtaPhiM(corrJet.pt(), corrJet.eta(), corrJet.phi(), corrJet.mass() );
 
 
-   if(AK4_p4[count_AK4CHS].DeltaR(reconstructed_top) < 2*174/leading_CA12.Pt()){
+   if(event_data->AK4_p4[count_AK4CHS].DeltaR(event_data->reconstructed_top) < 2*174/event_data->leading_CA12.Pt()){
 
 
      if(corrJet.pt() > 30  && event_data->AK4WJetPtRaw == 0.0 && event_data->AK4bJetPtRaw!=corrJet.pt()){
@@ -1820,14 +1817,14 @@ for (const pat::Jet &ijet : *AK4MINI) {
         event_data->AK4WJetPhiRaw = corrJet.phi();      
         event_data->AK4WJetMassRaw = corrJet.mass();     
         event_data->AK4WJet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-        AK4_W.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
+        event_data->AK4_W.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
      } else if(corrJet.pt() > 30 &&  event_data->AK4W2JetPtRaw == 0.0 && event_data->AK4bJetPtRaw!=corrJet.pt()){
         event_data->AK4W2JetPtRaw = corrJet.pt();       
         event_data->AK4W2JetEtaRaw = corrJet.eta();      
         event_data->AK4W2JetPhiRaw = corrJet.phi();      
         event_data->AK4W2JetMassRaw = corrJet.mass();     
         event_data->AK4W2Jet_bDisc = ijet.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-        AK4_W2.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
+        event_data->AK4_W2.SetPtEtaPhiM(corrJet.pt(),corrJet.eta(),corrJet.phi(),corrJet.mass());
 
      }
 
@@ -1840,12 +1837,12 @@ for (const pat::Jet &ijet : *AK4MINI) {
 }
 if (count_AK4CHS > 0){
 
-  reconstructed_top = (AK4_b+AK4_W+AK4_W2);
+  event_data->reconstructed_top = (event_data->AK4_b+event_data->AK4_W+event_data->AK4_W2);
 
-  event_data->AK4ReconstructedJetPt = reconstructed_top.Pt();
-  event_data->AK4ReconstructedJetEta = reconstructed_top.Eta();
-  event_data->AK4ReconstructedJetPhi = reconstructed_top.Phi();
-  event_data->AK4ReconstructedJetMass = reconstructed_top.M();
+  event_data->AK4ReconstructedJetPt = event_data->reconstructed_top.Pt();
+  event_data->AK4ReconstructedJetEta = event_data->reconstructed_top.Eta();
+  event_data->AK4ReconstructedJetPhi = event_data->reconstructed_top.Phi();
+  event_data->AK4ReconstructedJetMass = event_data->reconstructed_top.M();
  
 }
 
@@ -1861,15 +1858,15 @@ if (count_AK4CHS > 0){
 
   if(runTTree_){
     if(runGenLoop_){
-      setVectorTL(event_data->Gen_array_t_p4, t_p4);
-      setVectorTL(event_data->Gen_array_t_p4, t_p4);
-      setVectorTL(event_data->Gen_array_final_t_p4, final_t_p4);
-      setVectorTL(event_data->Gen_array_b_p4, b_p4);
-      setVectorTL(event_data->Gen_array_W_p4, W_p4);
-      setVectorTL(event_data->Gen_array_Wd1_p4, Wd1_p4);
-      setVectorTL(event_data->Gen_array_Wd2_p4, Wd2_p4);
-      setVectorTL(event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4, hardest_parton_hardScatterOutgoing_p4);
-      setVectorTL(event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4, second_hardest_parton_hardScatterOutgoing_p4);
+      setVectorTL(event_data->Gen_array_t_p4, event_data->t_p4);
+      setVectorTL(event_data->Gen_array_t_p4, event_data->t_p4);
+      setVectorTL(event_data->Gen_array_final_t_p4, event_data->final_t_p4);
+      setVectorTL(event_data->Gen_array_b_p4, event_data->b_p4);
+      setVectorTL(event_data->Gen_array_W_p4, event_data->W_p4);
+      setVectorTL(event_data->Gen_array_Wd1_p4, event_data->Wd1_p4);
+      setVectorTL(event_data->Gen_array_Wd2_p4, event_data->Wd2_p4);
+      setVectorTL(event_data->Gen_array_hardest_parton_hardScatterOutgoing_p4, event_data->hardest_parton_hardScatterOutgoing_p4);
+      setVectorTL(event_data->Gen_array_second_hardest_parton_hardScatterOutgoing_p4, event_data->second_hardest_parton_hardScatterOutgoing_p4);
 
     }
 
@@ -1882,38 +1879,38 @@ if (count_AK4CHS > 0){
       if(event_data->PFMET120_BTagCSV_Mu5_Trigger){
         h_trigger_efficency_1->Fill(met.pt());
         h_trigger_accept_1->Fill(met.pt());
-        h_trigger_efficency_1_topPt->Fill(t_p4.Pt());
-        h_trigger_accept_1_topPt->Fill(t_p4.Pt());
+        h_trigger_efficency_1_topPt->Fill(event_data->t_p4.Pt());
+        h_trigger_accept_1_topPt->Fill(event_data->t_p4.Pt());
       } else {
         h_trigger_reject_1->Fill(met.pt());
-        h_trigger_reject_1_topPt->Fill(t_p4.Pt());
+        h_trigger_reject_1_topPt->Fill(event_data->t_p4.Pt());
       }
       if(event_data->PFMET300_Trigger){
         h_trigger_efficency_2->Fill(met.pt());
         h_trigger_accept_2->Fill(met.pt());
-        h_trigger_efficency_2_topPt->Fill(t_p4.Pt());
-        h_trigger_accept_2_topPt->Fill(t_p4.Pt());
+        h_trigger_efficency_2_topPt->Fill(event_data->t_p4.Pt());
+        h_trigger_accept_2_topPt->Fill(event_data->t_p4.Pt());
       } else {
         h_trigger_reject_2->Fill(met.pt());
-        h_trigger_reject_2_topPt->Fill(t_p4.Pt());
+        h_trigger_reject_2_topPt->Fill(event_data->t_p4.Pt());
       }
       if(event_data->HLT_PFMET120_PFMHT120_Trigger){
         h_trigger_efficency_3->Fill(met.pt());
         h_trigger_accept_3->Fill(met.pt());
-        h_trigger_efficency_3_topPt->Fill(t_p4.Pt());
-        h_trigger_accept_3_topPt->Fill(t_p4.Pt());
+        h_trigger_efficency_3_topPt->Fill(event_data->t_p4.Pt());
+        h_trigger_accept_3_topPt->Fill(event_data->t_p4.Pt());
       } else {
         h_trigger_reject_3->Fill(met.pt());
-        h_trigger_reject_3_topPt->Fill(t_p4.Pt());
+        h_trigger_reject_3_topPt->Fill(event_data->t_p4.Pt());
       } 
       if(event_data->HLT_PFMET170_Trigger){
         h_trigger_efficency_4->Fill(met.pt());
         h_trigger_accept_4->Fill(met.pt());
-        h_trigger_efficency_4_topPt->Fill(t_p4.Pt());
-        h_trigger_accept_4_topPt->Fill(t_p4.Pt());
+        h_trigger_efficency_4_topPt->Fill(event_data->t_p4.Pt());
+        h_trigger_accept_4_topPt->Fill(event_data->t_p4.Pt());
       } else {
         h_trigger_reject_4->Fill(met.pt());
-        h_trigger_reject_4_topPt->Fill(t_p4.Pt());
+        h_trigger_reject_4_topPt->Fill(event_data->t_p4.Pt());
       }
 
     }
@@ -2053,6 +2050,8 @@ B2GMonoTopTreeMaker::endJob()
   computeEfficencyHist(h_trigger_efficency_2_topPt, h_trigger_reject_2_topPt);
   computeEfficencyHist(h_trigger_efficency_3_topPt, h_trigger_reject_3_topPt);
   computeEfficencyHist(h_trigger_efficency_4_topPt, h_trigger_reject_4_topPt);
+
+  std::cout << "total events: " << event_data->nEvents << " saved events: " << event_data->nEventSaved << std::endl;
 }
 
 // ------------ method fills 'descriptions' with the allowed parameters for the module  ------------
